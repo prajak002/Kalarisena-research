@@ -4,13 +4,22 @@
 
 ![status](https://img.shields.io/badge/paper-2026%20submission-6b6f76)
 ![physics](https://img.shields.io/badge/physics%20stack-implemented-2f6b4f)
-![scvc](https://img.shields.io/badge/viability%20critic-not%20implemented-9a2f2f)
+![scvc](https://img.shields.io/badge/viability%20critic-implemented%2C%20untrained-b8860b)
+![training](https://img.shields.io/badge/stage%20A%20training-in%20progress-b8860b)
 ![sim](https://img.shields.io/badge/hardware-simulation%20only-9a2f2f)
 
 > **feasible now &ne; viable for the intended future.**
 > A trajectory can be geometrically faithful to a human demonstration and
 > physically stable at this instant, and still already be committed to losing
 > the specific Kalaripayattu movement it was meant to complete.
+
+<video src="media/kalarisena_trailer.mp4" controls muted loop width="100%"></video>
+
+*A Cycles-rendered visualization of the Unitree G1 performing Kalaripayattu
+forms, from this project's rendering pipeline (`scripts/render_army_trailer.py`,
+`scripts/blender_render_arena.py`) — a visual/production asset, separate from
+the RL research pipeline below, included here to show what the target
+embodiment and motion vocabulary actually look like.*
 
 This repository is two things:
 
@@ -102,7 +111,7 @@ is implemented for CoM/capture-point purposes in
 `code/src/dynamics/pinocchio_wrapper.py`, cross-checked against MuJoCo's own
 CoM to **1.04e-6 m** across 20 randomised full-body states.
 
-### 3.2 Successor-conditioned viability ⚪ *(paper only — not implemented)*
+### 3.2 Successor-conditioned viability 🟠 *(implemented, not yet trained on a real policy)*
 
 The paper's central contribution: a critic conditioned jointly on state,
 skill phase, and the **identity of the intended continuation** $g_t^+$, not a
@@ -125,8 +134,20 @@ $$
 \mathcal{L}_V = \text{BCE}(V_\psi, Y^{\text{via}}) + \lambda_B (V_\psi - Y^{\text{via}})^2
 $$
 
-**Implementation:** none. Exhaustive search of `code/` for "viability",
-"successor", "SCVC": zero matches outside `paper.pdf`.
+**Implementation status:** as of this session, real code exists —
+`code/src/viability/{perturbation,perturbed_env,manifold,critic,metrics,features}.py`
+and `code/scripts/train_viability_critic.py`. Honestly scoped: this repo has
+one trained skill so far (Stage A tracking on a single motion), so "the
+intended continuation" here is "reach the final phase of this same motion
+safely," not a distinct next skill — the full cross-skill formulation needs
+Stage B&ndash;F to exist first. The pipeline (successor-manifold construction,
+counterfactual perturbation via the same `xfrc_applied` mechanism
+`sim_push_sweep.py` uses, a 3-layer MLP critic trained with
+BCE+Brier loss, AUROC/AUPRC/Brier/ECE evaluated with real numpy
+implementations) is verified bug-free end to end with a smoke test, but has
+**not yet been run against a real trained policy** — Stage A training is the
+long pole (see §6.1 for status). Real SCVC numbers will replace this note
+once that finishes.
 
 ### 3.3 Intent-preserving corrective control ⚪ *(paper only — not implemented)*
 
@@ -147,18 +168,24 @@ policy.
 
 ### 3.4 Architecture, end to end
 
+```mermaid
+flowchart LR
+    A[Human video]:::real --> B["Raw GEM-X retarget<br/>Q⁰"]:::real
+    B --> C["Physics-grounded projection<br/>Q*"]:::partial
+    C --> D["Structured skill state<br/>z_t"]:::paper
+    C --> E["Successor-conditioned viability critic<br/>V_ψ"]:::wip
+    D --> F["Intent-preserving residual<br/>Δa_t"]:::paper
+    E --> F
+    F --> G["Deployed action → Robot<br/>a_t^deploy"]:::real
+
+    classDef real fill:#e4efe8,stroke:#2f6b4f,color:#17181a;
+    classDef partial fill:#fff8ec,stroke:#b8860b,color:#17181a;
+    classDef paper fill:#ececea,stroke:#6b6f76,color:#17181a;
+    classDef wip fill:#fdeee7,stroke:#a6431f,color:#17181a,stroke-dasharray: 4 3;
 ```
-Human video ──▶ GEM-X retarget Q⁰ ──▶ Physics projection Q* ──▶ Structured skill state z_t
-   🟢               🟢                    🟢 (partial)               ⚪
-                                              │
-                                              ├──▶ Successor-conditioned viability V_ψ   ⚪ (not implemented)
-                                              │              │
-                                              ▼              ▼
-                                    Intent-preserving residual Δa_t   ⚪ (not implemented)
-                                              │
-                                              ▼
-                                  Deployed action ──▶ Robot   🟢 (via scripted switch only)
-```
+
+🟢 real & measured &nbsp;·&nbsp; 🟡 real, partial (kinematic-only) &nbsp;·&nbsp; ⚪ paper concept, no code &nbsp;·&nbsp;
+🟠 code now exists (`src/viability/`) but has never been run against a trained policy — see §6.1.
 
 The same diagram, interactive and colour-coded, is in `site/` — see
 [`ArchitectureDiagram`](site/src/components/ArchitectureDiagram.tsx).
@@ -196,7 +223,7 @@ for the repo's own honesty contract on these numbers.
 
 | Stage | File | Status |
 |---|---|---|
-| A — Tracking | `code/scripts/train_tracking.py` | 🟢 real PPO code; **never run** — no checkpoint, log, or `meta.json` anywhere in the repo |
+| A — Tracking | `code/scripts/train_tracking.py` | 🟠 real PPO code, **training in progress** as of this session (see §5.1) — first real run in this project's history |
 | B — CoM | `code/scripts/train_com.py` | 🔴 stub: asserts config shape, `raise SystemExit("TODO ...")` |
 | C — Momentum | `code/scripts/train_momentum.py` | 🔴 stub |
 | D — Fall-safe | `code/scripts/train_fall.py` | 🔴 stub |
@@ -204,7 +231,26 @@ for the repo's own honesty contract on these numbers.
 | F — Switch | `code/src/switch/mode_switch.py` | 🟢 real, tested, but scripted (not learned) |
 
 > `code/results_paper/PAPER_ASSETS.md`: *"Stage A&ndash;F learned policies do
-> not exist; the train\_\*.py files are stubs."*
+> not exist; the train\_\*.py files are stubs."* (True when written; Stage A
+> is now actively being trained for real — see below.)
+
+### 5.1 Live status
+
+Stage A PPO tracking is training on a rented GPU instance as this README is
+being written: 8 parallel envs, 3,000,000 steps, `kw_long_stance` (a
+Kalaripayattu long-stance motion). Real numbers from the run in progress:
+
+| Timesteps | Explained variance | Mean episode reward | Mean episode length |
+|---|---|---|---|
+| 71,680 | 0.80 | 6.65 | 28.6 |
+| 442,368 | 0.89 | &mdash; | &mdash; |
+| 897,024 | 0.955 | rising | lengthening |
+
+Rising explained variance and episode length indicate the policy is
+genuinely learning to track rather than plateauing. Once this finishes,
+`tracking_best.zip` will be pulled into `code/logs/stageA_kw_long_stance/`
+along with a real rollout video and the Successor-Conditioned Viability
+Critic (§3.2) will be trained against it for the first time.
 
 ---
 
