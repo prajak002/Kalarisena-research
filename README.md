@@ -61,7 +61,11 @@ or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float 
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
+<div align="center">
+
 ![](media/videos/retarget/side_by_side_highkick.gif)
+
+</div>
 
 **What this shows:** the human demonstrator (left) and the Unitree G1's
 retargeted version of the same motion (right), a Kalaripayattu high kick
@@ -93,17 +97,17 @@ The model chain's own real intermediate outputs, for one clip:
 after soma-retargeter maps this human motion onto it.
 
 <table><tr>
-<td width="33%">
+<td width="33%" align="center">
 
 ![](media/videos/soma/0_kp2d77_overlay.gif)
 **Stage 2: 2D keypoints.** SAM-3D-Body, 77 points tracked per frame.
 </td>
-<td width="33%">
+<td width="33%" align="center">
 
 ![](media/videos/soma/KS-052_1_incam.gif)
 **Stage 3: in-camera 3D.** SAM-3D-Body's reconstructed body, camera frame.
 </td>
-<td width="33%">
+<td width="33%" align="center">
 
 ![](media/videos/soma/KS-052_2_global.gif)
 **Stage 4: global 3D motion.** SOMA, camera-independent - this is $X_t^H$ above.
@@ -119,7 +123,11 @@ GEM-X, SAM-3D-Body, SOMA, and soma-retargeter are cloned as dependencies
 
 ### 3.1 Physics-grounded embodiment projection [implemented, partial: kinematic only]
 
+<div align="center">
+
 ![Physics-grounded embodiment projection](media/figures/method_physics_projection.png)
+
+</div>
 
 $$
 Q^*_{1:T} = \mathcal{P}\big(Q^0_{1:T}, z_{1:T}; \mathcal{R}\big), \qquad
@@ -152,7 +160,11 @@ CoM to **1.04e-6 m** across 20 randomised full-body states.
 
 ### 3.2 Successor-conditioned viability [implemented and trained on the real Stage A policy]
 
+<div align="center">
+
 ![Successor-conditioned viability critic](media/figures/method_viability_critic.png)
+
+</div>
 
 The paper's central contribution: a critic conditioned jointly on state,
 skill phase, and the **identity of the intended continuation** $g_t^+$, not a
@@ -211,7 +223,11 @@ robust estimate.
 
 ### 3.3 Intent-preserving corrective control [paper-only, not implemented]
 
+<div align="center">
+
 ![Intent-preserving corrective control](media/figures/method_intent_preserving_control.png)
+
+</div>
 
 $$
 \mathbf{a}_t = \mathbf{a}_t^0 + g(V_t)\,\Delta\mathbf{a}_t, \qquad
@@ -253,12 +269,12 @@ flowchart LR
 ## 4. What is honestly real, measured in this repo
 
 <table><tr>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](media/videos/push_recovered_40N.gif)
 40N push, recovers (<a href="media/videos/push_recovered_40N.mp4">full mp4</a>)
 </td>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](media/videos/push_fallen_120N.gif)
 120N push, falls (<a href="media/videos/push_fallen_120N.mp4">full mp4</a>)
@@ -284,12 +300,12 @@ separates the two outcomes perfectly: about +0.05m on every recovery, about
 | Raw retarget foot floating | 5&ndash;23 cm | 11/12 motions, before ground correction |
 
 <table><tr>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](code/results_sim/push_sweep.png)
 Fall rate vs. push force: sharp 100N/120N threshold, 36 trials.
 </td>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](code/results_sim/fall_ab.png)
 420N fall severity A/B: peak force and impulse, both arms.
@@ -341,12 +357,12 @@ shows:
 | Tracking RMSE | 0.309 | 0.258 (better) |
 
 <table><tr>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](code/logs/stageA_kw_long_stance/eval_policy.gif)
 <strong>Trained PPO policy</strong> - falls, mean 85 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_policy.mp4">full mp4</a>)
 </td>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](code/logs/stageA_kw_long_stance/eval_pd_baseline.gif)
 <strong>Raw PD baseline, no RL</strong> - falls, mean 37 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_pd_baseline.mp4">full mp4</a>)
@@ -370,17 +386,17 @@ run here for real, does not close it.
 scripted controller):
 
 <table><tr>
-<td width="33%">
+<td width="33%" align="center">
 
 ![](code/logs/stageA_kw_long_stance/thrust_trained_20N.gif)
 <strong>20N &rarr; fell</strong> at step 34 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_20N.mp4">full mp4</a>)
 </td>
-<td width="33%">
+<td width="33%" align="center">
 
 ![](code/logs/stageA_kw_long_stance/thrust_trained_60N.gif)
 <strong>60N &rarr; recovered</strong>, ran 99 steps to episode end (<a href="code/logs/stageA_kw_long_stance/thrust_trained_60N.mp4">full mp4</a>)
 </td>
-<td width="33%">
+<td width="33%" align="center">
 
 ![](code/logs/stageA_kw_long_stance/thrust_trained_100N.gif)
 <strong>100N &rarr; fell</strong> at step 92 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_100N.mp4">full mp4</a>)
@@ -412,12 +428,12 @@ by a genetic algorithm instead of a captured clip (`code/src/ga/`,
 discussed further here).
 
 <table><tr>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](code/data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge_fitness.png)
 **Fitness convergence**, 150 individuals x 80 generations: &minus;200.9 &rarr; &minus;0.60 within 10 generations.
 </td>
-<td width="50%">
+<td width="50%" align="center">
 
 ![](code/data/motions_evolved/posture_interpolation.png)
 **Posture interpolation**, 3 representative joints of 29.
