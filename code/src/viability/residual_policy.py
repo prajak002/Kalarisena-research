@@ -1,31 +1,10 @@
-"""Intent-preserving residual controller (paper Sec 3.3-3.4): the one paper
-component that had no code anywhere in this repo until this file.
+"""Intent-preserving residual controller: pi_theta(s_t, z_t, g_t+, V_t) -> delta_a_t.
 
-pi_theta(s_t, z_t, g_t+, V_t) -> delta_a_t, trained on top of the frozen
-Stage A tracker (logs/stageA_kw_long_stance/tracking_best.zip) and gated by
-the already-trained SCVC critic (logs/scvc_kw_long_stance/scvc_critic.pt):
+a_t^deploy = a_t^0 + g(V_bar_t) * delta_a_t, g(V) = clip((tau_h-V)/(tau_h-tau_l), 0, 1)
+V_bar_t = beta * V_bar_{t-1} + (1-beta) * V_psi(eta(s_t))
 
-    a_t^deploy = a_t^0                                    if V_bar_t > tau_h
-               = a_t^0 + g(V_bar_t) * delta_a_t            if tau_l < V_bar_t <= tau_h
-               = a_t^safe                                  if V_bar_t <= tau_l
-
-    g(V) = clip((tau_h - V) / (tau_h - tau_l), 0, 1)
-    V_bar_t = beta * V_bar_{t-1} + (1 - beta) * V_psi(eta(s_t))
-
-Honest scope note, stated once here rather than re-litigated at every call
-site: this repo has no separate learned or scripted "safe recovery action"
-generator distinct from the frozen tracker (mode_switch.py only classifies
-a mode, it never emits a joint command). So a_t^safe below is the frozen
-tracker's own action with the residual zeroed out - a real simplification of
-the paper's third branch, not a fabricated safe controller. Training this
-residual on top of that limitation is still a genuine step past "not
-implemented at all", and is reported as exactly what it is.
-
-RESIDUAL_ACTION_SCALE bounds delta_a_t to a authority band narrower than the
-tracker's own ACTION_SCALE (paper: the residual is a *correction*, not a
-second independent controller), enforced as a hard clip before the deploy
-action is sent to the physics step, exactly mirroring how ACTION_SCALE is
-already enforced in kalari_track_env.py / perturbed_env.py.
+No separate safe-recovery controller exists yet, so a_t^safe collapses to
+the frozen tracker's own action (g -> 0).
 """
 
 from __future__ import annotations
@@ -46,13 +25,11 @@ from src.viability.features import eta
 from src.viability.perturbation import Perturbation, null_perturbation
 from src.viability.perturbed_env import PerturbedTrackEnv
 
-RESIDUAL_ACTION_SCALE = 0.4   # delta_a_t authority, as a fraction of ACTION_SCALE
+RESIDUAL_ACTION_SCALE = 0.4
 TAU_L = 0.25
 TAU_H = 0.70
 EMA_BETA = 0.90
 
-# reward mix weights, r^KS = w_t*r_track + w_c*r_contact + w_b*r_balance
-#                            + w_s*r_succ + w_v*r_via - w_d*D_skill - w_delta*||delta_a||^2
 W_TRACK = 0.35
 W_CONTACT = 0.15
 W_BALANCE = 0.15
@@ -69,11 +46,6 @@ def gate(v_bar: float, tau_l: float = TAU_L, tau_h: float = TAU_H) -> float:
 
 
 class ViabilityGate:
-    """Loads the trained SCVC critic and turns a raw state into an
-    EMA-filtered viability estimate V_bar_t, exactly the online counterpart
-    of what scripts/train_viability_critic.py computes offline for labeling.
-    """
-
     def __init__(self, critic_path: str, beta: float = EMA_BETA):
         ckpt = torch.load(critic_path, map_location="cpu", weights_only=False)
         self.critic = ViabilityCritic(in_dim=ckpt["in_dim"])
@@ -81,13 +53,12 @@ class ViabilityGate:
         self.critic.eval()
         self.mean, self.std = ckpt["mean"], ckpt["std"]
         self.beta = beta
-        self.v_bar = 1.0  # optimistic prior: assume viable until the critic says otherwise
+        self.v_bar = 1.0
 
     def reset(self) -> None:
         self.v_bar = 1.0
 
     def update(self, feat_vec: np.ndarray) -> tuple[float, float]:
-        """Returns (v_raw, v_bar) for this step's raw feature vector."""
         x = (feat_vec - self.mean) / self.std
         with torch.no_grad():
             v_raw = float(self.critic(torch.tensor(x, dtype=torch.float32).unsqueeze(0)).item())
@@ -96,20 +67,11 @@ class ViabilityGate:
 
 
 class IntentPreservingResidualEnv(PerturbedTrackEnv):
-    """PerturbedTrackEnv, but the action this env exposes to an RL learner is
-    delta_a_t (the residual), not the raw joint command. Internally: a
-    frozen Stage A policy supplies a_t^0, this env's action supplies
-    delta_a_t, the SCVC critic gates how much of delta_a_t reaches the
-    physics step, and the reward is the paper's r^KS mix computed from real,
-    already-implemented physics/viability quantities (not re-derived here).
-    """
-
     def __init__(self, npz_path: str, tracker_policy, critic_path: str,
                  seed: int | None = None, **kwargs):
         super().__init__(npz_path, seed=seed, **kwargs)
         self.tracker_policy = tracker_policy
         self.gate_fn = ViabilityGate(critic_path)
-        # observation = base tracking obs + [V_raw, V_bar, gate, cp_margin, com_margin]
         base_dim = self.observation_space.shape[0]
         self.observation_space = spaces.Box(-np.inf, np.inf, (base_dim + 5,), np.float64)
         self.action_space = spaces.Box(-1.0, 1.0, (self.nu,), np.float32)
@@ -145,7 +107,7 @@ class IntentPreservingResidualEnv(PerturbedTrackEnv):
         a0, _ = self.tracker_policy.predict(self._last_base_obs, deterministic=True)
         a0 = np.asarray(a0, dtype=np.float64)
         residual = RESIDUAL_ACTION_SCALE * delta_a
-        a_deploy = a0 + g * residual   # g -> 0 collapses to the frozen tracker alone
+        a_deploy = a0 + g * residual
 
         base_obs, _, terminated, truncated, base_info = super().step(a_deploy)
         self._last_base_obs = base_obs

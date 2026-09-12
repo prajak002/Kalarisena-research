@@ -1,16 +1,6 @@
 #!/usr/bin/env python3
-"""Train the intent-preserving residual policy (paper Sec 3.3-3.4).
-
-This is the piece that had no code at all before this script: pi_theta
-learns delta_a_t on top of the frozen Stage A tracker, gated by the trained
-SCVC critic's viability estimate, via IntentPreservingResidualEnv
-(src/viability/residual_policy.py). Both the tracker and the critic are
-loaded frozen; only the residual policy's weights are updated by PPO here.
-
-Honest scope, matching the rest of this repo's convention: single motion
-(kw_long_stance), one trained critic, one frozen tracker checkpoint - the
-same narrow scope those two components were themselves trained at, not
-widened here.
+"""Train the intent-preserving residual policy on top of a frozen tracker
+and a frozen SCVC critic, via IntentPreservingResidualEnv.
 
 Usage
   python3 scripts/train_residual_policy.py \
@@ -49,10 +39,6 @@ def make_env(npz_path: str, tracker_path: str, critic_path: str, rank: int):
 
 def evaluate(model, npz_path: str, tracker_path: str, critic_path: str, out_dir: str,
              n_episodes: int = 5, record_video: bool = True) -> dict:
-    """Deterministic evaluation, plus a comparison arm with the residual
-    policy's contribution forced to zero (gate*delta_a := 0), i.e. the
-    frozen tracker alone - so the residual's own effect is isolated rather
-    than confounded with the tracker's already-known behaviour."""
     from stable_baselines3 import PPO
 
     from src.sim.rollout import write_video

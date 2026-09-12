@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
-"""Run the physics-grounded projection (src/projection/physics_ground.py,
-paper Sec 3.1) over the whole ground-corrected motion library.
-
-Preserves a pre-projection copy of every NPZ in data/motions_retargeted_preproj/
-before modifying data/motions_retargeted/ in place, matching the same
-reversible-correction convention scripts/ground_correct_motions.py already
-uses for its own raw/corrected split.
+"""Run src/projection/physics_ground.py over the motion library, preserving
+a pre-projection copy of each NPZ before modifying it in place.
 
 Usage
   python3 scripts/run_physics_projection.py
@@ -56,7 +51,7 @@ def main() -> int:
                   f"cp_infeasible {b['cp_infeasible_frac']:.0%}->{a['cp_infeasible_frac']:.0%}  "
                   f"slip {b['mean_contact_slip_mps']:.2f}->{a['mean_contact_slip_mps']:.2f} m/s  "
                   f"tau_viol {b['torque_violation_frac']:.0%}->{a['torque_violation_frac']:.0%}")
-        except Exception as e:  # real per-clip failures reported, not swallowed silently
+        except Exception as e:
             failures.append({"motion_id": f[:-4], "error": str(e)})
             print(f"  {f[:-4]:26s} FAILED: {e}")
     mp.close()

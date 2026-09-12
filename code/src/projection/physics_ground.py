@@ -1,44 +1,10 @@
-"""Physics-grounded embodiment projection (paper Sec 3.1): Q0 -> Q*.
+"""Physics-grounded embodiment projection: Q0 -> Q*.
 
-Builds on top of scripts/ground_correct_motions.py rather than replacing it:
-that pass already fixes the raw GEM-X retarget's kinematic defects (foot
-floating, arm-velocity spikes). Q0 here is that already-grounded trajectory.
-This module adds the feasibility terms the paper's L_phys formalizes that the
-kinematic pass never touched - contact-consistency (foot slip during a
-labeled contact), support/capture-point margin, and joint-torque-limit
-feasibility - each MEASURED for real via PinocchioWrapper's RNEA and
-CoM-Jacobian (the same cross-validated 1e-6m physics stack every other stage
-in this repo uses), and CORRECTED via small, real per-frame projections:
-
-  L_phys = L_fidelity + lambda_feas * L_feasibility
-  L_feasibility = lambda_c*L_contact + lambda_b*L_support + lambda_d*L_dyn
-                  + lambda_l*L_limits + lambda_s*L_smooth
-
-  L_contact  -> corrected: foot-locking. For each contiguous contact run,
-                the stance foot's world-XY is held to its own median over the
-                run by shifting root_pos XY (translation only, so joint
-                fidelity is untouched), nulling most of the retarget's foot
-                slip during contact.
-  L_support  -> corrected: capture-point recovery. Wherever cp_margin drops
-                below a threshold, a bounded joint correction (hip-roll,
-                waist-roll) is solved via the CoM Jacobian to pull the
-                capture point back toward the support-polygon center.
-  L_dyn      -> MEASURED, not actively re-optimized against: RNEA gives the
-                real per-frame joint torque a PD tracker of this trajectory
-                would need, compared against the real MJCF/URDF torque
-                limits (G1MujocoRuntime.torque_limit). Violations are
-                reported honestly; the only mitigation applied is the
-                existing joint smoothing already run upstream.
-  L_limits   -> MEASURED: joint position/velocity vs. the model's own
-                jnt_range, already enforced by every downstream consumer.
-  L_smooth   -> already the ground-correction pass's Savitzky-Golay term.
-
-Honest scope, stated once here: this is a real, working instance of the
-paper's feasibility objective, corrected per-frame/per-run rather than as one
-whole-trajectory contact/friction/torque co-optimization. It measures every
-term the paper names and actively corrects the two that admit a well-defined
-local projection (contact, support); torque-limit feasibility is reported as
-a real number, not silently assumed solved.
+Measures contact slip, capture-point/support-polygon margin, and joint
+torque vs. limits via PinocchioWrapper's RNEA and CoM Jacobian. Corrects
+foot slip (per-run foot-locking) and capture-point margin (CoM-Jacobian
+nudge on hip/waist roll); torque-limit feasibility is measured, not
+actively corrected.
 """
 
 from __future__ import annotations
@@ -57,10 +23,10 @@ from src.sim.conventions import quat_xyzw_to_wxyz
 from src.sim.mujoco_runtime import G1MujocoRuntime
 
 URDF = "assets/unitree_g1/g1_29dof_rev_1_0.urdf"
-CP_MARGIN_EPS = 0.02      # m; below this, capture point is judged infeasible
-BALANCE_PULL_FRAC = 0.5   # fraction of the deficit corrected per frame
-BALANCE_MAX_DELTA = 0.08  # rad, hard clip on any single balance correction
-CONTACT_Z = 0.04          # m, matches ground_correct_motions.py's own threshold
+CP_MARGIN_EPS = 0.02
+BALANCE_PULL_FRAC = 0.5
+BALANCE_MAX_DELTA = 0.08
+CONTACT_Z = 0.04
 
 
 def _odd_window(n: int, target: int) -> int:
@@ -87,9 +53,6 @@ def _contiguous_runs(mask: np.ndarray) -> list[tuple[int, int]]:
 
 
 class MotionProjector:
-    """One instance per process: owns the physics/kinematics backends and the
-    actuator<->NPZ-column mapping, reused across many clips."""
-
     def __init__(self):
         self.pin = PinocchioWrapper(URDF)
         self.rt = G1MujocoRuntime()
@@ -132,16 +95,13 @@ class MotionProjector:
         dt = 1.0 / fps
         dq_full = np.zeros((n, self.pin.model.nv))
         dq_full[:, 6:] = np.gradient(q[:, 7:], dt, axis=0)
-        dq_full[:, 0:3] = np.gradient(motion["root_pos"], dt, axis=0)   # world-frame linear vel
-        dq_full[:, 3:6] = self._local_angvel(motion["root_quat_xyzw"], dt)  # local-frame ang vel
+        dq_full[:, 0:3] = np.gradient(motion["root_pos"], dt, axis=0)
+        dq_full[:, 3:6] = self._local_angvel(motion["root_quat_xyzw"], dt)
         ddq_full = np.gradient(dq_full, dt, axis=0)
         return q, dq_full, ddq_full
 
     @staticmethod
     def _local_angvel(quat_xyzw: np.ndarray, dt: float) -> np.ndarray:
-        """Body-frame angular velocity via consecutive-quaternion finite
-        differences - the convention MuJoCo/Pinocchio free joints both use
-        for the angular half of a floating base's velocity."""
         n = quat_xyzw.shape[0]
         rot = Rotation.from_quat(quat_xyzw)
         omega = np.zeros((n, 3))
@@ -166,10 +126,6 @@ class MotionProjector:
             has_contact = bool(contacts[k].any())
             feats = self.pin.get_support_features(q[k], dq[k], contacts[k])
             if has_contact:
-                # cp_margin/com_margin are only meaningful against a real
-                # support polygon; a flight/no-contact frame returns a -999
-                # sentinel (get_support_features' own "no_contact" case) that
-                # would otherwise wreck the aggregate mean if averaged in.
                 cp_margins.append(feats["cp_margin"])
                 com_margins.append(feats["com_margin"])
             else:
@@ -200,14 +156,7 @@ class MotionProjector:
             "torque_ratio_p95": float(np.percentile(tau_ratios, 95)) if tau_ratios.size else 0.0,
         }
 
-    # ------------------------------------------------------ contact lock  --
     def _lock_contacts(self, motion: dict) -> np.ndarray:
-        """Real per-run foot-locking correction. Returns a smoothed [n,2] XY
-        shift applied to root_pos that removes only the HIGH-FREQUENCY jitter
-        in each stance foot's path (the retarget defect), by comparing each
-        run's foot trajectory to its own low-pass version rather than to a
-        single constant anchor - a single anchor would also flatten genuine,
-        intentional weight-shift/pivot motion within a long contact run."""
         n = motion["joint_pos"].shape[0]
         q, dq, _ = self._pin_qdq(motion)
         contacts = motion["contacts"]
@@ -236,11 +185,7 @@ class MotionProjector:
             shift = savgol_filter(shift, win, 2, axis=0)
         return shift
 
-    # ----------------------------------------------------- balance recover --
     def _recover_balance(self, motion: dict) -> np.ndarray:
-        """Real per-frame CoM-Jacobian correction on a small balance-joint
-        subset, applied wherever the measured capture point is within
-        CP_MARGIN_EPS of (or outside) the support polygon."""
         n = motion["joint_pos"].shape[0]
         q, dq, _ = self._pin_qdq(motion)
         contacts = motion["contacts"]
@@ -280,10 +225,6 @@ class MotionProjector:
             motion["joint_pos"][:, j] = np.clip(
                 motion["joint_pos"][:, j] + delta_balance[:, col], lo, hi)
 
-        # The balance correction rotates the stance leg (hip/waist roll),
-        # which re-introduces foot slip the first lock already removed -
-        # a real interaction between the two projections, fixed the standard
-        # alternating-projection way: re-apply the contact lock once more.
         shift_xy2 = self._lock_contacts(motion)
         motion["root_pos"][:, 0:2] += shift_xy2
 

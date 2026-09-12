@@ -311,15 +311,12 @@ class PinocchioWrapper:
         return (self.foot_contact_offsets @ rot.T) + trans
 
     def compute_com_jacobian(self, q: np.ndarray) -> np.ndarray:
-        """d(CoM_xyz)/dq, shape [3, nv]. Used to project a desired CoM shift
-        onto a small joint-space correction (paper Sec 3.1's L_support term)."""
+        """d(CoM_xyz)/dq, shape [3, nv]."""
         q = np.asarray(q, dtype=np.float64).reshape(-1)
         return np.array(pin.jacobianCenterOfMass(self.model, self.data, q), dtype=np.float64)
 
     def inverse_dynamics(self, q: np.ndarray, dq: np.ndarray, ddq: np.ndarray) -> np.ndarray:
-        """Generalized forces via RNEA, shape [nv]. The actuated-joint slice
-        (index 6:) is what L_dyn / torque-limit feasibility checks against
-        self.effort_limit; the first 6 are the unconstrained floating base."""
+        """Generalized forces via RNEA, shape [nv]."""
         q = np.asarray(q, dtype=np.float64).reshape(-1)
         dq = np.asarray(dq, dtype=np.float64).reshape(-1)
         ddq = np.asarray(ddq, dtype=np.float64).reshape(-1)
