@@ -54,18 +54,18 @@ or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float 
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
-<div align="center">
+![](site/public/media/videos/retarget/side_by_side_highkick.gif)
 
-![](site/public/media/videos/retarget/overlay_kw_highkick_right.gif)
-
-</div>
-
-**What this shows:** the human demonstrator (translucent) overlaid on the
-Unitree G1's retargeted version of the same motion, a Kalaripayattu high
-kick (`kw_highkick_right`). Real output from this repo's retargeting review
-tool (`kalarisena-review/`) - not a physics simulation, this is the
-kinematic retarget only, before any correction or control. Full video:
-[`site/public/media/videos/retarget/overlay_kw_highkick_right.mp4`](site/public/media/videos/retarget/overlay_kw_highkick_right.mp4).
+**What this shows:** the human demonstrator (left) and the Unitree G1's
+retargeted version of the same motion (right), a Kalaripayattu high kick
+(`kw_highkick_right`) - side by side rather than overlaid, so each is
+actually legible. Real output from this repo's retargeting review tool
+(`kalarisena-review/`) - not a physics simulation, this is the kinematic
+retarget only, before any correction or control. Source videos:
+[human](site/public/media/videos/retarget/human_kw_highkick_right.mp4) &middot;
+[G1 retarget](site/public/media/videos/retarget/robot_kw_highkick_right.mp4)
+&middot; a translucent-overlay version also exists if you want it:
+[overlay](site/public/media/videos/retarget/overlay_kw_highkick_right.mp4).
 
 ---
 
