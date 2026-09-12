@@ -7,7 +7,7 @@
 > physically stable at this instant, and still already be committed to losing
 > the specific Kalaripayattu movement it was meant to complete.
 
-<img src="media/kalarisena_trailer.gif" width="100%"/>
+![](media/kalarisena_trailer.gif)
 
 **What this is:** a 6-second preview (GIF, for inline rendering) of a
 46-second Cycles-rendered animation of a squad of Unitree G1 robots
@@ -50,7 +50,7 @@ or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float 
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
-<img src="site/public/media/videos/retarget/overlay_kw_highkick_right.gif" width="480"/>
+![](site/public/media/videos/retarget/overlay_kw_highkick_right.gif)
 
 **What this shows:** the human demonstrator (translucent) overlaid on the
 Unitree G1's retargeted version of the same motion, a Kalaripayattu high
@@ -72,7 +72,7 @@ The model chain's own real intermediate outputs, for one clip:
 | 3. In-camera 3D | SAM-3D-Body reconstruction | `site/public/media/videos/soma/KS-052_1_incam.mp4` |
 | 4. Global 3D motion | SOMA, camera-independent - this is $X_t^H$ above | `site/public/media/videos/soma/KS-052_2_global.mp4` |
 
-<img src="site/public/media/videos/soma/0_kp2d77_overlay.gif" width="480"/>
+![](site/public/media/videos/soma/0_kp2d77_overlay.gif)
 
 **What this shows:** stage 2 from the table above (2D keypoint detection) on
 source clip `KS-052`, from this project's Hugging Face dataset
@@ -221,8 +221,8 @@ The same diagram, interactive and colour-coded, is in `site/` - see
 ## 4. What is honestly real, measured in this repo
 
 <table><tr>
-<td width="50%"><img src="site/public/media/videos/push_recovered_40N.gif" width="100%"/><br/><sub>40N push, recovers (<a href="site/public/media/videos/push_recovered_40N.mp4">full mp4</a>)</sub></td>
-<td width="50%"><img src="site/public/media/videos/push_fallen_120N.gif" width="100%"/><br/><sub>120N push, falls (<a href="site/public/media/videos/push_fallen_120N.mp4">full mp4</a>)</sub></td>
+<td width="50%">![](site/public/media/videos/push_recovered_40N.gif)<br/><sub>40N push, recovers (<a href="site/public/media/videos/push_recovered_40N.mp4">full mp4</a>)</sub></td>
+<td width="50%">![](site/public/media/videos/push_fallen_120N.gif)<br/><sub>120N push, falls (<a href="site/public/media/videos/push_fallen_120N.mp4">full mp4</a>)</sub></td>
 </tr></table>
 
 **What this shows and does not show:** the horse stance under a lateral
@@ -288,8 +288,8 @@ shows:
 | Tracking RMSE | 0.309 | 0.258 (better) |
 
 <table><tr>
-<td width="50%"><img src="code/logs/stageA_kw_long_stance/eval_policy.gif" width="100%"/><br/><sub><strong>Trained PPO policy</strong> - falls, mean 85 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_policy.mp4">full mp4</a>)</sub></td>
-<td width="50%"><img src="code/logs/stageA_kw_long_stance/eval_pd_baseline.gif" width="100%"/><br/><sub><strong>Raw PD baseline, no RL</strong> - falls, mean 37 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_pd_baseline.mp4">full mp4</a>)</sub></td>
+<td width="50%">![](code/logs/stageA_kw_long_stance/eval_policy.gif)<br/><sub><strong>Trained PPO policy</strong> - falls, mean 85 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_policy.mp4">full mp4</a>)</sub></td>
+<td width="50%">![](code/logs/stageA_kw_long_stance/eval_pd_baseline.gif)<br/><sub><strong>Raw PD baseline, no RL</strong> - falls, mean 37 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_pd_baseline.mp4">full mp4</a>)</sub></td>
 </tr></table>
 
 *Left: trained policy. Right: raw PD baseline. The trained policy survives
@@ -309,9 +309,9 @@ run here for real, does not close it.
 scripted controller):
 
 <table><tr>
-<td width="33%"><img src="code/logs/stageA_kw_long_stance/thrust_trained_20N.gif" width="100%"/><br/><sub><strong>20N &rarr; fell</strong> at step 34 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_20N.mp4">full mp4</a>)</sub></td>
-<td width="33%"><img src="code/logs/stageA_kw_long_stance/thrust_trained_60N.gif" width="100%"/><br/><sub><strong>60N &rarr; recovered</strong>, ran 99 steps to episode end (<a href="code/logs/stageA_kw_long_stance/thrust_trained_60N.mp4">full mp4</a>)</sub></td>
-<td width="33%"><img src="code/logs/stageA_kw_long_stance/thrust_trained_100N.gif" width="100%"/><br/><sub><strong>100N &rarr; fell</strong> at step 92 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_100N.mp4">full mp4</a>)</sub></td>
+<td width="33%">![](code/logs/stageA_kw_long_stance/thrust_trained_20N.gif)<br/><sub><strong>20N &rarr; fell</strong> at step 34 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_20N.mp4">full mp4</a>)</sub></td>
+<td width="33%">![](code/logs/stageA_kw_long_stance/thrust_trained_60N.gif)<br/><sub><strong>60N &rarr; recovered</strong>, ran 99 steps to episode end (<a href="code/logs/stageA_kw_long_stance/thrust_trained_60N.mp4">full mp4</a>)</sub></td>
+<td width="33%">![](code/logs/stageA_kw_long_stance/thrust_trained_100N.gif)<br/><sub><strong>100N &rarr; fell</strong> at step 92 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_100N.mp4">full mp4</a>)</sub></td>
 </tr></table>
 
 | Push | Outcome |
