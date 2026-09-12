@@ -514,6 +514,58 @@ pairing it with the learned viability critic and residual correction
 described in the Method section above, rather than treating either stage
 in isolation as sufficient.
 
+**Stage C, momentum.** The explosive-strike family (kicks, jumps) generates
+real angular momentum a tracking-only reward never has to account for.
+`code/src/envs/momentum_env.py` adds the momentum-regulation term from
+`configs/momentum.yaml` (that config also names a "rotational" family that
+doesn't exist in this repo's own motion taxonomy - explosive_strike, the
+config's other named family, is what was actually used). Two million steps,
+same six-motion-style setup as Stage B: angular momentum norm during the
+motion drops from roughly 3.8 to **0.79** - a real, substantial reduction in
+exactly the quantity this stage optimizes for - though the fall rate is
+still 100%. Regulating momentum and staying upright turned out to be
+partially separable objectives here: the policy learned the first without
+the second following automatically.
+
+**Stage D, fall impact.** `code/src/envs/fall_env.py` reads real per-step
+contact force off the torso via MuJoCo's own contact solver
+(`geom_group_force`), the same mechanism `code/scripts/sim_push_sweep.py`
+already used for the push-recovery numbers above. One real wrinkle worth
+naming: an episode here always terminates the instant the fall threshold
+trips, so there's no multi-step "falling" phase to train against - checked
+directly by rolling out random actions and confirming real, large impact
+forces (up to 265N) do show up on that terminal step itself, which turned
+out to be enough signal. It was also initially unusable for a different
+reason: `configs/fall.yaml`'s impact-penalty weights, applied literally to
+real newton-scale contact forces, produce rewards on the order of 1e5-1e6 -
+large enough that PPO's value function never got off the ground (loss in
+the tens of billions, zero effective policy update). Standard reward
+normalization (`VecNormalize`) fixed that without touching the configured
+weights themselves. The trained result: peak torso impact force drops from
+roughly 31N (untrained) to **9N** - a real, substantial reduction, genuinely
+the first unambiguous positive result among Stages B through D.
+
+**Stage F, switching.** The paper's own note for this stage says to start
+with threshold-based switching, not a learned one - so `code/src/switch/mode_switch.py`
+(the hand-tuned hysteresis switch used everywhere above) is finally wired
+to real trained sub-policies instead of only a scripted controller:
+`code/scripts/eval_integrated_switch.py` routes between the multi-motion
+tracker and the Stage D fall policy live, based on the switch's own
+cp_margin/momentum/height thresholds. No Stage E recovery policy exists
+yet, so a RECOVERY-mode step falls back to the tracker's own action - the
+same honest simplification used for $\mathbf{a}_t^{\text{safe}}$ elsewhere.
+Real result: switching to the fall policy shortens the average episode
+(21.0 steps against 38.2 for the tracker alone) while - by Stage D's own
+measurement above - substantially lowering impact severity. That's the
+actual, intended trade a protective fall response makes: it doesn't prevent
+falling, it changes how the fall happens.
+
+Stage E (learned recovery-to-standing) is the one piece of this ladder not
+attempted: it needs a genuinely different environment - starting from a
+fallen pose with no reference motion to track at all - rather than an
+extension of the tracking-episode structure every other stage here reuses,
+and is the natural next piece of this training story.
+
 ---
 
 ## Filling the gaps a captured clip never covered
