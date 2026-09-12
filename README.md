@@ -119,6 +119,8 @@ GEM-X, SAM-3D-Body, SOMA, and soma-retargeter are cloned as dependencies
 
 ### 3.1 Physics-grounded embodiment projection [implemented, partial: kinematic only]
 
+![Physics-grounded embodiment projection](media/figures/method_physics_projection.png)
+
 $$
 Q^*_{1:T} = \mathcal{P}\big(Q^0_{1:T}, z_{1:T}; \mathcal{R}\big), \qquad
 \mathcal{L}_{\text{phys}} = \mathcal{L}_{\text{fidelity}} + \lambda_{\text{feas}}\,\mathcal{L}_{\text{feasibility}}
@@ -149,6 +151,8 @@ is implemented for CoM/capture-point purposes in
 CoM to **1.04e-6 m** across 20 randomised full-body states.
 
 ### 3.2 Successor-conditioned viability [implemented and trained on the real Stage A policy]
+
+![Successor-conditioned viability critic](media/figures/method_viability_critic.png)
 
 The paper's central contribution: a critic conditioned jointly on state,
 skill phase, and the **identity of the intended continuation** $g_t^+$, not a
@@ -206,6 +210,8 @@ here are sensitive to which nominal rollouts happen to succeed, not yet a
 robust estimate.
 
 ### 3.3 Intent-preserving corrective control [paper-only, not implemented]
+
+![Intent-preserving corrective control](media/figures/method_intent_preserving_control.png)
 
 $$
 \mathbf{a}_t = \mathbf{a}_t^0 + g(V_t)\,\Delta\mathbf{a}_t, \qquad
