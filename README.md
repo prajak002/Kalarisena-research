@@ -80,18 +80,28 @@ The model chain's own real intermediate outputs, for one clip:
 | 3. In-camera 3D | SAM-3D-Body reconstruction | `site/public/media/videos/soma/KS-052_1_incam.mp4` |
 | 4. Global 3D motion | SOMA, camera-independent - this is $X_t^H$ above | `site/public/media/videos/soma/KS-052_2_global.mp4` |
 
-<p align="center">
+**All three real human-reconstruction stages below, source clip `KS-052`**
+(this project's Hugging Face dataset, `lite-le-liya/kalarisena_clipped_vids`)
+**- no Unitree robot involved yet.** The G1 only enters in section 4 below,
+after soma-retargeter maps this human motion onto it.
+
+<table><tr>
+<td width="33%">
 
 ![](site/public/media/videos/soma/0_kp2d77_overlay.gif)
+**Stage 2: 2D keypoints.** SAM-3D-Body, 77 points tracked per frame.
+</td>
+<td width="33%">
 
-</p>
+![](site/public/media/videos/soma/KS-052_1_incam.gif)
+**Stage 3: in-camera 3D.** SAM-3D-Body's reconstructed body, camera frame.
+</td>
+<td width="33%">
 
-**What this shows:** stage 2 from the table above (2D keypoint detection) on
-source clip `KS-052`, from this project's Hugging Face dataset
-(`lite-le-liya/kalarisena_clipped_vids`). 77 keypoints tracked frame by
-frame, before any 3D reconstruction happens - the actual output of
-SAM-3D-Body's pose detector, not a mockup. Full video:
-[`site/public/media/videos/soma/0_kp2d77_overlay.mp4`](site/public/media/videos/soma/0_kp2d77_overlay.mp4).
+![](site/public/media/videos/soma/KS-052_2_global.gif)
+**Stage 4: global 3D motion.** SOMA, camera-independent - this is $X_t^H$ above.
+</td>
+</tr></table>
 
 GEM-X, SAM-3D-Body, SOMA, and soma-retargeter are cloned as dependencies
 (`scripts/install_subprojects.sh`) and run as-is - not reimplemented here.
