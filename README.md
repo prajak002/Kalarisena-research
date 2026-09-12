@@ -2,19 +2,22 @@
 
 **Physics-grounded and recoverable Kalaripayattu skill transfer for humanoid robots.**
 
-
 > **feasible now &ne; viable for the intended future.**
 > A trajectory can be geometrically faithful to a human demonstration and
 > physically stable at this instant, and still already be committed to losing
 > the specific Kalaripayattu movement it was meant to complete.
 
-<video src="media/kalarisena_trailer.mp4" controls muted loop width="100%"></video>
+<img src="media/kalarisena_trailer.gif" width="100%"/>
 
-*A Cycles-rendered visualization of the Unitree G1 performing Kalaripayattu
-forms, from this project's rendering pipeline (`scripts/render_army_trailer.py`,
-`scripts/blender_render_arena.py`) - a visual/production asset, separate from
-the RL research pipeline below, included here to show what the target
-embodiment and motion vocabulary actually look like.*
+**What this is:** a 6-second preview (GIF, for inline rendering) of a
+46-second Cycles-rendered animation of a squad of Unitree G1 robots
+performing Kalaripayattu forms in a stylized scene. Produced by this
+project's separate render pipeline (`code/scripts/render_army_trailer.py`,
+`code/scripts/blender_render_arena.py`) using Blender/Cycles on a rented GPU
+instance, not MuJoCo. **This is a visual/production asset, not a physics
+simulation or an RL result** - it shows the target embodiment and motion
+vocabulary, nothing here reflects learned control. Full video:
+[`media/kalarisena_trailer.mp4`](media/kalarisena_trailer.mp4) (20MB, 720p, full 46s).
 
 This repository is two things:
 
@@ -47,11 +50,14 @@ or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float 
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
-<video src="site/public/media/videos/retarget/overlay_kw_highkick_right.mp4" controls muted loop width="640"></video>
+<img src="site/public/media/videos/retarget/overlay_kw_highkick_right.gif" width="480"/>
 
-*Real overlay of the human reference (translucent) and the G1 realization of
-a high kick - from this repo's own retargeting review tool
-(`kalarisena-review/`).*
+**What this shows:** the human demonstrator (translucent) overlaid on the
+Unitree G1's retargeted version of the same motion, a Kalaripayattu high
+kick (`kw_highkick_right`). Real output from this repo's retargeting review
+tool (`kalarisena-review/`) - not a physics simulation, this is the
+kinematic retarget only, before any correction or control. Full video:
+[`site/public/media/videos/retarget/overlay_kw_highkick_right.mp4`](site/public/media/videos/retarget/overlay_kw_highkick_right.mp4).
 
 ---
 
@@ -66,7 +72,14 @@ The model chain's own real intermediate outputs, for one clip:
 | 3. In-camera 3D | SAM-3D-Body reconstruction | `site/public/media/videos/soma/KS-052_1_incam.mp4` |
 | 4. Global 3D motion | SOMA, camera-independent - this is $X_t^H$ above | `site/public/media/videos/soma/KS-052_2_global.mp4` |
 
-<video src="site/public/media/videos/soma/0_kp2d77_overlay.mp4" controls muted loop width="480"></video>
+<img src="site/public/media/videos/soma/0_kp2d77_overlay.gif" width="480"/>
+
+**What this shows:** stage 2 from the table above (2D keypoint detection) on
+source clip `KS-052`, from this project's Hugging Face dataset
+(`lite-le-liya/kalarisena_clipped_vids`). 77 keypoints tracked frame by
+frame, before any 3D reconstruction happens - the actual output of
+SAM-3D-Body's pose detector, not a mockup. Full video:
+[`site/public/media/videos/soma/0_kp2d77_overlay.mp4`](site/public/media/videos/soma/0_kp2d77_overlay.mp4).
 
 GEM-X, SAM-3D-Body, SOMA, and soma-retargeter are cloned as dependencies
 (`scripts/install_subprojects.sh`) and run as-is - not reimplemented here.
@@ -207,15 +220,20 @@ The same diagram, interactive and colour-coded, is in `site/` - see
 
 ## 4. What is honestly real, measured in this repo
 
-<video src="site/public/media/videos/push_recovered_40N.mp4" controls muted loop width="320"></video>
-<video src="site/public/media/videos/push_fallen_120N.mp4" controls muted loop width="320"></video>
+<table><tr>
+<td width="50%"><img src="site/public/media/videos/push_recovered_40N.gif" width="100%"/><br/><sub>40N push, recovers (<a href="site/public/media/videos/push_recovered_40N.mp4">full mp4</a>)</sub></td>
+<td width="50%"><img src="site/public/media/videos/push_fallen_120N.gif" width="100%"/><br/><sub>120N push, falls (<a href="site/public/media/videos/push_fallen_120N.mp4">full mp4</a>)</sub></td>
+</tr></table>
 
-*40N (recovers) vs. 120N (falls) lateral push on the horse stance - 36 trials
-against the repo's real scripted PD + threshold-switch controller
-(`scripted_pd_switch_v0`). The capture-point margin*
+**What this shows and does not show:** the horse stance under a lateral
+push at two force levels, controlled by the **scripted PD + threshold-switch
+controller** (`scripted_pd_switch_v0`) - a hand-tuned hysteresis switch, not
+the learned RL policy from section 5 below. 36 trials total (3 per force
+level, 0-240N swept). The capture-point margin
 $\xi_t = p_{t,\text{com}}^{xy} + \dot p_{t,\text{com}}^{xy}/\omega_t$
-*separates the two outcomes perfectly: about +0.05m on every recovery, about
-&minus;0.6m on every fall.*
+separates the two outcomes perfectly: about +0.05m on every recovery, about
+-0.6m on every fall, with a sharp threshold between 100N (recovers) and 120N
+(falls).
 
 | Metric | Value | Source |
 |---|---|---|
@@ -269,8 +287,10 @@ shows:
 | Mean episode length | **85 steps** | 37 steps |
 | Tracking RMSE | 0.309 | 0.258 (better) |
 
-<video src="site/public/media/videos/training/eval_policy.mp4" controls muted loop width="45%"></video>
-<video src="site/public/media/videos/training/eval_pd_baseline.mp4" controls muted loop width="45%"></video>
+<table><tr>
+<td width="50%"><img src="code/logs/stageA_kw_long_stance/eval_policy.gif" width="100%"/><br/><sub><strong>Trained PPO policy</strong> - falls, mean 85 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_policy.mp4">full mp4</a>)</sub></td>
+<td width="50%"><img src="code/logs/stageA_kw_long_stance/eval_pd_baseline.gif" width="100%"/><br/><sub><strong>Raw PD baseline, no RL</strong> - falls, mean 37 steps over 5 episodes (<a href="code/logs/stageA_kw_long_stance/eval_pd_baseline.mp4">full mp4</a>)</sub></td>
+</tr></table>
 
 *Left: trained policy. Right: raw PD baseline. The trained policy survives
 roughly 2.3x longer before falling, but still falls in every evaluation
@@ -288,9 +308,11 @@ run here for real, does not close it.
 `sim_push_sweep.py` uses, applied to the learned policy instead of the
 scripted controller):
 
-<video src="site/public/media/videos/training/thrust_trained_20N.mp4" controls muted loop width="30%"></video>
-<video src="site/public/media/videos/training/thrust_trained_60N.mp4" controls muted loop width="30%"></video>
-<video src="site/public/media/videos/training/thrust_trained_100N.mp4" controls muted loop width="30%"></video>
+<table><tr>
+<td width="33%"><img src="code/logs/stageA_kw_long_stance/thrust_trained_20N.gif" width="100%"/><br/><sub><strong>20N &rarr; fell</strong> at step 34 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_20N.mp4">full mp4</a>)</sub></td>
+<td width="33%"><img src="code/logs/stageA_kw_long_stance/thrust_trained_60N.gif" width="100%"/><br/><sub><strong>60N &rarr; recovered</strong>, ran 99 steps to episode end (<a href="code/logs/stageA_kw_long_stance/thrust_trained_60N.mp4">full mp4</a>)</sub></td>
+<td width="33%"><img src="code/logs/stageA_kw_long_stance/thrust_trained_100N.gif" width="100%"/><br/><sub><strong>100N &rarr; fell</strong> at step 92 (<a href="code/logs/stageA_kw_long_stance/thrust_trained_100N.mp4">full mp4</a>)</sub></td>
+</tr></table>
 
 | Push | Outcome |
 |---|---|
