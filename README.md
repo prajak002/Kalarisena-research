@@ -243,6 +243,19 @@ separates the two outcomes perfectly: about +0.05m on every recovery, about
 | Fall A/B, torso contact rate | 5/5 &rarr; 2/5 | scripted crouch vs. tracking-only, 420N |
 | Raw retarget foot floating | 5&ndash;23 cm | 11/12 motions, before ground correction |
 
+<table><tr>
+<td width="50%">
+
+![](code/results_sim/push_sweep.png)
+Fall rate vs. push force: sharp 100N/120N threshold, 36 trials.
+</td>
+<td width="50%">
+
+![](code/results_sim/fall_ab.png)
+420N fall severity A/B: peak force and impulse, both arms.
+</td>
+</tr></table>
+
 **Paper-claimed numbers (not yet reproduced here):** skill completion
 66.1%&rarr;90.8%, constraint violations 18.4%&rarr;5.7%, Intent Preservation
 Rate 44.7%&rarr;81.6%, SCVC AUROC 0.921. See `code/results_paper/PAPER_ASSETS.md`
