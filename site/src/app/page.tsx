@@ -3,6 +3,7 @@ import { StepWalkthrough } from "@/components/StepWalkthrough";
 import { Figure, VideoToggle } from "@/components/Media";
 import { RetargetPipeline } from "@/components/RetargetPipeline";
 import { SomaPipeline } from "@/components/SomaPipeline";
+import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
 import { Roadmap } from "@/components/Roadmap";
 import { PushSweepChart } from "@/components/PushSweepChart";
 import { InlineEq } from "@/components/Math";
@@ -206,6 +207,11 @@ export default function Home() {
         {/* 07 METHOD: PROJECTION */}
         <Section id="method-projection" index="07" kicker="Method, part 1" title="Physics-grounded embodiment projection">
           <p>
+            The full pipeline, end to end. Colour marks what is real in the repository
+            today versus what the paper proposes but does not yet exist in code.
+          </p>
+          <ArchitectureDiagram activeId="proj" />
+          <p style={{ marginTop: 20 }}>
             Raw retargeting produces <InlineEq tex="Q^0_{1:T}" />: kinematically similar
             to the human demonstration, but not guaranteed executable. The projection
             stage refines it into <InlineEq tex="Q^*_{1:T}" />, a reference that keeps the
@@ -217,7 +223,8 @@ export default function Home() {
 
         {/* 08 METHOD: VIABILITY */}
         <Section id="method-viability" index="08" kicker="Method, part 2" title="Successor-conditioned viability">
-          <p>
+          <ArchitectureDiagram activeId="scvc" />
+          <p style={{ marginTop: 20 }}>
             The paper&rsquo;s central technical contribution: a critic that predicts,
             from the current state and the identity of a specific intended continuation,
             whether that continuation remains reachable &mdash; before tracking error
@@ -228,7 +235,8 @@ export default function Home() {
 
         {/* 09 METHOD: CONTROL */}
         <Section id="method-control" index="09" kicker="Method, part 3" title="Intent-preserving corrective control">
-          <p>
+          <ArchitectureDiagram activeId="residual" />
+          <p style={{ marginTop: 20 }}>
             Viability estimates only matter if they change what the robot does. This
             stage converts <InlineEq tex="V_\psi" /> into the smallest correction that
             restores a path to the intended continuation, falling back to a conservative

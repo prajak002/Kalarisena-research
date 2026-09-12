@@ -9,9 +9,9 @@ const LABEL: Record<Status, string> = {
 
 export function StatusTag({ status, note }: { status: Status; note?: string }) {
   return (
-    <div className="flex flex-col gap-1">
+    <span className="inline-flex flex-col gap-1 align-top">
       <span className={`status-tag status-${status}`}>{LABEL[status]}</span>
       {note ? <span className="text-xs text-neutral-500 leading-snug max-w-sm">{note}</span> : null}
-    </div>
+    </span>
   );
 }

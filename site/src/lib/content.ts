@@ -354,6 +354,9 @@ export interface RoadmapStage {
   problem: string;
   approach: string;
   files: string;
+  status?: Status;
+  statusNote?: string;
+  figure?: string;
 }
 
 export const ROADMAP_STAGES: RoadmapStage[] = [
@@ -361,8 +364,11 @@ export const ROADMAP_STAGES: RoadmapStage[] = [
     stage: "Stage G",
     title: "Genetic-algorithm joint-pool evolution",
     problem: "Fills gaps between reference clips (e.g. no captured transition between two specific stances) with physically plausible trajectories, without spinning up MuJoCo/PPO for what is fundamentally a trajectory-optimization search rather than a sequential decision problem.",
-    approach: "Chromosome = 5-7 keyframes x 29 DoF, spline-interpolated, seeded from the nearest real clips in the same motion family. Fitness reuses existing primitives: com_support_margin + capture_point_margin (stability), jerk minimization (smoothness), joint-limit death, and mean-square distance to the nearest real clip (family coherence). Tournament selection, blend crossover, Gaussian mutation, elitism.",
-    files: "src/ga/ (new), scripts/evolve_joint_pool.py (new), configs/ga_joint_pool.yaml (new)",
+    approach: "Chromosome = 6 keyframes x 29 DoF, cubic-spline interpolated, seeded from the boundary poses of the two real clips being bridged. Fitness = mean(CoM margin + capture-point margin) via PinocchioWrapper, minus jerk, minus deviation from a linear joint-space baseline, hard death on any joint-limit violation. Tournament selection (k=3), blend crossover, Gaussian mutation scaled per-joint by range of motion, elitism.",
+    files: "src/ga/joint_pool.py, scripts/evolve_joint_pool.py",
+    status: "repo-real",
+    statusNote: "Actually implemented and run for this page: bridging ky_warrior_lunge (stable_stance) to pk_kick_lunge (explosive_strike), 150 individuals x 80 generations. Fitness converged -200.9 to -0.60 within 10 generations. Output: data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge.npz",
+    figure: "/media/figures/evo_ky_warrior_lunge__to__pk_kick_lunge_fitness.png",
   },
   {
     stage: "Stage H",

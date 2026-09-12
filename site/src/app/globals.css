@@ -614,6 +614,115 @@ body {
   min-height: 20px;
 }
 
+/* ---------- architecture diagram ---------- */
+
+.arch-wrap {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  background: var(--bg-raised);
+  overflow-x: auto;
+}
+
+.arch-svg {
+  width: 100%;
+  min-width: 760px;
+  height: auto;
+  display: block;
+}
+
+.arch-edge {
+  fill: none;
+  stroke: var(--fg-muted);
+  stroke-width: 1.3;
+  marker-end: url(#arrow);
+}
+
+.arch-arrowhead {
+  fill: var(--fg-muted);
+}
+
+.arch-node {
+  fill: var(--bg);
+  stroke: var(--border);
+  stroke-width: 1.3;
+  transition: stroke 0.2s, stroke-width 0.2s;
+}
+
+.arch-node-repo-real {
+  stroke: var(--ok);
+}
+
+.arch-node-repo-stub {
+  stroke: var(--stub);
+  stroke-dasharray: 4 3;
+}
+
+.arch-node-paper {
+  stroke: var(--fg-muted);
+}
+
+.arch-node-active {
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 0 var(--accent));
+}
+
+.arch-node-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  text-align: center;
+}
+
+.arch-node-label {
+  font-size: 10.5px;
+  line-height: 1.25;
+  color: var(--fg);
+}
+
+.arch-node-eq {
+  font-size: 12px;
+}
+
+.arch-legend {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  font-size: 11.5px;
+  color: var(--fg-muted);
+}
+
+.arch-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.arch-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+  border: 1.5px solid;
+}
+
+.arch-swatch-repo-real {
+  border-color: var(--ok);
+}
+
+.arch-swatch-repo-stub {
+  border-color: var(--stub);
+  border-style: dashed;
+}
+
+.arch-swatch-paper {
+  border-color: var(--fg-muted);
+}
+
 /* ---------- insight chain ---------- */
 
 .chain-item {
