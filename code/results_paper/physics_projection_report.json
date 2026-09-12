@@ -1,0 +1,1921 @@
+{
+  "n_motions": 70,
+  "n_failed": 0,
+  "failures": [],
+  "before": {
+    "n_frames": 238.02857142857144,
+    "flight_frac": 0.014235880398671097,
+    "mean_contact_slip_mps": 0.6075358754549642,
+    "max_contact_slip_mps": 3.4425030800274623,
+    "cp_margin_min": -0.5591690105033109,
+    "cp_margin_mean": -0.17655635387397717,
+    "cp_infeasible_frac": 0.8689375522253693,
+    "com_margin_mean": -0.1566964314288697,
+    "torque_violation_frac": 0.005925182333351722,
+    "torque_ratio_p95": 0.32075353099637355
+  },
+  "after": {
+    "n_frames": 238.02857142857144,
+    "flight_frac": 0.014235880398671097,
+    "mean_contact_slip_mps": 0.637628375481445,
+    "max_contact_slip_mps": 3.452062346125627,
+    "cp_margin_min": -0.5883694966083473,
+    "cp_margin_mean": -0.18342459254742288,
+    "cp_infeasible_frac": 0.8714291708481495,
+    "com_margin_mean": -0.15967979514263184,
+    "torque_violation_frac": 0.0065237056779974545,
+    "torque_ratio_p95": 0.33512015995796135
+  },
+  "per_motion": [
+    {
+      "motion_id": "fw_low_squat",
+      "before": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.09787039979045568,
+        "max_contact_slip_mps": 0.628769470768285,
+        "cp_margin_min": -0.11999423638673136,
+        "cp_margin_mean": 0.015261541924523017,
+        "cp_infeasible_frac": 0.23509933774834438,
+        "com_margin_mean": 0.016007475487452964,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.11309121170525388
+      },
+      "after": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.11693109534232211,
+        "max_contact_slip_mps": 0.7677514308954878,
+        "cp_margin_min": -0.12317313474733205,
+        "cp_margin_mean": 0.014556452917751145,
+        "cp_infeasible_frac": 0.23841059602649006,
+        "com_margin_mean": 0.01553380319151925,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.11333165958307846
+      }
+    },
+    {
+      "motion_id": "fw_square_steps",
+      "before": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.14942455772755311,
+        "max_contact_slip_mps": 0.7118124379185998,
+        "cp_margin_min": -0.21668261752674345,
+        "cp_margin_mean": -0.01977394173399261,
+        "cp_infeasible_frac": 0.6324503311258278,
+        "com_margin_mean": -0.019414303087733117,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.1513806558354034
+      },
+      "after": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.2196113297142718,
+        "max_contact_slip_mps": 0.7163978995760352,
+        "cp_margin_min": -0.22385831758102767,
+        "cp_margin_mean": -0.022929850776197476,
+        "cp_infeasible_frac": 0.6490066225165563,
+        "com_margin_mean": -0.024382256747894723,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.15084516991579042
+      }
+    },
+    {
+      "motion_id": "fw_stance_shift",
+      "before": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.17053479565175678,
+        "max_contact_slip_mps": 1.312216610533828,
+        "cp_margin_min": -0.11776083724043708,
+        "cp_margin_mean": 0.0037230211841412157,
+        "cp_infeasible_frac": 0.4105960264900662,
+        "com_margin_mean": 0.005317028258043325,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.07511480876297594
+      },
+      "after": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.22895437534793994,
+        "max_contact_slip_mps": 1.3384812278941256,
+        "cp_margin_min": -0.14620530533526652,
+        "cp_margin_mean": 0.0024964052862151117,
+        "cp_infeasible_frac": 0.44370860927152317,
+        "com_margin_mean": 0.004318261893432721,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.07938671099293232
+      }
+    },
+    {
+      "motion_id": "fw_triangle_steps",
+      "before": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4128233815696371,
+        "max_contact_slip_mps": 2.011858471056192,
+        "cp_margin_min": -0.2199191529157743,
+        "cp_margin_mean": -0.011372061264774875,
+        "cp_infeasible_frac": 0.4900662251655629,
+        "com_margin_mean": -0.0007138474313486647,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.09870071176775377
+      },
+      "after": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4356127254326399,
+        "max_contact_slip_mps": 1.843849024253695,
+        "cp_margin_min": -0.26180262705773705,
+        "cp_margin_mean": -0.020698816301396535,
+        "cp_infeasible_frac": 0.5463576158940397,
+        "com_margin_mean": -0.00607412037045415,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.11260541832750921
+      }
+    },
+    {
+      "motion_id": "iv_bend_kick_l",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.7896607812618929,
+        "max_contact_slip_mps": 8.632289129637329,
+        "cp_margin_min": -0.619213425513016,
+        "cp_margin_mean": -0.1983352831371036,
+        "cp_infeasible_frac": 0.9830508474576272,
+        "com_margin_mean": -0.1910613453444207,
+        "torque_violation_frac": 0.01839080459770115,
+        "torque_ratio_p95": 0.442136523767645
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.8062003059710137,
+        "max_contact_slip_mps": 8.564537201770754,
+        "cp_margin_min": -0.5917221764375746,
+        "cp_margin_mean": -0.20657923754510782,
+        "cp_infeasible_frac": 0.9830508474576272,
+        "com_margin_mean": -0.19683942896397214,
+        "torque_violation_frac": 0.01867816091954023,
+        "torque_ratio_p95": 0.4600087406927412
+      }
+    },
+    {
+      "motion_id": "iv_bend_kick_r",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5632897326972006,
+        "max_contact_slip_mps": 2.5490298925433685,
+        "cp_margin_min": -0.4510464384989141,
+        "cp_margin_mean": -0.17796146329182574,
+        "cp_infeasible_frac": 0.8291666666666667,
+        "com_margin_mean": -0.16628793202726083,
+        "torque_violation_frac": 0.0021551724137931034,
+        "torque_ratio_p95": 0.2516184834736401
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5669926544652918,
+        "max_contact_slip_mps": 2.646800824365625,
+        "cp_margin_min": -0.4676147415825917,
+        "cp_margin_mean": -0.1777833012121342,
+        "cp_infeasible_frac": 0.8375,
+        "com_margin_mean": -0.16566533181036835,
+        "torque_violation_frac": 0.001867816091954023,
+        "torque_ratio_p95": 0.26647705174896613
+      }
+    },
+    {
+      "motion_id": "iv_guard_squat_l",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.2068509656884178,
+        "max_contact_slip_mps": 2.0526973741860997,
+        "cp_margin_min": -0.36103655643493,
+        "cp_margin_mean": -0.11886093689602083,
+        "cp_infeasible_frac": 0.9583333333333334,
+        "com_margin_mean": -0.11653588135602179,
+        "torque_violation_frac": 0.0010057471264367816,
+        "torque_ratio_p95": 0.25752251000229215
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.21208236241386474,
+        "max_contact_slip_mps": 1.9425857777864561,
+        "cp_margin_min": -0.3725952647274676,
+        "cp_margin_mean": -0.1266365963579564,
+        "cp_infeasible_frac": 0.9583333333333334,
+        "com_margin_mean": -0.12408744313932658,
+        "torque_violation_frac": 0.001293103448275862,
+        "torque_ratio_p95": 0.2507776180672918
+      }
+    },
+    {
+      "motion_id": "iv_guard_squat_r",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.008333333333333333,
+        "mean_contact_slip_mps": 0.5398236986440529,
+        "max_contact_slip_mps": 3.39345005622716,
+        "cp_margin_min": -0.5291275052566048,
+        "cp_margin_mean": -0.18129295858360917,
+        "cp_infeasible_frac": 0.9747899159663865,
+        "com_margin_mean": -0.17556977313349148,
+        "torque_violation_frac": 0.001293103448275862,
+        "torque_ratio_p95": 0.24691733246220635
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.008333333333333333,
+        "mean_contact_slip_mps": 0.5750486049432629,
+        "max_contact_slip_mps": 3.4581945482604777,
+        "cp_margin_min": -0.6483490454574503,
+        "cp_margin_mean": -0.19591149435578384,
+        "cp_infeasible_frac": 0.9789915966386554,
+        "com_margin_mean": -0.17894748140681727,
+        "torque_violation_frac": 0.0022988505747126436,
+        "torque_ratio_p95": 0.2677961870265968
+      }
+    },
+    {
+      "motion_id": "iv_kick_block_l",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6679554016266332,
+        "max_contact_slip_mps": 3.7445014220813326,
+        "cp_margin_min": -0.4813819624705123,
+        "cp_margin_mean": -0.1809167720415689,
+        "cp_infeasible_frac": 0.975,
+        "com_margin_mean": -0.1419082174547058,
+        "torque_violation_frac": 0.00028735632183908046,
+        "torque_ratio_p95": 0.20209726148785934
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6861313451396432,
+        "max_contact_slip_mps": 3.5149859261833263,
+        "cp_margin_min": -0.4866589040473364,
+        "cp_margin_mean": -0.19760102583026518,
+        "cp_infeasible_frac": 0.9708333333333333,
+        "com_margin_mean": -0.16067574425621475,
+        "torque_violation_frac": 0.0005747126436781609,
+        "torque_ratio_p95": 0.22009118692031768
+      }
+    },
+    {
+      "motion_id": "iv_kick_block_r",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7543781093485322,
+        "max_contact_slip_mps": 2.6491703949619065,
+        "cp_margin_min": -0.44957646087917097,
+        "cp_margin_mean": -0.14049416485613225,
+        "cp_infeasible_frac": 0.9291666666666667,
+        "com_margin_mean": -0.1026911052731824,
+        "torque_violation_frac": 0.00014367816091954023,
+        "torque_ratio_p95": 0.19852473385502153
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7837584704515135,
+        "max_contact_slip_mps": 2.6872609182383593,
+        "cp_margin_min": -0.4918004370530996,
+        "cp_margin_mean": -0.14592806879653358,
+        "cp_infeasible_frac": 0.9291666666666667,
+        "com_margin_mean": -0.1100128701633205,
+        "torque_violation_frac": 0.0004310344827586207,
+        "torque_ratio_p95": 0.21744987059318535
+      }
+    },
+    {
+      "motion_id": "iv_squat_salute_l",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7494347976049143,
+        "max_contact_slip_mps": 2.7769367389468567,
+        "cp_margin_min": -0.6142990813514742,
+        "cp_margin_mean": -0.17152414035615476,
+        "cp_infeasible_frac": 0.9541666666666667,
+        "com_margin_mean": -0.1614774592735764,
+        "torque_violation_frac": 0.0010057471264367816,
+        "torque_ratio_p95": 0.2671102609561435
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.771342470069927,
+        "max_contact_slip_mps": 2.8439852124615594,
+        "cp_margin_min": -0.6221046595232006,
+        "cp_margin_mean": -0.16863315832037326,
+        "cp_infeasible_frac": 0.8958333333333334,
+        "com_margin_mean": -0.1619159828152886,
+        "torque_violation_frac": 0.0010057471264367816,
+        "torque_ratio_p95": 0.27944694689242294
+      }
+    },
+    {
+      "motion_id": "iv_squat_salute_r",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4336307583646895,
+        "max_contact_slip_mps": 2.320077903998275,
+        "cp_margin_min": -0.464281002494532,
+        "cp_margin_mean": -0.23071429765921667,
+        "cp_infeasible_frac": 0.8708333333333333,
+        "com_margin_mean": -0.24249448359841524,
+        "torque_violation_frac": 0.002011494252873563,
+        "torque_ratio_p95": 0.22054223692825273
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.43465171641562683,
+        "max_contact_slip_mps": 2.303914567491371,
+        "cp_margin_min": -0.5364781657363215,
+        "cp_margin_mean": -0.25290985646150965,
+        "cp_infeasible_frac": 0.8666666666666667,
+        "com_margin_mean": -0.26292419294503194,
+        "torque_violation_frac": 0.0021551724137931034,
+        "torque_ratio_p95": 0.22252414205385992
+      }
+    },
+    {
+      "motion_id": "kk_arm_swing_l",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.004166666666666667,
+        "mean_contact_slip_mps": 0.7934368733926991,
+        "max_contact_slip_mps": 5.84424642057325,
+        "cp_margin_min": -0.7909994903145047,
+        "cp_margin_mean": -0.19541361837619584,
+        "cp_infeasible_frac": 0.9372384937238494,
+        "com_margin_mean": -0.14312234841676913,
+        "torque_violation_frac": 0.007327586206896552,
+        "torque_ratio_p95": 0.3811233683389842
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.004166666666666667,
+        "mean_contact_slip_mps": 0.7864084377321944,
+        "max_contact_slip_mps": 5.064394176321706,
+        "cp_margin_min": -0.782875548163159,
+        "cp_margin_mean": -0.2063175500111025,
+        "cp_infeasible_frac": 0.9707112970711297,
+        "com_margin_mean": -0.1512290434937294,
+        "torque_violation_frac": 0.007040229885057471,
+        "torque_ratio_p95": 0.4103501623616107
+      }
+    },
+    {
+      "motion_id": "kk_overhead_l",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.601208519209127,
+        "max_contact_slip_mps": 3.8169220739771617,
+        "cp_margin_min": -0.6308983915646668,
+        "cp_margin_mean": -0.16975343485600772,
+        "cp_infeasible_frac": 0.9041666666666667,
+        "com_margin_mean": -0.1533062109704364,
+        "torque_violation_frac": 0.004597701149425287,
+        "torque_ratio_p95": 0.34729670192459156
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6337884157184952,
+        "max_contact_slip_mps": 4.106635240774901,
+        "cp_margin_min": -0.6731166890207254,
+        "cp_margin_mean": -0.17791907102060217,
+        "cp_infeasible_frac": 0.9208333333333333,
+        "com_margin_mean": -0.15882751707698264,
+        "torque_violation_frac": 0.0066091954022988505,
+        "torque_ratio_p95": 0.3666984813698789
+      }
+    },
+    {
+      "motion_id": "kk_overhead_r",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.9504049107984482,
+        "max_contact_slip_mps": 8.155027224731587,
+        "cp_margin_min": -1.1984652732786514,
+        "cp_margin_mean": -0.06475199676880104,
+        "cp_infeasible_frac": 0.6041666666666666,
+        "com_margin_mean": -0.028827652187814967,
+        "torque_violation_frac": 0.01695402298850575,
+        "torque_ratio_p95": 0.560597818886297
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 1.0144251860028215,
+        "max_contact_slip_mps": 8.177661738229952,
+        "cp_margin_min": -1.2199515445063005,
+        "cp_margin_mean": -0.08219961914056058,
+        "cp_infeasible_frac": 0.6875,
+        "com_margin_mean": -0.03246863297457445,
+        "torque_violation_frac": 0.01896551724137931,
+        "torque_ratio_p95": 0.5910828603241554
+      }
+    },
+    {
+      "motion_id": "ks_jump_raise",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.020833333333333332,
+        "mean_contact_slip_mps": 0.8235394110194082,
+        "max_contact_slip_mps": 5.401661782076323,
+        "cp_margin_min": -0.6038848539757329,
+        "cp_margin_mean": -0.16374751994435888,
+        "cp_infeasible_frac": 0.948936170212766,
+        "com_margin_mean": -0.10174486944164585,
+        "torque_violation_frac": 0.005316091954022988,
+        "torque_ratio_p95": 0.37011838999520025
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.020833333333333332,
+        "mean_contact_slip_mps": 0.8539414202757231,
+        "max_contact_slip_mps": 5.533145176756786,
+        "cp_margin_min": -0.5793746173528038,
+        "cp_margin_mean": -0.17729526882596108,
+        "cp_infeasible_frac": 0.9574468085106383,
+        "com_margin_mean": -0.10271091616947252,
+        "torque_violation_frac": 0.006752873563218391,
+        "torque_ratio_p95": 0.38242733824640485
+      }
+    },
+    {
+      "motion_id": "ks_kick_sequence",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0375,
+        "mean_contact_slip_mps": 0.8199620640054086,
+        "max_contact_slip_mps": 5.489404528104872,
+        "cp_margin_min": -0.9489866740313561,
+        "cp_margin_mean": -0.2591417648470611,
+        "cp_infeasible_frac": 0.8398268398268398,
+        "com_margin_mean": -0.22221196810427066,
+        "torque_violation_frac": 0.015517241379310345,
+        "torque_ratio_p95": 0.5075111293494609
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0375,
+        "mean_contact_slip_mps": 0.8576983477452745,
+        "max_contact_slip_mps": 5.6419011280121145,
+        "cp_margin_min": -0.9272354487098072,
+        "cp_margin_mean": -0.27600705643950263,
+        "cp_infeasible_frac": 0.8744588744588745,
+        "com_margin_mean": -0.23048592856807285,
+        "torque_violation_frac": 0.015948275862068966,
+        "torque_ratio_p95": 0.5213795477302119
+      }
+    },
+    {
+      "motion_id": "ks_leg_raise_stance",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.029166666666666667,
+        "mean_contact_slip_mps": 0.9494800401226254,
+        "max_contact_slip_mps": 4.392414051627477,
+        "cp_margin_min": -0.7331918970775207,
+        "cp_margin_mean": -0.24931969222644387,
+        "cp_infeasible_frac": 0.8884120171673819,
+        "com_margin_mean": -0.19508961277995415,
+        "torque_violation_frac": 0.025574712643678162,
+        "torque_ratio_p95": 0.6629020462864429
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.029166666666666667,
+        "mean_contact_slip_mps": 0.9948223099649528,
+        "max_contact_slip_mps": 4.646427276203649,
+        "cp_margin_min": -0.7890243269273306,
+        "cp_margin_mean": -0.2736266083240156,
+        "cp_infeasible_frac": 0.944206008583691,
+        "com_margin_mean": -0.2024423928017172,
+        "torque_violation_frac": 0.026293103448275863,
+        "torque_ratio_p95": 0.6713374829904004
+      }
+    },
+    {
+      "motion_id": "ks_lunge_stretch",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.2738689299701288,
+        "max_contact_slip_mps": 1.1263935666455422,
+        "cp_margin_min": -0.5719273742324343,
+        "cp_margin_mean": -0.2714847062354277,
+        "cp_infeasible_frac": 0.8375,
+        "com_margin_mean": -0.26827262355399506,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.17752921003302163
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.28729788689084096,
+        "max_contact_slip_mps": 1.1844633087485188,
+        "cp_margin_min": -0.5709869915646637,
+        "cp_margin_mean": -0.2652673804831532,
+        "cp_infeasible_frac": 0.7833333333333333,
+        "com_margin_mean": -0.2622592885072453,
+        "torque_violation_frac": 0.00014367816091954023,
+        "torque_ratio_p95": 0.1846785983379007
+      }
+    },
+    {
+      "motion_id": "ks_side_kick",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 0.5449770537166599,
+        "max_contact_slip_mps": 6.175201780317011,
+        "cp_margin_min": -0.6572572621705677,
+        "cp_margin_mean": -0.3409643111643634,
+        "cp_infeasible_frac": 0.9324894514767933,
+        "com_margin_mean": -0.3240555775601553,
+        "torque_violation_frac": 0.006752873563218391,
+        "torque_ratio_p95": 0.3121455303124429
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 0.5708499176781612,
+        "max_contact_slip_mps": 6.185602418866591,
+        "cp_margin_min": -0.6419831450834391,
+        "cp_margin_mean": -0.35383253657001906,
+        "cp_infeasible_frac": 0.9704641350210971,
+        "com_margin_mean": -0.33050385350531536,
+        "torque_violation_frac": 0.007471264367816092,
+        "torque_ratio_p95": 0.32222662049672657
+      }
+    },
+    {
+      "motion_id": "kt_chuvadu_lowstance",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.16008739739918362,
+        "max_contact_slip_mps": 0.9749954055459407,
+        "cp_margin_min": -0.7491889956724527,
+        "cp_margin_mean": -0.47053857548313915,
+        "cp_infeasible_frac": 1.0,
+        "com_margin_mean": -0.4704045751304734,
+        "torque_violation_frac": 0.002011494252873563,
+        "torque_ratio_p95": 0.2750859252228208
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.1564778204716743,
+        "max_contact_slip_mps": 0.9443360301887277,
+        "cp_margin_min": -0.7616477999023288,
+        "cp_margin_mean": -0.4802835318440187,
+        "cp_infeasible_frac": 1.0,
+        "com_margin_mean": -0.4800042856653307,
+        "torque_violation_frac": 0.001867816091954023,
+        "torque_ratio_p95": 0.28253654851236254
+      }
+    },
+    {
+      "motion_id": "kt_chuvadu_step",
+      "before": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.18103313752311828,
+        "max_contact_slip_mps": 3.5886283486257122,
+        "cp_margin_min": -0.45844232064142515,
+        "cp_margin_mean": -0.1814157637009568,
+        "cp_infeasible_frac": 0.9809523809523809,
+        "com_margin_mean": -0.18067437885178675,
+        "torque_violation_frac": 0.002955665024630542,
+        "torque_ratio_p95": 0.29084188262401084
+      },
+      "after": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.18652298770915676,
+        "max_contact_slip_mps": 3.670926002925809,
+        "cp_margin_min": -0.4941423941397319,
+        "cp_margin_mean": -0.2019891023833707,
+        "cp_infeasible_frac": 0.9761904761904762,
+        "com_margin_mean": -0.20183978528265756,
+        "torque_violation_frac": 0.0034482758620689655,
+        "torque_ratio_p95": 0.2924932664933074
+      }
+    },
+    {
+      "motion_id": "kt_lunge_reach",
+      "before": {
+        "n_frames": 300,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.20604718612211181,
+        "max_contact_slip_mps": 1.5346419264322801,
+        "cp_margin_min": -0.7333824255176389,
+        "cp_margin_mean": -0.3874501437798093,
+        "cp_infeasible_frac": 1.0,
+        "com_margin_mean": -0.38475020583689373,
+        "torque_violation_frac": 0.003793103448275862,
+        "torque_ratio_p95": 0.3143188231250057
+      },
+      "after": {
+        "n_frames": 300,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.22277037727247262,
+        "max_contact_slip_mps": 1.5295003592358383,
+        "cp_margin_min": -0.7543163368342872,
+        "cp_margin_mean": -0.387949165422959,
+        "cp_infeasible_frac": 1.0,
+        "com_margin_mean": -0.3856977937629503,
+        "torque_violation_frac": 0.0036781609195402297,
+        "torque_ratio_p95": 0.3162235432966102
+      }
+    },
+    {
+      "motion_id": "kt_namaste_lunge",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.004166666666666667,
+        "mean_contact_slip_mps": 0.3416588316595818,
+        "max_contact_slip_mps": 2.1224372247329906,
+        "cp_margin_min": -0.7827411736120788,
+        "cp_margin_mean": -0.31412811017817105,
+        "cp_infeasible_frac": 0.702928870292887,
+        "com_margin_mean": -0.29610846792757156,
+        "torque_violation_frac": 0.0005747126436781609,
+        "torque_ratio_p95": 0.20262584047400023
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.004166666666666667,
+        "mean_contact_slip_mps": 0.3619088554214358,
+        "max_contact_slip_mps": 2.2903099579889528,
+        "cp_margin_min": -0.8061282735324418,
+        "cp_margin_mean": -0.32013939856152396,
+        "cp_infeasible_frac": 0.7573221757322176,
+        "com_margin_mean": -0.3018490673333117,
+        "torque_violation_frac": 0.0005747126436781609,
+        "torque_ratio_p95": 0.20427640455517515
+      }
+    },
+    {
+      "motion_id": "kt_squat_walk",
+      "before": {
+        "n_frames": 300,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.2828333877017811,
+        "max_contact_slip_mps": 1.8453991192291304,
+        "cp_margin_min": -0.46774003927146757,
+        "cp_margin_mean": -0.21218719122014934,
+        "cp_infeasible_frac": 0.8333333333333334,
+        "com_margin_mean": -0.2145749015011159,
+        "torque_violation_frac": 0.0049425287356321835,
+        "torque_ratio_p95": 0.25570865400860754
+      },
+      "after": {
+        "n_frames": 300,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.29183129304214667,
+        "max_contact_slip_mps": 1.759644833517874,
+        "cp_margin_min": -0.4787898398008813,
+        "cp_margin_mean": -0.2304492114293918,
+        "cp_infeasible_frac": 0.84,
+        "com_margin_mean": -0.23390151425753183,
+        "torque_violation_frac": 0.0052873563218390806,
+        "torque_ratio_p95": 0.25979797751521216
+      }
+    },
+    {
+      "motion_id": "kt_vadivu_lowseat",
+      "before": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.08672394988020048,
+        "max_contact_slip_mps": 0.8825222495669903,
+        "cp_margin_min": -0.14263255338476383,
+        "cp_margin_mean": -0.03717446226840228,
+        "cp_infeasible_frac": 0.7952380952380952,
+        "com_margin_mean": -0.039199033194200275,
+        "torque_violation_frac": 0.00016420361247947455,
+        "torque_ratio_p95": 0.18170259725114402
+      },
+      "after": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.08762853738823571,
+        "max_contact_slip_mps": 0.8710595739269542,
+        "cp_margin_min": -0.13314794776727049,
+        "cp_margin_mean": -0.031636842418707706,
+        "cp_infeasible_frac": 0.7857142857142857,
+        "com_margin_mean": -0.033977113754330136,
+        "torque_violation_frac": 0.0003284072249589491,
+        "torque_ratio_p95": 0.18922587486467396
+      }
+    },
+    {
+      "motion_id": "kt_warrior_pose",
+      "before": {
+        "n_frames": 300,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.7876165674172156,
+        "max_contact_slip_mps": 3.400583694842688,
+        "cp_margin_min": -0.7424965869870479,
+        "cp_margin_mean": -0.3245516725946868,
+        "cp_infeasible_frac": 0.9627118644067797,
+        "com_margin_mean": -0.33117627058219457,
+        "torque_violation_frac": 0.004367816091954023,
+        "torque_ratio_p95": 0.3213135250710905
+      },
+      "after": {
+        "n_frames": 300,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.8185305845248169,
+        "max_contact_slip_mps": 3.4046320937994543,
+        "cp_margin_min": -0.7470445935314871,
+        "cp_margin_mean": -0.3295563189510305,
+        "cp_infeasible_frac": 0.9830508474576272,
+        "com_margin_mean": -0.3356222458684625,
+        "torque_violation_frac": 0.004597701149425287,
+        "torque_ratio_p95": 0.33004804391448705
+      }
+    },
+    {
+      "motion_id": "kw_deep_reach",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5171752140190424,
+        "max_contact_slip_mps": 1.9133892213851902,
+        "cp_margin_min": -0.46531653840912734,
+        "cp_margin_mean": -0.08702273046781973,
+        "cp_infeasible_frac": 0.8111111111111111,
+        "com_margin_mean": -0.06862466714360262,
+        "torque_violation_frac": 0.0003831417624521073,
+        "torque_ratio_p95": 0.26429986880102435
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.549568243901276,
+        "max_contact_slip_mps": 1.92566554578292,
+        "cp_margin_min": -0.48015457552913543,
+        "cp_margin_mean": -0.09458162943473726,
+        "cp_infeasible_frac": 0.8111111111111111,
+        "com_margin_mean": -0.0741983368664134,
+        "torque_violation_frac": 0.0005747126436781609,
+        "torque_ratio_p95": 0.27028768061146186
+      }
+    },
+    {
+      "motion_id": "kw_deep_reach_l",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5393778469805566,
+        "max_contact_slip_mps": 1.649376017754929,
+        "cp_margin_min": -0.4190536191294234,
+        "cp_margin_mean": -0.1761411563383737,
+        "cp_infeasible_frac": 0.9166666666666666,
+        "com_margin_mean": -0.1566942268257872,
+        "torque_violation_frac": 0.0011494252873563218,
+        "torque_ratio_p95": 0.2643093837759226
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5361696595525027,
+        "max_contact_slip_mps": 1.6237265739883446,
+        "cp_margin_min": -0.3988858703746121,
+        "cp_margin_mean": -0.18351805294745127,
+        "cp_infeasible_frac": 0.9055555555555556,
+        "com_margin_mean": -0.16447477382863712,
+        "torque_violation_frac": 0.00210727969348659,
+        "torque_ratio_p95": 0.266750283667367
+      }
+    },
+    {
+      "motion_id": "kw_guard_kick",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4328691268863094,
+        "max_contact_slip_mps": 2.08056634761539,
+        "cp_margin_min": -0.6296823243703085,
+        "cp_margin_mean": -0.10601862629605784,
+        "cp_infeasible_frac": 0.8611111111111112,
+        "com_margin_mean": -0.0832210367434912,
+        "torque_violation_frac": 0.0003831417624521073,
+        "torque_ratio_p95": 0.2542430942535239
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.473083643640552,
+        "max_contact_slip_mps": 2.221558078622956,
+        "cp_margin_min": -0.6168869767758438,
+        "cp_margin_mean": -0.11107267715446444,
+        "cp_infeasible_frac": 0.8666666666666667,
+        "com_margin_mean": -0.08820765977156503,
+        "torque_violation_frac": 0.0005747126436781609,
+        "torque_ratio_p95": 0.26940977697812246
+      }
+    },
+    {
+      "motion_id": "kw_guard_kick_l",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.44317682402618275,
+        "max_contact_slip_mps": 2.20483907600542,
+        "cp_margin_min": -0.4076885485619186,
+        "cp_margin_mean": -0.12109807929067687,
+        "cp_infeasible_frac": 0.8666666666666667,
+        "com_margin_mean": -0.12024043980188394,
+        "torque_violation_frac": 0.0007662835249042146,
+        "torque_ratio_p95": 0.26255600535360046
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4728809546266793,
+        "max_contact_slip_mps": 2.318737137650687,
+        "cp_margin_min": -0.4149664260127557,
+        "cp_margin_mean": -0.11889282385555239,
+        "cp_infeasible_frac": 0.8611111111111112,
+        "com_margin_mean": -0.11932246588059899,
+        "torque_violation_frac": 0.0017241379310344827,
+        "torque_ratio_p95": 0.2705094931264015
+      }
+    },
+    {
+      "motion_id": "kw_guard_step",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4347285640815976,
+        "max_contact_slip_mps": 1.610463336544315,
+        "cp_margin_min": -0.5121795036961063,
+        "cp_margin_mean": -0.16882770479530831,
+        "cp_infeasible_frac": 0.9666666666666667,
+        "com_margin_mean": -0.14073788940161325,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.2008343516863857
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5048301167000241,
+        "max_contact_slip_mps": 1.6550756428350202,
+        "cp_margin_min": -0.5100052661417429,
+        "cp_margin_mean": -0.16511530006676578,
+        "cp_infeasible_frac": 0.9444444444444444,
+        "com_margin_mean": -0.13759961077834684,
+        "torque_violation_frac": 0.00019157088122605365,
+        "torque_ratio_p95": 0.20416497867042852
+      }
+    },
+    {
+      "motion_id": "kw_guard_step_l",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.48658515026195837,
+        "max_contact_slip_mps": 1.9206297218013808,
+        "cp_margin_min": -0.3500128304873718,
+        "cp_margin_mean": -0.0989859149045174,
+        "cp_infeasible_frac": 0.8222222222222222,
+        "com_margin_mean": -0.09007814655607888,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.22341416383968754
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5415110484325233,
+        "max_contact_slip_mps": 1.8429649574559366,
+        "cp_margin_min": -0.35196965362032506,
+        "cp_margin_mean": -0.09920188399240111,
+        "cp_infeasible_frac": 0.85,
+        "com_margin_mean": -0.09088466558211207,
+        "torque_violation_frac": 0.0003831417624521073,
+        "torque_ratio_p95": 0.23310810430158946
+      }
+    },
+    {
+      "motion_id": "kw_highkick_left",
+      "before": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5796398944850155,
+        "max_contact_slip_mps": 2.2081582011783096,
+        "cp_margin_min": -0.35543229336408144,
+        "cp_margin_mean": -0.10155718306671152,
+        "cp_infeasible_frac": 0.8523809523809524,
+        "com_margin_mean": -0.07159429872938455,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.20251977772778115
+      },
+      "after": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6148074963474687,
+        "max_contact_slip_mps": 2.183779645070397,
+        "cp_margin_min": -0.3612590798907852,
+        "cp_margin_mean": -0.1120118267651614,
+        "cp_infeasible_frac": 0.8428571428571429,
+        "com_margin_mean": -0.07253753211674241,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.21222699362039504
+      }
+    },
+    {
+      "motion_id": "kw_highkick_right",
+      "before": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.553748937765825,
+        "max_contact_slip_mps": 1.7885854867648459,
+        "cp_margin_min": -0.3677207945801494,
+        "cp_margin_mean": -0.10549679722878073,
+        "cp_infeasible_frac": 0.8666666666666667,
+        "com_margin_mean": -0.09732551251668867,
+        "torque_violation_frac": 0.00016420361247947455,
+        "torque_ratio_p95": 0.20541536529145102
+      },
+      "after": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.5982179993070211,
+        "max_contact_slip_mps": 1.804633849538636,
+        "cp_margin_min": -0.38064930951851134,
+        "cp_margin_mean": -0.10050460354105649,
+        "cp_infeasible_frac": 0.8,
+        "com_margin_mean": -0.09077801629772307,
+        "torque_violation_frac": 0.0006568144499178982,
+        "torque_ratio_p95": 0.21626800889821082
+      }
+    },
+    {
+      "motion_id": "kw_long_stance",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.33525475132224136,
+        "max_contact_slip_mps": 1.1889623361174362,
+        "cp_margin_min": -0.6454637458858715,
+        "cp_margin_mean": -0.2315831034390209,
+        "cp_infeasible_frac": 0.9833333333333333,
+        "com_margin_mean": -0.24142332258156532,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.2369257590827758
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4187930276716788,
+        "max_contact_slip_mps": 1.1974371669071864,
+        "cp_margin_min": -0.6237907185800858,
+        "cp_margin_mean": -0.22703528173444026,
+        "cp_infeasible_frac": 0.9833333333333333,
+        "com_margin_mean": -0.23668552953318106,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.24384097227963766
+      }
+    },
+    {
+      "motion_id": "kw_long_stance_l",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.41944839050235866,
+        "max_contact_slip_mps": 3.7110941155946993,
+        "cp_margin_min": -0.45266838255345415,
+        "cp_margin_mean": -0.22826219668702366,
+        "cp_infeasible_frac": 0.9833333333333333,
+        "com_margin_mean": -0.2283281393041876,
+        "torque_violation_frac": 0.00210727969348659,
+        "torque_ratio_p95": 0.24444264682591502
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4315929737187383,
+        "max_contact_slip_mps": 3.7317034915694816,
+        "cp_margin_min": -0.45791685906440766,
+        "cp_margin_mean": -0.23304877947025662,
+        "cp_infeasible_frac": 0.9833333333333333,
+        "com_margin_mean": -0.23450857247019,
+        "torque_violation_frac": 0.00210727969348659,
+        "torque_ratio_p95": 0.25666836459508524
+      }
+    },
+    {
+      "motion_id": "kw_lunge_strike",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.36684251852975475,
+        "max_contact_slip_mps": 1.5260198660564073,
+        "cp_margin_min": -0.4039551906239905,
+        "cp_margin_mean": -0.11752024637511806,
+        "cp_infeasible_frac": 0.9333333333333333,
+        "com_margin_mean": -0.09412934303630595,
+        "torque_violation_frac": 0.00019157088122605365,
+        "torque_ratio_p95": 0.2162080004467004
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.3873265052391162,
+        "max_contact_slip_mps": 1.5099590095770108,
+        "cp_margin_min": -0.39616508935697153,
+        "cp_margin_mean": -0.10909853718136478,
+        "cp_infeasible_frac": 0.8833333333333333,
+        "com_margin_mean": -0.08531251357858011,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.22006359678329196
+      }
+    },
+    {
+      "motion_id": "kw_lunge_strike_l",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.35421419265034115,
+        "max_contact_slip_mps": 1.8602136795920676,
+        "cp_margin_min": -0.40869755963271526,
+        "cp_margin_mean": -0.10657283913526774,
+        "cp_infeasible_frac": 0.8277777777777777,
+        "com_margin_mean": -0.09474128884802925,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.21399043437236884
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.40599159626027803,
+        "max_contact_slip_mps": 1.8420854698399125,
+        "cp_margin_min": -0.4842366714999727,
+        "cp_margin_mean": -0.1041564287951607,
+        "cp_infeasible_frac": 0.7611111111111111,
+        "com_margin_mean": -0.08855053264688735,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.2145196261349522
+      }
+    },
+    {
+      "motion_id": "ky_deep_lunge",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7030027370413299,
+        "max_contact_slip_mps": 3.154532281028432,
+        "cp_margin_min": -0.5766332558337286,
+        "cp_margin_mean": -0.21715050266742603,
+        "cp_infeasible_frac": 0.9666666666666667,
+        "com_margin_mean": -0.18343055835201733,
+        "torque_violation_frac": 0.008477011494252874,
+        "torque_ratio_p95": 0.41826760964349474
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7103184432393488,
+        "max_contact_slip_mps": 3.340836487472726,
+        "cp_margin_min": -0.6499319956538832,
+        "cp_margin_mean": -0.22440158239447772,
+        "cp_infeasible_frac": 0.9666666666666667,
+        "com_margin_mean": -0.18024217633775283,
+        "torque_violation_frac": 0.010201149425287357,
+        "torque_ratio_p95": 0.4343402039836881
+      }
+    },
+    {
+      "motion_id": "ky_jump_kick",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.9290831502887003,
+        "max_contact_slip_mps": 4.798879734940833,
+        "cp_margin_min": -0.646368997933217,
+        "cp_margin_mean": -0.17995619953724712,
+        "cp_infeasible_frac": 0.8791666666666667,
+        "com_margin_mean": -0.1465096925406519,
+        "torque_violation_frac": 0.007040229885057471,
+        "torque_ratio_p95": 0.3575118995275057
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.9380647194579345,
+        "max_contact_slip_mps": 4.692430478308037,
+        "cp_margin_min": -0.6424693035045492,
+        "cp_margin_mean": -0.18535209457327745,
+        "cp_infeasible_frac": 0.9,
+        "com_margin_mean": -0.1462020604523296,
+        "torque_violation_frac": 0.009195402298850575,
+        "torque_ratio_p95": 0.41600023923711593
+      }
+    },
+    {
+      "motion_id": "ky_kick_seq",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.09583333333333334,
+        "mean_contact_slip_mps": 0.7974226651470083,
+        "max_contact_slip_mps": 5.547996171424743,
+        "cp_margin_min": -0.9838393692887266,
+        "cp_margin_mean": -0.19790353183202763,
+        "cp_infeasible_frac": 0.9400921658986175,
+        "com_margin_mean": -0.13727685667852565,
+        "torque_violation_frac": 0.015517241379310345,
+        "torque_ratio_p95": 0.47392211319156663
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.09583333333333334,
+        "mean_contact_slip_mps": 0.8310958680837757,
+        "max_contact_slip_mps": 5.120800434428194,
+        "cp_margin_min": -0.9944074805366953,
+        "cp_margin_mean": -0.20693644000267086,
+        "cp_infeasible_frac": 0.9585253456221198,
+        "com_margin_mean": -0.13918216411652376,
+        "torque_violation_frac": 0.016810344827586206,
+        "torque_ratio_p95": 0.5120822030038586
+      }
+    },
+    {
+      "motion_id": "ky_kicks_b",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0375,
+        "mean_contact_slip_mps": 0.4124016835323758,
+        "max_contact_slip_mps": 2.767376817983172,
+        "cp_margin_min": -0.43494969564056923,
+        "cp_margin_mean": -0.10668620028497189,
+        "cp_infeasible_frac": 0.7878787878787878,
+        "com_margin_mean": -0.09717838739095694,
+        "torque_violation_frac": 0.0035919540229885057,
+        "torque_ratio_p95": 0.23326547511800264
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0375,
+        "mean_contact_slip_mps": 0.431924703968026,
+        "max_contact_slip_mps": 2.9667835738999875,
+        "cp_margin_min": -0.39594239038377926,
+        "cp_margin_mean": -0.10552132319229733,
+        "cp_infeasible_frac": 0.8138528138528138,
+        "com_margin_mean": -0.09190194714081142,
+        "torque_violation_frac": 0.004022988505747126,
+        "torque_ratio_p95": 0.24831957266963817
+      }
+    },
+    {
+      "motion_id": "ky_leg_raise",
+      "before": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6957572258295829,
+        "max_contact_slip_mps": 4.113490520385085,
+        "cp_margin_min": -0.3593737142790596,
+        "cp_margin_mean": -0.10433823847323954,
+        "cp_infeasible_frac": 0.8761904761904762,
+        "com_margin_mean": -0.07653683551235789,
+        "torque_violation_frac": 0.007881773399014778,
+        "torque_ratio_p95": 0.3918956406481809
+      },
+      "after": {
+        "n_frames": 210,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6935590215218516,
+        "max_contact_slip_mps": 4.13428743789477,
+        "cp_margin_min": -0.5701572501144955,
+        "cp_margin_mean": -0.11707777150348157,
+        "cp_infeasible_frac": 0.8285714285714286,
+        "com_margin_mean": -0.07190836707595995,
+        "torque_violation_frac": 0.011001642036124795,
+        "torque_ratio_p95": 0.4557223147971413
+      }
+    },
+    {
+      "motion_id": "ky_warrior_lunge",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.075,
+        "mean_contact_slip_mps": 1.3238074981586792,
+        "max_contact_slip_mps": 8.523636716484825,
+        "cp_margin_min": -0.7650628483049511,
+        "cp_margin_mean": -0.3272891066130111,
+        "cp_infeasible_frac": 0.9684684684684685,
+        "com_margin_mean": -0.29191898722097104,
+        "torque_violation_frac": 0.028304597701149424,
+        "torque_ratio_p95": 0.6435105473852267
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.075,
+        "mean_contact_slip_mps": 1.3445422068432433,
+        "max_contact_slip_mps": 8.370453252895919,
+        "cp_margin_min": -0.7452520409064374,
+        "cp_margin_mean": -0.327530601240644,
+        "cp_infeasible_frac": 0.9684684684684685,
+        "com_margin_mean": -0.28696569751617274,
+        "torque_violation_frac": 0.028017241379310345,
+        "torque_ratio_p95": 0.6631340737903582
+      }
+    },
+    {
+      "motion_id": "nk_kick_guard",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.029166666666666667,
+        "mean_contact_slip_mps": 1.0258565016628456,
+        "max_contact_slip_mps": 2.7914698577595174,
+        "cp_margin_min": -0.669674491736285,
+        "cp_margin_mean": -0.1759442136050266,
+        "cp_infeasible_frac": 0.9399141630901288,
+        "com_margin_mean": -0.12483394327928331,
+        "torque_violation_frac": 0.004885057471264368,
+        "torque_ratio_p95": 0.3486008834282731
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.029166666666666667,
+        "mean_contact_slip_mps": 1.0874480194693552,
+        "max_contact_slip_mps": 2.8192384965164115,
+        "cp_margin_min": -0.7063118583609251,
+        "cp_margin_mean": -0.16900058197154344,
+        "cp_infeasible_frac": 0.9141630901287554,
+        "com_margin_mean": -0.11974994016827836,
+        "torque_violation_frac": 0.006896551724137931,
+        "torque_ratio_p95": 0.37014485709830064
+      }
+    },
+    {
+      "motion_id": "nk_lunge_low",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 0.7476453591809822,
+        "max_contact_slip_mps": 6.281968879023814,
+        "cp_margin_min": -1.1964152143569429,
+        "cp_margin_mean": -0.22305108138946847,
+        "cp_infeasible_frac": 0.9282700421940928,
+        "com_margin_mean": -0.17484172687936372,
+        "torque_violation_frac": 0.013218390804597701,
+        "torque_ratio_p95": 0.4355151683940871
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 0.7661307956136154,
+        "max_contact_slip_mps": 6.373330055280713,
+        "cp_margin_min": -1.1903830917451654,
+        "cp_margin_mean": -0.23025065250901056,
+        "cp_infeasible_frac": 0.9409282700421941,
+        "com_margin_mean": -0.18062099073493237,
+        "torque_violation_frac": 0.013649425287356323,
+        "torque_ratio_p95": 0.4365815872720563
+      }
+    },
+    {
+      "motion_id": "nk_squat_highkick",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.8737493339120571,
+        "max_contact_slip_mps": 2.427182526963713,
+        "cp_margin_min": -0.5919734304573606,
+        "cp_margin_mean": -0.22229739912207339,
+        "cp_infeasible_frac": 0.9333333333333333,
+        "com_margin_mean": -0.2076410661251001,
+        "torque_violation_frac": 0.007183908045977011,
+        "torque_ratio_p95": 0.33832385869649967
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.9392354550901386,
+        "max_contact_slip_mps": 2.9721412494206847,
+        "cp_margin_min": -0.7929919501267583,
+        "cp_margin_mean": -0.23628137818845238,
+        "cp_infeasible_frac": 0.9125,
+        "com_margin_mean": -0.2202924203360785,
+        "torque_violation_frac": 0.008764367816091955,
+        "torque_ratio_p95": 0.3625692860218997
+      }
+    },
+    {
+      "motion_id": "nk_step_jumps",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.025,
+        "mean_contact_slip_mps": 1.280517016653331,
+        "max_contact_slip_mps": 3.7960534752237827,
+        "cp_margin_min": -0.6863456026454264,
+        "cp_margin_mean": -0.24031268637779482,
+        "cp_infeasible_frac": 0.9572649572649573,
+        "com_margin_mean": -0.23378966651022534,
+        "torque_violation_frac": 0.0066091954022988505,
+        "torque_ratio_p95": 0.3317044379906046
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.025,
+        "mean_contact_slip_mps": 1.3410795152975428,
+        "max_contact_slip_mps": 3.8912109258197085,
+        "cp_margin_min": -0.741905151986206,
+        "cp_margin_mean": -0.2639291841522804,
+        "cp_infeasible_frac": 0.9615384615384616,
+        "com_margin_mean": -0.25505745528583973,
+        "torque_violation_frac": 0.006752873563218391,
+        "torque_ratio_p95": 0.34668548671923805
+      }
+    },
+    {
+      "motion_id": "oc_kick_demo",
+      "before": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7997705215733798,
+        "max_contact_slip_mps": 4.443275842679008,
+        "cp_margin_min": -0.5584457734554984,
+        "cp_margin_mean": -0.19184396501259415,
+        "cp_infeasible_frac": 0.9172185430463576,
+        "com_margin_mean": -0.18112002859685775,
+        "torque_violation_frac": 0.012902489152774607,
+        "torque_ratio_p95": 0.5269800089735129
+      },
+      "after": {
+        "n_frames": 302,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.832519005086697,
+        "max_contact_slip_mps": 4.046921297859839,
+        "cp_margin_min": -0.5648101006834393,
+        "cp_margin_mean": -0.19544516896772798,
+        "cp_infeasible_frac": 0.9072847682119205,
+        "com_margin_mean": -0.18310708578740476,
+        "torque_violation_frac": 0.015186115551495774,
+        "torque_ratio_p95": 0.5566706460276927
+      }
+    },
+    {
+      "motion_id": "pk_kick_low_squat",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 1.0367866687685288,
+        "max_contact_slip_mps": 4.683332309375858,
+        "cp_margin_min": -0.5677107640678496,
+        "cp_margin_mean": -0.19292197002553008,
+        "cp_infeasible_frac": 0.9873417721518988,
+        "com_margin_mean": -0.12413413231685473,
+        "torque_violation_frac": 0.005459770114942529,
+        "torque_ratio_p95": 0.38295418017348337
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 1.07958434051584,
+        "max_contact_slip_mps": 4.4655588160160065,
+        "cp_margin_min": -0.7442863591747031,
+        "cp_margin_mean": -0.2159366351204456,
+        "cp_infeasible_frac": 0.9831223628691983,
+        "com_margin_mean": -0.13414915736937202,
+        "torque_violation_frac": 0.006752873563218391,
+        "torque_ratio_p95": 0.4013057787458013
+      }
+    },
+    {
+      "motion_id": "pk_kick_lunge",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.11666666666666667,
+        "mean_contact_slip_mps": 1.1824512755925516,
+        "max_contact_slip_mps": 4.404800862217366,
+        "cp_margin_min": -0.623857958164257,
+        "cp_margin_mean": -0.18534550005028214,
+        "cp_infeasible_frac": 0.9292452830188679,
+        "com_margin_mean": -0.15330104056492982,
+        "torque_violation_frac": 0.011781609195402299,
+        "torque_ratio_p95": 0.4413403027856508
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.11666666666666667,
+        "mean_contact_slip_mps": 1.2483055866303543,
+        "max_contact_slip_mps": 4.85838137207141,
+        "cp_margin_min": -0.601020483431596,
+        "cp_margin_mean": -0.18664334972438468,
+        "cp_infeasible_frac": 0.9339622641509434,
+        "com_margin_mean": -0.14964291199803628,
+        "torque_violation_frac": 0.01206896551724138,
+        "torque_ratio_p95": 0.4681888569397575
+      }
+    },
+    {
+      "motion_id": "pk_kick_sequence",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.025,
+        "mean_contact_slip_mps": 0.9178465323910141,
+        "max_contact_slip_mps": 4.11780407680984,
+        "cp_margin_min": -0.7098217977668887,
+        "cp_margin_mean": -0.22233180110475884,
+        "cp_infeasible_frac": 0.9273504273504274,
+        "com_margin_mean": -0.1840096480083296,
+        "torque_violation_frac": 0.005747126436781609,
+        "torque_ratio_p95": 0.3382766356327827
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.025,
+        "mean_contact_slip_mps": 0.9433612247794491,
+        "max_contact_slip_mps": 4.092318442653324,
+        "cp_margin_min": -0.817451876950487,
+        "cp_margin_mean": -0.22512394781372802,
+        "cp_infeasible_frac": 0.9401709401709402,
+        "com_margin_mean": -0.18580572010374766,
+        "torque_violation_frac": 0.005747126436781609,
+        "torque_ratio_p95": 0.3537231426062829
+      }
+    },
+    {
+      "motion_id": "pk_leg_raise_seq",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7528412753867978,
+        "max_contact_slip_mps": 5.641625929815162,
+        "cp_margin_min": -0.4592057775387943,
+        "cp_margin_mean": -0.07052934866154109,
+        "cp_infeasible_frac": 0.75,
+        "com_margin_mean": -0.040637364544436436,
+        "torque_violation_frac": 0.007040229885057471,
+        "torque_ratio_p95": 0.33281507082532785
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.7599424033869872,
+        "max_contact_slip_mps": 5.438869220550209,
+        "cp_margin_min": -0.4777000922823318,
+        "cp_margin_mean": -0.08118302741487572,
+        "cp_infeasible_frac": 0.7708333333333334,
+        "com_margin_mean": -0.04745177309991432,
+        "torque_violation_frac": 0.007902298850574713,
+        "torque_ratio_p95": 0.3622060264007896
+      }
+    },
+    {
+      "motion_id": "pk_long_lunge_squat",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.04583333333333333,
+        "mean_contact_slip_mps": 0.303224151865037,
+        "max_contact_slip_mps": 2.1324832848491595,
+        "cp_margin_min": -0.7993515106144781,
+        "cp_margin_mean": -0.16758079614965143,
+        "cp_infeasible_frac": 0.7685589519650655,
+        "com_margin_mean": -0.14209761670693832,
+        "torque_violation_frac": 0.002586206896551724,
+        "torque_ratio_p95": 0.31490211193569134
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.04583333333333333,
+        "mean_contact_slip_mps": 0.3148241741858992,
+        "max_contact_slip_mps": 2.004443558687568,
+        "cp_margin_min": -0.7763591202316205,
+        "cp_margin_mean": -0.17075126757016337,
+        "cp_infeasible_frac": 0.7554585152838428,
+        "com_margin_mean": -0.14262044427570333,
+        "torque_violation_frac": 0.002586206896551724,
+        "torque_ratio_p95": 0.3259820023477195
+      }
+    },
+    {
+      "motion_id": "pk_low_sweeps",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0875,
+        "mean_contact_slip_mps": 0.8876481065150167,
+        "max_contact_slip_mps": 5.7316049210857045,
+        "cp_margin_min": -0.9376683124891907,
+        "cp_margin_mean": -0.4096119821894668,
+        "cp_infeasible_frac": 0.9817351598173516,
+        "com_margin_mean": -0.38008570103956757,
+        "torque_violation_frac": 0.028304597701149424,
+        "torque_ratio_p95": 0.6503497320157604
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0875,
+        "mean_contact_slip_mps": 0.9458575474695371,
+        "max_contact_slip_mps": 5.3296033499589175,
+        "cp_margin_min": -0.9836897441178254,
+        "cp_margin_mean": -0.4095288776818726,
+        "cp_infeasible_frac": 0.9863013698630136,
+        "com_margin_mean": -0.36155378876064004,
+        "torque_violation_frac": 0.029310344827586206,
+        "torque_ratio_p95": 0.6550437765205197
+      }
+    },
+    {
+      "motion_id": "pk_stance_transitions",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 0.8774947126569627,
+        "max_contact_slip_mps": 3.219932960670605,
+        "cp_margin_min": -0.3767883443486124,
+        "cp_margin_mean": -0.07313189175689214,
+        "cp_infeasible_frac": 0.6329113924050633,
+        "com_margin_mean": -0.05547622100180368,
+        "torque_violation_frac": 0.00603448275862069,
+        "torque_ratio_p95": 0.324265582176423
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0125,
+        "mean_contact_slip_mps": 0.9606459514835443,
+        "max_contact_slip_mps": 3.6066301895062005,
+        "cp_margin_min": -0.43639926307199794,
+        "cp_margin_mean": -0.09561485117920378,
+        "cp_infeasible_frac": 0.759493670886076,
+        "com_margin_mean": -0.06612984852642403,
+        "torque_violation_frac": 0.005603448275862069,
+        "torque_ratio_p95": 0.3392282478544077
+      }
+    },
+    {
+      "motion_id": "pk_warrior_oneleg",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.8830330255363682,
+        "max_contact_slip_mps": 3.964115215375846,
+        "cp_margin_min": -0.6670078372497434,
+        "cp_margin_mean": -0.12913982887199782,
+        "cp_infeasible_frac": 0.8083333333333333,
+        "com_margin_mean": -0.08864680406289939,
+        "torque_violation_frac": 0.0066091954022988505,
+        "torque_ratio_p95": 0.34743759850419986
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.9282223407864503,
+        "max_contact_slip_mps": 4.143554867942187,
+        "cp_margin_min": -0.7578712262332559,
+        "cp_margin_mean": -0.1479248382462127,
+        "cp_infeasible_frac": 0.8,
+        "com_margin_mean": -0.09994682970025294,
+        "torque_violation_frac": 0.00646551724137931,
+        "torque_ratio_p95": 0.3560162152793703
+      }
+    },
+    {
+      "motion_id": "sc_knee_raise_guard",
+      "before": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.3895966197977614,
+        "max_contact_slip_mps": 2.066650932544351,
+        "cp_margin_min": -0.28856478987184214,
+        "cp_margin_mean": -0.07749733550990603,
+        "cp_infeasible_frac": 0.8555555555555555,
+        "com_margin_mean": -0.06429288262037962,
+        "torque_violation_frac": 0.0019157088122605363,
+        "torque_ratio_p95": 0.2170345185987385
+      },
+      "after": {
+        "n_frames": 180,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.40479869034160565,
+        "max_contact_slip_mps": 2.117855069845921,
+        "cp_margin_min": -0.2338732291803948,
+        "cp_margin_mean": -0.07885527920589411,
+        "cp_infeasible_frac": 0.8666666666666667,
+        "com_margin_mean": -0.06366570527940496,
+        "torque_violation_frac": 0.0019157088122605363,
+        "torque_ratio_p95": 0.22532134578389212
+      }
+    },
+    {
+      "motion_id": "sc_low_squat_drill",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.004166666666666667,
+        "mean_contact_slip_mps": 0.7427911462713215,
+        "max_contact_slip_mps": 2.970181723575626,
+        "cp_margin_min": -0.5987883842942906,
+        "cp_margin_mean": -0.23141878943282235,
+        "cp_infeasible_frac": 0.9707112970711297,
+        "com_margin_mean": -0.19261222342417894,
+        "torque_violation_frac": 0.01235632183908046,
+        "torque_ratio_p95": 0.46734565916821785
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.004166666666666667,
+        "mean_contact_slip_mps": 0.763625336607355,
+        "max_contact_slip_mps": 3.0785170681659535,
+        "cp_margin_min": -0.5934429495058717,
+        "cp_margin_mean": -0.23437490466821748,
+        "cp_infeasible_frac": 0.9539748953974896,
+        "com_margin_mean": -0.19291972056322185,
+        "torque_violation_frac": 0.013649425287356323,
+        "torque_ratio_p95": 0.4773681949465516
+      }
+    },
+    {
+      "motion_id": "sc_squat_advance",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.5951052433119524,
+        "max_contact_slip_mps": 3.5457383084165315,
+        "cp_margin_min": -0.6090351748423615,
+        "cp_margin_mean": -0.1680884565333044,
+        "cp_infeasible_frac": 0.9110169491525424,
+        "com_margin_mean": -0.15787751314252324,
+        "torque_violation_frac": 0.010201149425287357,
+        "torque_ratio_p95": 0.4189925078868474
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.6168573748677484,
+        "max_contact_slip_mps": 3.839366092881587,
+        "cp_margin_min": -0.6047330923554176,
+        "cp_margin_mean": -0.16865034926845626,
+        "cp_infeasible_frac": 0.8898305084745762,
+        "com_margin_mean": -0.15810120801782163,
+        "torque_violation_frac": 0.010775862068965518,
+        "torque_ratio_p95": 0.4281385182271457
+      }
+    },
+    {
+      "motion_id": "sc_squat_pivots",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.03333333333333333,
+        "mean_contact_slip_mps": 0.6310613497826588,
+        "max_contact_slip_mps": 3.5030303513555068,
+        "cp_margin_min": -0.4737178989587519,
+        "cp_margin_mean": -0.19751875920718642,
+        "cp_infeasible_frac": 0.9310344827586207,
+        "com_margin_mean": -0.20290918659947443,
+        "torque_violation_frac": 0.014942528735632184,
+        "torque_ratio_p95": 0.50115438881149
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.03333333333333333,
+        "mean_contact_slip_mps": 0.6475290020890345,
+        "max_contact_slip_mps": 3.4177922322791967,
+        "cp_margin_min": -0.478136696809951,
+        "cp_margin_mean": -0.1949330454607539,
+        "cp_infeasible_frac": 0.9353448275862069,
+        "com_margin_mean": -0.19694678398550144,
+        "torque_violation_frac": 0.015229885057471264,
+        "torque_ratio_p95": 0.5127061116257862
+      }
+    },
+    {
+      "motion_id": "sc_stance_shifts",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0875,
+        "mean_contact_slip_mps": 1.076213910051493,
+        "max_contact_slip_mps": 6.441736835885153,
+        "cp_margin_min": -1.0120269643435469,
+        "cp_margin_mean": -0.2502930339279851,
+        "cp_infeasible_frac": 0.8995433789954338,
+        "com_margin_mean": -0.2222485133151324,
+        "torque_violation_frac": 0.01163793103448276,
+        "torque_ratio_p95": 0.47322222122929425
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0875,
+        "mean_contact_slip_mps": 1.1432503695692344,
+        "max_contact_slip_mps": 6.41060056632406,
+        "cp_margin_min": -1.0178260676744522,
+        "cp_margin_mean": -0.24648745451970974,
+        "cp_infeasible_frac": 0.9041095890410958,
+        "com_margin_mean": -0.21775140837650275,
+        "torque_violation_frac": 0.010919540229885057,
+        "torque_ratio_p95": 0.4888847112816212
+      }
+    },
+    {
+      "motion_id": "sq_footwork_steps",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.584641378393307,
+        "max_contact_slip_mps": 2.0313233120738525,
+        "cp_margin_min": -0.2947008339120593,
+        "cp_margin_mean": -0.04359921173385976,
+        "cp_infeasible_frac": 0.6208333333333333,
+        "com_margin_mean": -0.011654382237654299,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.12815923081232938
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.6234641743426935,
+        "max_contact_slip_mps": 2.0547977814448766,
+        "cp_margin_min": -0.309155565952846,
+        "cp_margin_mean": -0.05266748215833534,
+        "cp_infeasible_frac": 0.5875,
+        "com_margin_mean": -0.01632973279259025,
+        "torque_violation_frac": 0.0,
+        "torque_ratio_p95": 0.14071356249654632
+      }
+    },
+    {
+      "motion_id": "test_chuvadu_clip",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.15394823826761317,
+        "max_contact_slip_mps": 3.126127330475775,
+        "cp_margin_min": -0.29796852510867494,
+        "cp_margin_mean": -0.23481803831785056,
+        "cp_infeasible_frac": 0.9916666666666667,
+        "com_margin_mean": -0.23591257376136615,
+        "torque_violation_frac": 0.0028735632183908046,
+        "torque_ratio_p95": 0.26940791552814725
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.15809677990445084,
+        "max_contact_slip_mps": 3.0631395131889794,
+        "cp_margin_min": -0.36373876194397253,
+        "cp_margin_mean": -0.2532782054127974,
+        "cp_infeasible_frac": 0.9958333333333333,
+        "com_margin_mean": -0.2530986661680466,
+        "torque_violation_frac": 0.003160919540229885,
+        "torque_ratio_p95": 0.27165808497720767
+      }
+    },
+    {
+      "motion_id": "test_vadivu_clip",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.2799935026498384,
+        "max_contact_slip_mps": 2.616589805158495,
+        "cp_margin_min": -0.48486256352137597,
+        "cp_margin_mean": -0.24069606529204182,
+        "cp_infeasible_frac": 1.0,
+        "com_margin_mean": -0.2406249125758394,
+        "torque_violation_frac": 0.001293103448275862,
+        "torque_ratio_p95": 0.2826064334864437
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.28637799945304665,
+        "max_contact_slip_mps": 2.794205018619666,
+        "cp_margin_min": -0.47840872906813064,
+        "cp_margin_mean": -0.24725505656346441,
+        "cp_infeasible_frac": 1.0,
+        "com_margin_mean": -0.24812130882176897,
+        "torque_violation_frac": 0.001293103448275862,
+        "torque_ratio_p95": 0.2761616053899854
+      }
+    },
+    {
+      "motion_id": "vb_front_kick",
+      "before": {
+        "n_frames": 240,
+        "flight_frac": 0.06666666666666667,
+        "mean_contact_slip_mps": 0.7704017789098043,
+        "max_contact_slip_mps": 7.4987687660624225,
+        "cp_margin_min": -0.6957386494303744,
+        "cp_margin_mean": -0.20915922810256632,
+        "cp_infeasible_frac": 0.9598214285714286,
+        "com_margin_mean": -0.16273121893764428,
+        "torque_violation_frac": 0.0125,
+        "torque_ratio_p95": 0.43530148640931793
+      },
+      "after": {
+        "n_frames": 240,
+        "flight_frac": 0.06666666666666667,
+        "mean_contact_slip_mps": 0.8157073851993719,
+        "max_contact_slip_mps": 7.567166180667766,
+        "cp_margin_min": -0.7765942902057479,
+        "cp_margin_mean": -0.22471188405253842,
+        "cp_infeasible_frac": 0.9464285714285714,
+        "com_margin_mean": -0.16355547823477215,
+        "torque_violation_frac": 0.017097701149425288,
+        "torque_ratio_p95": 0.5085099346825807
+      }
+    },
+    {
+      "motion_id": "vb_jump_kick",
+      "before": {
+        "n_frames": 301,
+        "flight_frac": 0.046511627906976744,
+        "mean_contact_slip_mps": 0.6847421499254319,
+        "max_contact_slip_mps": 5.306489564873962,
+        "cp_margin_min": -0.5228493060085703,
+        "cp_margin_mean": -0.1649590953807874,
+        "cp_infeasible_frac": 0.9686411149825784,
+        "com_margin_mean": -0.16108880536198933,
+        "torque_violation_frac": 0.013861839844197503,
+        "torque_ratio_p95": 0.44688885976332876
+      },
+      "after": {
+        "n_frames": 301,
+        "flight_frac": 0.046511627906976744,
+        "mean_contact_slip_mps": 0.6889905989003232,
+        "max_contact_slip_mps": 5.069173701059975,
+        "cp_margin_min": -0.7937292402196191,
+        "cp_margin_mean": -0.1757886832034573,
+        "cp_infeasible_frac": 0.9686411149825784,
+        "com_margin_mean": -0.15249030894837992,
+        "torque_violation_frac": 0.016496735021193722,
+        "torque_ratio_p95": 0.48713605473458527
+      }
+    },
+    {
+      "motion_id": "vb_kick_series",
+      "before": {
+        "n_frames": 301,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4392524382386641,
+        "max_contact_slip_mps": 2.602640489261566,
+        "cp_margin_min": -0.5081012080684417,
+        "cp_margin_mean": -0.09447784809891697,
+        "cp_infeasible_frac": 0.8637873754152824,
+        "com_margin_mean": -0.07073214598180633,
+        "torque_violation_frac": 0.0019475312177798143,
+        "torque_ratio_p95": 0.24735413338806675
+      },
+      "after": {
+        "n_frames": 301,
+        "flight_frac": 0.0,
+        "mean_contact_slip_mps": 0.4810913460197788,
+        "max_contact_slip_mps": 2.6470649744550157,
+        "cp_margin_min": -0.5208635601417904,
+        "cp_margin_mean": -0.09865083090844795,
+        "cp_infeasible_frac": 0.8604651162790697,
+        "com_margin_mean": -0.06900388008635526,
+        "torque_violation_frac": 0.0025203345171268187,
+        "torque_ratio_p95": 0.254530567946116
+      }
+    },
+    {
+      "motion_id": "vb_leap_sequence",
+      "before": {
+        "n_frames": 300,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 0.9478070331304735,
+        "max_contact_slip_mps": 5.528789091844029,
+        "cp_margin_min": -0.4705558207042393,
+        "cp_margin_mean": -0.10568166753578713,
+        "cp_infeasible_frac": 0.8711864406779661,
+        "com_margin_mean": -0.08511271296826557,
+        "torque_violation_frac": 0.009770114942528735,
+        "torque_ratio_p95": 0.45870393225294626
+      },
+      "after": {
+        "n_frames": 300,
+        "flight_frac": 0.016666666666666666,
+        "mean_contact_slip_mps": 1.010542804553318,
+        "max_contact_slip_mps": 5.420182079164534,
+        "cp_margin_min": -0.6170070275417554,
+        "cp_margin_mean": -0.11836969493276178,
+        "cp_infeasible_frac": 0.847457627118644,
+        "com_margin_mean": -0.08451830401728969,
+        "torque_violation_frac": 0.011034482758620689,
+        "torque_ratio_p95": 0.4799966541588802
+      }
+    }
+  ]
+}

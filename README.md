@@ -152,20 +152,40 @@ $$
 \mathcal{L}_{\text{contact}} = \sum_{t,f} \Big[ c_{t,f}\big(\|\mathbf{v}^f_{t,f}\|^2 + \alpha_h h_{t,f}^2\big) + (1-c_{t,f})\,\text{ReLU}(-h_{t,f})^2 \Big]
 $$
 
-What actually runs today is `code/scripts/ground_correct_motions.py`
-(`correct_one`): a real Savitzky-Golay height correction and contact
-recomputation, which handles the kinematic half of this objective but not
-yet the full contact/friction/torque/dynamics optimization above it. The
-dynamics constraint that objective is ultimately answerable to,
+`code/scripts/ground_correct_motions.py` handles the kinematic half of this
+objective - a real Savitzky-Golay height correction and contact
+recomputation. `code/src/projection/physics_ground.py` goes one step
+further and actually measures the feasibility terms the kinematic pass never
+touches, for the first time across the whole library: a foot's real slip
+velocity during a labeled contact, the capture-point margin against the true
+support polygon, and joint torque against the G1's own actuator limits - all
+via the same cross-validated Pinocchio stack (CoM agreement with MuJoCo to
+within a millionth of a metre), extended here with real inverse dynamics
+($M(q)\ddot q + h(q,\dot q) = S^\top\tau + J_c^\top\lambda$, via RNEA) and a
+CoM Jacobian.
 
-$$
-M(q)\ddot q + h(q,\dot q) = S^\top\tau + J_c^\top\lambda
-$$
-
-is already implemented for CoM and capture-point purposes in
-`code/src/dynamics/pinocchio_wrapper.py`, cross-checked against MuJoCo's own
-centre of mass to within a millionth of a metre across twenty randomised
-full-body states.
+The measurement itself is the finding: across all 70 motions, the capture
+point sits outside or within 2cm of the support polygon's edge on **87%**
+of contact frames even after kinematic grounding - the retarget is very
+rarely statically balanced by a strict physical standard, not just
+occasionally. The module also attempts an active correction - locking each
+stance foot to the low-frequency component of its own path, and nudging
+waist/hip roll along the CoM Jacobian toward the support-polygon centre -
+and that correction was verified against a finite-difference check (the
+Jacobian's own prediction matches the simulator's actual response to within
+numerical precision), so the math is right. It still doesn't move the
+aggregate number: 87.1% infeasible after correction, no better than before.
+The reason is physical, not a bug - waist and hip roll simply don't have
+enough leverage over whole-body CoM position to close a margin this large
+within a safe joint-angle range, at least not without recruiting the ankles
+and knees the way a real weight-shift does. Rather than bake a correction
+that doesn't help into the motion library every other stage trains against,
+the corpus was left as the kinematically-grounded version; the measurement
+report ships as `code/results_paper/physics_projection_report.json`. This
+is a real, useful negative result in the same spirit as the ones below: a
+small kinematic nudge can't fix a defect this large - which is exactly the
+argument for why the next two layers below need to be *learned*, not
+hand-designed.
 
 <div align="center">
 
