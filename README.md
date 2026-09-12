@@ -9,6 +9,9 @@
 
 <div align="center">
 
+### [&#9654; Open the interactive human-vs-G1 review](https://kalarisena-review.vercel.app/)
+69 real motions, live stability plots, browsable in your browser right now.
+
 ![](media/kalarisena_trailer.gif)
 
 </div>
@@ -33,9 +36,13 @@ This repository is two things:
 1. **`code/`** - the real research code: a MuJoCo + Pinocchio physics stack,
    a GEM-X (NVIDIA/NVlabs) video &rarr; 3D &rarr; Unitree-G1 retargeting
    pipeline, the RL environment/reward scaffolding, and every measured result.
-2. **`site/`** - an interactive walkthrough (Next.js) of the paper's method,
-   synchronized visual / computational / mathematical panels per step, built
-   on top of the same real data as this README.
+2. **[kalarisena-review.vercel.app](https://kalarisena-review.vercel.app/)** -
+   a live, deployed, interactive review tool: 69 real motions across 8
+   families, each with the original session video, the raw AI-retargeted G1
+   version, the physics-corrected version, an overlay comparison, and live
+   foot-height/CoM-offset stability plots. GitHub can't embed a live website
+   inside a README (it strips `<iframe>` tags), so this is a real link, not
+   an inline frame - open it directly to interact with it.
 
 Every claim below is labeled honestly:
 **[implemented]**: implemented and measured in `code/`. **[paper-only]**: paper's proposed method, not yet code. **[roadmap]**: repo roadmap, not a paper claim. **[negative]**: documented negative result.
@@ -59,7 +66,7 @@ or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float 
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
-![](site/public/media/videos/retarget/side_by_side_highkick.gif)
+![](media/videos/retarget/side_by_side_highkick.gif)
 
 **What this shows:** the human demonstrator (left) and the Unitree G1's
 retargeted version of the same motion (right), a Kalaripayattu high kick
@@ -67,10 +74,10 @@ retargeted version of the same motion (right), a Kalaripayattu high kick
 actually legible. Real output from this repo's retargeting review tool
 (`kalarisena-review/`) - not a physics simulation, this is the kinematic
 retarget only, before any correction or control. Source videos:
-[human](site/public/media/videos/retarget/human_kw_highkick_right.mp4) &middot;
-[G1 retarget](site/public/media/videos/retarget/robot_kw_highkick_right.mp4)
+[human](media/videos/retarget/human_kw_highkick_right.mp4) &middot;
+[G1 retarget](media/videos/retarget/robot_kw_highkick_right.mp4)
 &middot; a translucent-overlay version also exists if you want it:
-[overlay](site/public/media/videos/retarget/overlay_kw_highkick_right.mp4).
+[overlay](media/videos/retarget/overlay_kw_highkick_right.mp4).
 
 ---
 
@@ -80,10 +87,10 @@ The model chain's own real intermediate outputs, for one clip:
 
 | Stage | What it is | File |
 |---|---|---|
-| 1. Source video | Raw input to GEM-X | `site/public/media/videos/soma/KS-052.mp4` |
-| 2. 2D keypoints | SAM-3D-Body, 77 keypoints | `site/public/media/videos/soma/0_kp2d77_overlay.mp4` |
-| 3. In-camera 3D | SAM-3D-Body reconstruction | `site/public/media/videos/soma/KS-052_1_incam.mp4` |
-| 4. Global 3D motion | SOMA, camera-independent - this is $X_t^H$ above | `site/public/media/videos/soma/KS-052_2_global.mp4` |
+| 1. Source video | Raw input to GEM-X | `media/videos/soma/KS-052.mp4` |
+| 2. 2D keypoints | SAM-3D-Body, 77 keypoints | `media/videos/soma/0_kp2d77_overlay.mp4` |
+| 3. In-camera 3D | SAM-3D-Body reconstruction | `media/videos/soma/KS-052_1_incam.mp4` |
+| 4. Global 3D motion | SOMA, camera-independent - this is $X_t^H$ above | `media/videos/soma/KS-052_2_global.mp4` |
 
 **All three real human-reconstruction stages below, source clip `KS-052`**
 (this project's Hugging Face dataset, `lite-le-liya/kalarisena_clipped_vids`)
@@ -93,17 +100,17 @@ after soma-retargeter maps this human motion onto it.
 <table><tr>
 <td width="33%">
 
-![](site/public/media/videos/soma/0_kp2d77_overlay.gif)
+![](media/videos/soma/0_kp2d77_overlay.gif)
 **Stage 2: 2D keypoints.** SAM-3D-Body, 77 points tracked per frame.
 </td>
 <td width="33%">
 
-![](site/public/media/videos/soma/KS-052_1_incam.gif)
+![](media/videos/soma/KS-052_1_incam.gif)
 **Stage 3: in-camera 3D.** SAM-3D-Body's reconstructed body, camera frame.
 </td>
 <td width="33%">
 
-![](site/public/media/videos/soma/KS-052_2_global.gif)
+![](media/videos/soma/KS-052_2_global.gif)
 **Stage 4: global 3D motion.** SOMA, camera-independent - this is $X_t^H$ above.
 </td>
 </tr></table>
@@ -240,9 +247,6 @@ flowchart LR
 
 [implemented]: real and measured. [partial]: real but kinematic-only. [paper-only]: paper concept, no code.
 
-The same diagram, interactive and colour-coded, is in `site/` - see
-[`ArchitectureDiagram`](site/src/components/ArchitectureDiagram.tsx).
-
 ---
 
 ## 4. What is honestly real, measured in this repo
@@ -250,13 +254,13 @@ The same diagram, interactive and colour-coded, is in `site/` - see
 <table><tr>
 <td width="50%">
 
-![](site/public/media/videos/push_recovered_40N.gif)
-40N push, recovers (<a href="site/public/media/videos/push_recovered_40N.mp4">full mp4</a>)
+![](media/videos/push_recovered_40N.gif)
+40N push, recovers (<a href="media/videos/push_recovered_40N.mp4">full mp4</a>)
 </td>
 <td width="50%">
 
-![](site/public/media/videos/push_fallen_120N.gif)
-120N push, falls (<a href="site/public/media/videos/push_fallen_120N.mp4">full mp4</a>)
+![](media/videos/push_fallen_120N.gif)
+120N push, falls (<a href="media/videos/push_fallen_120N.mp4">full mp4</a>)
 </td>
 </tr></table>
 
@@ -458,9 +462,9 @@ python3 code/scripts/evolve_joint_pool.py \
   --clip-a data/motions_retargeted/ky_warrior_lunge.npz \
   --clip-b data/motions_retargeted/pk_kick_lunge.npz
 
-# Interactive site
-cd site && npm install && npm run dev
 ```
+
+Interactive review: [kalarisena-review.vercel.app](https://kalarisena-review.vercel.app/) (already deployed, nothing to run).
 
 ---
 
@@ -474,8 +478,10 @@ code/configs/             per-stage YAML (obs blocks, reward weights, curricula)
 code/results_sim/         real MuJoCo experiment outputs (CSV, JSON, video, plots)
 code/results_paper/       honest paper-style tables/figures, traced to real runs
 code/docs/                internal engineering roadmap (Stages G/H/I)
-site/                     interactive Next.js research walkthrough
+media/                    trailer + per-motion comparison videos/GIFs used in this README
 ```
+
+Interactive review (live, deployed separately): https://kalarisena-review.vercel.app/
 
 ## Citation
 
