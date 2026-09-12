@@ -1,0 +1,83 @@
+{
+  "stats": {
+    "tracking_only": {
+      "peak_head_force_N": {
+        "mean": 0.0,
+        "std": 0.0,
+        "max": 0.0
+      },
+      "peak_torso_force_N": {
+        "mean": 583.9540000000001,
+        "std": 61.175461829070024,
+        "max": 677.57
+      },
+      "head_impulse_Ns": {
+        "mean": 0.0,
+        "std": 0.0,
+        "max": 0.0
+      },
+      "torso_impulse_Ns": {
+        "mean": 155.74496,
+        "std": 19.806909884886135,
+        "max": 177.5863
+      },
+      "fall_rate": 1.0,
+      "contact_rate": {
+        "head": 0.0,
+        "torso": 1.0
+      },
+      "mean_given_contact": {
+        "head": null,
+        "torso": 583.9540000000001
+      }
+    },
+    "protective": {
+      "peak_head_force_N": {
+        "mean": 0.0,
+        "std": 0.0,
+        "max": 0.0
+      },
+      "peak_torso_force_N": {
+        "mean": 226.888,
+        "std": 310.8789914420079,
+        "max": 582.98
+      },
+      "head_impulse_Ns": {
+        "mean": 0.0,
+        "std": 0.0,
+        "max": 0.0
+      },
+      "torso_impulse_Ns": {
+        "mean": 57.42682,
+        "std": 78.6372350605742,
+        "max": 144.4219
+      },
+      "fall_rate": 1.0,
+      "contact_rate": {
+        "head": 0.0,
+        "torso": 0.4
+      },
+      "mean_given_contact": {
+        "head": null,
+        "torso": 567.22
+      }
+    }
+  },
+  "verdict": [
+    "head: no ground contact recorded in either arm",
+    "torso: contact occurred in 100% of tracking_only trials vs 40% of protective trials; when contact did occur, peak force was 584.0 N vs 567.2 N (-2.9%). Mean-over-all-trials change is -61.1%, driven by the change in contact rate rather than by softer impacts"
+  ],
+  "videos": {
+    "tracking_only": "results_sim/fall_ab_tracking_only.mp4",
+    "protective": "results_sim/fall_ab_protective.mp4"
+  },
+  "push_N": 420.0,
+  "n_seeds": 5,
+  "response_type": "scripted hand-designed crouch, NOT learned",
+  "switch_cfg": {
+    "delta1": 0.015,
+    "delta2": 15.0,
+    "delta3": 0.2,
+    "min_dwell_steps": 30
+  }
+}

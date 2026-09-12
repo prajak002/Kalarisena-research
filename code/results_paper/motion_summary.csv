@@ -1,0 +1,7 @@
+model_name,motion_id,family,perturbation_class,n_trials,success_rate,fall_rate,impact_mean,com_margin_mean,cp_margin_mean,momentum_norm_mean,switch_count_mean
+scripted_pd_switch_v0,horse_stance_hold,stable_stance,nominal,1,1.0,0.0,,0.05998314318606469,0.06025443742376052,1.3631944094308308,0.0
+scripted_pd_switch_v0,horse_stance_hold,stable_stance,push,36,0.5,0.5,,,-0.027059722222222218,,1.0
+scripted_pd_switch_v0,single_leg_front_kick,explosive_strike,nominal,1,0.0,1.0,,0.0008884329047315907,-0.04232939113249162,8.83340438171243,2.0
+scripted_pd_switch_v0,trunk_pivot_strike_prep,rotational,nominal,1,0.0,1.0,,0.004880587183415953,-0.03284758060784787,8.723835510838716,2.0
+scripted_pd_switch_v0:protective,horse_stance_hold,stable_stance,forced,5,0.0,1.0,226.888,,,,2.0
+scripted_pd_switch_v0:tracking_only,horse_stance_hold,stable_stance,forced,5,0.0,1.0,583.9540000000001,,,,2.0

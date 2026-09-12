@@ -1,0 +1,101 @@
+[
+  {
+    "motion_id": "horse_stance_hold",
+    "source": "authored_keyframe",
+    "frames": 256,
+    "duration_s": 5.12,
+    "stable": true,
+    "final_base_z": 0.7737,
+    "min_base_z": 0.692,
+    "tracking_err_rms_mean_rad": 0.03524,
+    "tracking_err_rms_max_rad": 0.05261,
+    "cp_margin_min_m": 0.02608,
+    "cp_margin_mean_m": 0.06025,
+    "peak_torque_norm_Nm": 83.2,
+    "peak_grf_N": 349.1,
+    "mode_fractions": {
+      "nominal": 1.0
+    },
+    "switch_transitions": [],
+    "failure_frame": null,
+    "failure_time_s": null,
+    "csv": "results_sim/track_horse_stance_hold.csv",
+    "video": "results_sim/track_horse_stance_hold.mp4"
+  },
+  {
+    "motion_id": "single_leg_front_kick",
+    "source": "authored_keyframe",
+    "frames": 276,
+    "duration_s": 5.52,
+    "stable": false,
+    "final_base_z": 0.0558,
+    "min_base_z": 0.0555,
+    "tracking_err_rms_mean_rad": 0.04989,
+    "tracking_err_rms_max_rad": 0.75792,
+    "cp_margin_min_m": -0.56239,
+    "cp_margin_mean_m": -0.04233,
+    "peak_torque_norm_Nm": 192.77,
+    "peak_grf_N": 2264.6,
+    "mode_fractions": {
+      "fall": 0.0507,
+      "nominal": 0.2464,
+      "recovery": 0.7029
+    },
+    "switch_transitions": [
+      {
+        "step": 68,
+        "from": "nominal",
+        "to": "fall",
+        "trigger": "cp_margin"
+      },
+      {
+        "step": 82,
+        "from": "fall",
+        "to": "recovery",
+        "trigger": "is_fallen"
+      }
+    ],
+    "failure_frame": 81,
+    "failure_time_s": 1.62,
+    "csv": "results_sim/track_single_leg_front_kick.csv",
+    "video": "results_sim/track_single_leg_front_kick.mp4"
+  },
+  {
+    "motion_id": "trunk_pivot_strike_prep",
+    "source": "authored_keyframe",
+    "frames": 286,
+    "duration_s": 5.72,
+    "stable": false,
+    "final_base_z": 0.0558,
+    "min_base_z": 0.0541,
+    "tracking_err_rms_mean_rad": 0.04952,
+    "tracking_err_rms_max_rad": 0.74512,
+    "cp_margin_min_m": -0.56306,
+    "cp_margin_mean_m": -0.03285,
+    "peak_torque_norm_Nm": 185.3,
+    "peak_grf_N": 1350.1,
+    "mode_fractions": {
+      "fall": 0.049,
+      "nominal": 0.2797,
+      "recovery": 0.6713
+    },
+    "switch_transitions": [
+      {
+        "step": 80,
+        "from": "nominal",
+        "to": "fall",
+        "trigger": "cp_margin"
+      },
+      {
+        "step": 94,
+        "from": "fall",
+        "to": "recovery",
+        "trigger": "is_fallen"
+      }
+    ],
+    "failure_frame": 93,
+    "failure_time_s": 1.86,
+    "csv": "results_sim/track_trunk_pivot_strike_prep.csv",
+    "video": "results_sim/track_trunk_pivot_strike_prep.mp4"
+  }
+]

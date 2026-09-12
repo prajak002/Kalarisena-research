@@ -1,0 +1,7 @@
+model_name,family,perturbation_class,n_motions,success_rate,fall_rate,impact_mean,cp_margin_mean,switch_count_mean
+scripted_pd_switch_v0,explosive_strike,nominal,1,0.0,1.0,,-0.04232939113249162,2.0
+scripted_pd_switch_v0,rotational,nominal,1,0.0,1.0,,-0.03284758060784787,2.0
+scripted_pd_switch_v0,stable_stance,nominal,1,1.0,0.0,,0.06025443742376052,0.0
+scripted_pd_switch_v0,stable_stance,push,1,0.5,0.5,,-0.027059722222222218,1.0
+scripted_pd_switch_v0:protective,stable_stance,forced,1,0.0,1.0,226.888,,2.0
+scripted_pd_switch_v0:tracking_only,stable_stance,forced,1,0.0,1.0,583.9540000000001,,2.0

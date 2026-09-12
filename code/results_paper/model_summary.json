@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "model_name": "scripted_pd_switch_v0",
+    "controller": "scripted PD + threshold ModeSwitch (NOT a trained policy)",
+    "source_files": [
+      "fall_ab.csv",
+      "fall_ab_steps_protective.csv",
+      "fall_ab_steps_tracking_only.csv",
+      "gain_study.csv",
+      "push_example_steps.csv",
+      "push_sweep.csv",
+      "track_horse_stance_hold.csv",
+      "track_single_leg_front_kick.csv",
+      "track_trunk_pivot_strike_prep.csv"
+    ],
+    "note": "protocol run end-to-end on the scripted baseline; Stage A-F learned policies do not exist yet"
+  },
+  "models": {
+    "scripted_pd_switch_v0": {
+      "aggregation_rule": "uniform mean over families (section 7.6)",
+      "n_family_rows": 4,
+      "success_rate": 0.375,
+      "fall_rate": 0.625,
+      "impact_mean": null
+    },
+    "scripted_pd_switch_v0:protective": {
+      "aggregation_rule": "uniform mean over families (section 7.6)",
+      "n_family_rows": 1,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "impact_mean": 226.888
+    },
+    "scripted_pd_switch_v0:tracking_only": {
+      "aggregation_rule": "uniform mean over families (section 7.6)",
+      "n_family_rows": 1,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "impact_mean": 583.9540000000001
+    }
+  }
+}

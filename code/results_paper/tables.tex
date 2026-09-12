@@ -1,0 +1,32 @@
+% ---- push-recovery sweep (real data: results_sim/push_sweep.csv) ----
+\begin{tabular}{rrr} \toprule
+Push (N) & Fall rate & mean $R_\mathrm{cp}$ after push (m) \\ \midrule
+0 & 0.00 & +0.052 \\
+20 & 0.00 & +0.052 \\
+40 & 0.00 & +0.053 \\
+60 & 0.00 & +0.054 \\
+80 & 0.00 & +0.059 \\
+100 & 0.00 & +0.042 \\
+120 & 1.00 & -0.588 \\
+140 & 1.00 & -0.618 \\
+160 & 1.00 & -0.600 \\
+180 & 1.00 & -0.616 \\
+200 & 1.00 & -0.625 \\
+240 & 1.00 & -0.627 \\
+\bottomrule \end{tabular}
+
+% ---- impact-severity A/B (real data: results_sim/fall_ab.csv) ----
+% NOTE: bimodal outcome; contact-rate decomposition is the honest read.
+\begin{tabular}{lrrr} \toprule
+Arm & Torso contact & Peak force given contact (N) & Impulse mean (N\,s) \\ \midrule
+tracking only & 5/5 & 584.0 & 155.7 \\
+protective & 2/5 & 567.2 & 57.4 \\
+\bottomrule \end{tabular}
+
+% ---- nominal tracking per motion (real data: track_*.csv) ----
+\begin{tabular}{llrrr} \toprule
+Motion & Family & Stable & mean $R_\mathrm{cp}$ (m) & mean $\|h_G\|$ \\ \midrule
+horse stance hold & stable stance & yes & 0.060 & 1.36 \\
+single leg front kick & explosive strike & no & -0.042 & 8.83 \\
+trunk pivot strike prep & rotational & no & -0.033 & 8.72 \\
+\bottomrule \end{tabular}

@@ -1,0 +1,97 @@
+{
+  "summary": [
+    {
+      "force_N": 0.0,
+      "fall_rate": 0.0,
+      "mean_cp_min_after_push": 0.05201,
+      "n": 3
+    },
+    {
+      "force_N": 20.0,
+      "fall_rate": 0.0,
+      "mean_cp_min_after_push": 0.05215,
+      "n": 3
+    },
+    {
+      "force_N": 40.0,
+      "fall_rate": 0.0,
+      "mean_cp_min_after_push": 0.05262,
+      "n": 3
+    },
+    {
+      "force_N": 60.0,
+      "fall_rate": 0.0,
+      "mean_cp_min_after_push": 0.05359333333333333,
+      "n": 3
+    },
+    {
+      "force_N": 80.0,
+      "fall_rate": 0.0,
+      "mean_cp_min_after_push": 0.05949000000000001,
+      "n": 3
+    },
+    {
+      "force_N": 100.0,
+      "fall_rate": 0.0,
+      "mean_cp_min_after_push": 0.04209666666666667,
+      "n": 3
+    },
+    {
+      "force_N": 120.0,
+      "fall_rate": 1.0,
+      "mean_cp_min_after_push": -0.5878533333333333,
+      "n": 3
+    },
+    {
+      "force_N": 140.0,
+      "fall_rate": 1.0,
+      "mean_cp_min_after_push": -0.6179366666666667,
+      "n": 3
+    },
+    {
+      "force_N": 160.0,
+      "fall_rate": 1.0,
+      "mean_cp_min_after_push": -0.60043,
+      "n": 3
+    },
+    {
+      "force_N": 180.0,
+      "fall_rate": 1.0,
+      "mean_cp_min_after_push": -0.6156533333333334,
+      "n": 3
+    },
+    {
+      "force_N": 200.0,
+      "fall_rate": 1.0,
+      "mean_cp_min_after_push": -0.6251266666666666,
+      "n": 3
+    },
+    {
+      "force_N": 240.0,
+      "fall_rate": 1.0,
+      "mean_cp_min_after_push": -0.6273133333333333,
+      "n": 3
+    }
+  ],
+  "videos": {
+    "recovered": {
+      "path": "results_sim/push_recovered_40N.mp4",
+      "force_N": 40.0,
+      "trial": 0
+    },
+    "fallen": {
+      "path": "results_sim/push_fallen_120N.mp4",
+      "force_N": 120.0,
+      "trial": 0
+    }
+  },
+  "switch_cfg": {
+    "delta1": 0.015,
+    "delta2": 15.0,
+    "delta3": 0.2,
+    "min_dwell_steps": 30
+  },
+  "push_duration_s": 0.1,
+  "stance": "horse_stance_hold (double support)",
+  "deviation_note": "Push applied in the horse-stance hold, not the kick's single-support phase: PD tracking cannot hold single support in this build."
+}

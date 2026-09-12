@@ -1,0 +1,23 @@
+[
+  {
+    "motion_id": "horse_stance_hold",
+    "video": "results_sim/replay_horse_stance_hold.mp4",
+    "frames": 231,
+    "source": "authored_keyframe",
+    "label": "KINEMATIC REPLAY - no physics"
+  },
+  {
+    "motion_id": "single_leg_front_kick",
+    "video": "results_sim/replay_single_leg_front_kick.mp4",
+    "frames": 251,
+    "source": "authored_keyframe",
+    "label": "KINEMATIC REPLAY - no physics"
+  },
+  {
+    "motion_id": "trunk_pivot_strike_prep",
+    "video": "results_sim/replay_trunk_pivot_strike_prep.mp4",
+    "frames": 261,
+    "source": "authored_keyframe",
+    "label": "KINEMATIC REPLAY - no physics"
+  }
+]
