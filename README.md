@@ -9,7 +9,7 @@
 
 <div align="center">
 
-![](media/kalarisena_trailer.gif)
+<video src="media/kalarisena_trailer.mp4" width="1000" controls></video>
 
 </div>
 
