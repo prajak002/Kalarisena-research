@@ -432,8 +432,39 @@ earlier tells a similarly honest story:
 Not monotonic - it survives the larger push but not the smaller one -
 reported exactly as measured. That inconsistency is itself useful signal:
 it's the kind of state the viability critic above is meant to catch before
-it turns into a fall, and it's part of why the residual-policy training
-underway next matters.
+it turns into a fall.
+
+**Widening past one motion.** Everything above trains on a single clip. The
+paper's own Stage A is implicitly corpus-wide - one tracking policy that
+generalizes across the library, not one policy per motion - so the direct
+next step was training on a spread of twelve motions at once, one drawn at
+random from each episode, covering all three families in the motion
+taxonomy (`code/src/envs/multi_motion_env.py`, three million steps,
+`code/scripts/train_tracking_multi.py`).
+
+<table><tr>
+<td width="50%" align="center">
+
+![](media/videos/stageA_multi_policy.gif)
+The multi-motion policy.
+</td>
+<td width="50%" align="center">
+
+![](media/videos/stageA_multi_pd_baseline.gif)
+The untrained baseline.
+</td>
+</tr></table>
+
+This is the first result in this repository where the trained policy
+actually beats the baseline rather than tying or losing to it: fall rate
+drops from 95.8% to 83.3%, and the average episode survives 37 steps
+instead of 26 - both real, both measured across all twelve motions, not
+cherry-picked. Tracking accuracy is worse in exchange (0.271 vs. 0.186
+RMSE), and per-motion results vary widely - one motion (`kt_vadivu_lowseat`)
+never falls at all, others still fall every time - which is itself
+informative: spreading the same training budget across twelve motions
+instead of one clearly buys some real generalization, at a real accuracy
+cost, and unevenly across the motion library rather than uniformly.
 
 ---
 
