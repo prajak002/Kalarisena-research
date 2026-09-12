@@ -9,19 +9,24 @@
 
 <div align="center">
 
-<video src="media/kalarisena_trailer.mp4" width="1000" controls></video>
+![](media/kalarisena_trailer.gif)
 
 </div>
 
-**What this is:** a 6-second preview (GIF, for inline rendering) of a
-46-second Cycles-rendered animation of a squad of Unitree G1 robots
-performing Kalaripayattu forms in a stylized scene. Produced by this
-project's separate render pipeline (`code/scripts/render_army_trailer.py`,
+**What this is:** a 4-second, 520px-wide preview (GIF) of a 46-second
+Cycles-rendered animation of a squad of Unitree G1 robots performing
+Kalaripayattu forms in a stylized scene. **A plain `<video>` tag pointing at
+a file in the repo does not play inline on GitHub** (only videos uploaded
+through GitHub's own attach-file UI get that treatment, not files pushed via
+git) - a GIF is the reliable way to get motion to actually show up here, so
+that's what's embedded; click through to the file below for the real thing
+with sound, full 720p, and a scrub bar. Produced by this project's separate
+render pipeline (`code/scripts/render_army_trailer.py`,
 `code/scripts/blender_render_arena.py`) using Blender/Cycles on a rented GPU
 instance, not MuJoCo. **This is a visual/production asset, not a physics
 simulation or an RL result** - it shows the target embodiment and motion
 vocabulary, nothing here reflects learned control. Full video:
-[`media/kalarisena_trailer.mp4`](media/kalarisena_trailer.mp4) (20MB, 720p, full 46s).
+[`media/kalarisena_trailer.mp4`](media/kalarisena_trailer.mp4) (20MB, 720p, full 46s, with sound).
 
 This repository is two things:
 
