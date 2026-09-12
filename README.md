@@ -560,11 +560,44 @@ measurement above - substantially lowering impact severity. That's the
 actual, intended trade a protective fall response makes: it doesn't prevent
 falling, it changes how the fall happens.
 
-Stage E (learned recovery-to-standing) is the one piece of this ladder not
-attempted: it needs a genuinely different environment - starting from a
-fallen pose with no reference motion to track at all - rather than an
-extension of the tracking-episode structure every other stage here reuses,
-and is the natural next piece of this training story.
+**Stage E, standing back up.** The one stage that couldn't reuse the
+tracking-episode structure every other stage above shares: there is no
+reference motion to recover into, so `code/src/envs/recovery_env.py` starts
+each episode from a randomized, physically-settled fallen pose (tipped over,
+dropped, and let its contact dynamics resolve for real before the episode
+even begins) with no tracking target at all - the policy has 300 steps to
+reach and hold an upright stance. Two million PPO steps: **0% success** -
+it never once crosses the upright threshold and holds it - but real,
+measured progress underneath that zero: the best upright angle reached
+during an episode rose from 0.10 to **0.34** over training (1.0 is fully
+upright, 0.75 is the success bar). Standing up from flat on the ground with
+no shaping beyond a sparse upright bonus is a hard exploration problem in
+humanoid RL generally, and two million steps with this reward alone wasn't
+enough to solve it here - a real, unresolved result, reported as exactly
+that rather than dressed up.
+
+**Where this training story actually stands, end to end.** All five ladder
+stages this repository could attempt without physical hardware now have
+real code, a real run, and a real number behind them - some encouraging
+(Stage A's multi-motion generalization, Stage D's impact reduction, Stage
+C's momentum drop), some flatly negative (Stage B, the residual policy at
+both scopes tried), one unresolved (Stage E). The number that matters most
+for judging all of it together is the paper's own primary metric, Intent
+Preservation Rate - completing the intended motion despite a disturbance,
+not merely surviving one step longer. Run for real here for the first time
+(`code/scripts/eval_protocol.py`, the multi-motion tracker and the residual
+policy, three push-force levels including no push at all, deterministic
+full-motion rollouts) it comes out to **0%** for both the tracker alone and
+the residual-gated version, against the paper's own claimed range of
+44.7%-81.6%. Mean per-joint 3D tracking error (MPJPE, computed here via
+real forward kinematics rather than approximated) comes out essentially
+tied between the two - 0.282m against 0.282m. Read plainly: nothing built
+in this repository yet reliably completes a full Kalaripayattu motion under
+a push, with or without the learned correction layer. Every real, positive
+number reported above it - the fall-rate improvements, the momentum drop,
+the impact reduction - describes a real but narrower slice of the problem
+than "finish the movement despite being pushed," which is the number the
+paper's headline claims are actually about.
 
 ---
 
