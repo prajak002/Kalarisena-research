@@ -9,9 +9,9 @@
 
 <div align="center">
 
-<video src="https://github.com/prajak002/Kalarisena-research/raw/refs/heads/main/media/kalarisena_trailer.mp4" width="1000" controls></video>
+![](media/kalarisena_trailer.mp4 )
 
-</div>
+</div> 
 
 **What this is:** a 6-second preview (GIF, for inline rendering) of a
 46-second Cycles-rendered animation of a squad of Unitree G1 robots
