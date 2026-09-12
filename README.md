@@ -12,24 +12,19 @@
 ### [&#9654; Open the interactive human-vs-G1 review](https://kalarisena-review.vercel.app/)
 69 real motions, live stability plots, browsable in your browser right now.
 
-![](media/kalarisena_trailer.gif)
+[![KalariSena trailer](https://img.youtube.com/vi/9B7wuifzrss/maxresdefault.jpg)](https://www.youtube.com/watch?v=9B7wuifzrss)
 
 </div>
 
-**What this is:** a 4-second, 520px-wide preview (GIF) of a 46-second
-Cycles-rendered animation of a squad of Unitree G1 robots performing
-Kalaripayattu forms in a stylized scene. **A plain `<video>` tag pointing at
-a file in the repo does not play inline on GitHub** (only videos uploaded
-through GitHub's own attach-file UI get that treatment, not files pushed via
-git) - a GIF is the reliable way to get motion to actually show up here, so
-that's what's embedded; click through to the file below for the real thing
-with sound, full 720p, and a scrub bar. Produced by this project's separate
-render pipeline (`code/scripts/render_army_trailer.py`,
-`code/scripts/blender_render_arena.py`) using Blender/Cycles on a rented GPU
-instance, not MuJoCo. **This is a visual/production asset, not a physics
-simulation or an RL result** - it shows the target embodiment and motion
-vocabulary, nothing here reflects learned control. Full video:
-[`media/kalarisena_trailer.mp4`](media/kalarisena_trailer.mp4) (20MB, 720p, full 46s, with sound).
+**What this is:** a Cycles-rendered animation of a squad of Unitree G1
+robots performing Kalaripayattu forms in a stylized scene, hosted on
+YouTube (click the thumbnail above to watch with sound, full quality).
+Produced by this project's separate render pipeline
+(`code/scripts/render_army_trailer.py`, `code/scripts/blender_render_arena.py`)
+using Blender/Cycles on a rented GPU instance, not MuJoCo. **This is a
+visual/production asset, not a physics simulation or an RL result** - it
+shows the target embodiment and motion vocabulary, nothing here reflects
+learned control.
 
 This repository is two things:
 
