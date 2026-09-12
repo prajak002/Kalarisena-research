@@ -246,6 +246,21 @@ which says plainly that this estimate isn't stable yet at this scale; that
 instability is reported rather than smoothed over, because it's the honest
 current state of a system still early in its training life.
 
+The cross-motion version this was missing has since been run
+(`code/scripts/train_viability_critic_multi.py`): the same critic, trained
+against the twelve-motion tracker below, with its successor manifold now
+built by pooling successful late-phase frames across all twelve motions
+rather than one. It comes out to **AUROC 0.785** - lower than the
+single-motion number above, and that drop is itself informative rather than
+disappointing: distinguishing viable from non-viable states gets measurably
+harder once the critic has to generalize across a motion library instead of
+memorizing one clip's dynamics, and pooling features from different motions
+without conditioning on which specific motion is active is exactly the
+simplification the paper's full skill-identity conditioning ($z_t$, Sec 2)
+exists to remove. This run's positive-label rate was a healthy 4.2% with a
+genuine, non-degenerate successor manifold (48 real successor-entry points
+from 40 nominal rollouts) - not the collapsed, unstable case above.
+
 <div align="center">
 
 ![](media/figures/method_intent_preserving_control.png)
@@ -301,9 +316,21 @@ Frozen tracker alone, residual switched off.
 A single motion, a single critic, and a reward mix carrying seven competing
 terms at once is not enough signal for PPO to discover a correction that
 helps rather than hurts - the same conclusion the Stage A tracking result
-already pointed toward, now confirmed one layer up. Closing that gap needs
-the same thing SCVC's own honest-scope note above asks for: more trained
-motions to condition and train against, not a change to the method itself.
+already pointed toward, now confirmed one layer up.
+
+More motions, run since, don't change that conclusion on their own. The
+same residual policy retrained against the twelve-motion tracker and the
+cross-motion critic above (`code/scripts/train_residual_policy_multi.py`)
+lands in the same place: fall rate 95.8% against the frozen tracker's own
+91.7%, episode length 38.5 steps against 40.0 - still slightly worse, not
+better, now confirmed at both scopes this repository has actually tried.
+That's a more informative negative result than either run alone: it says
+the problem isn't simply "not enough motions" - a seven-term reward mix
+and a single PPO run don't reliably discover a helpful correction whether
+the critic underneath is narrow or broader. Whatever fixes this most
+plausibly changes the training procedure itself (reward shaping, curriculum,
+more PPO steps, or decoupling which of the seven terms the policy has to
+satisfy at once), not just the number of motions behind the critic.
 
 ---
 
