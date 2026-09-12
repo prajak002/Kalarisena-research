@@ -247,16 +247,43 @@ $$
 \mathbf{a}_t^{\text{deploy}} = \begin{cases} \mathbf{a}_t^0 & \bar V_t > \tau_h \\ \mathbf{a}_t^0 + g(\bar V_t)\Delta\mathbf{a}_t & \tau_l < \bar V_t \le \tau_h \\ \mathbf{a}_t^{\text{safe}} & \bar V_t \le \tau_l \end{cases}
 $$
 
-Today, the role of $\mathbf{a}_t^{\text{safe}}$ is filled by
+The role of $\mathbf{a}_t^{\text{safe}}$ is filled by
 `code/src/switch/mode_switch.py` - a real, tested, hand-tuned three-state
-switch between nominal tracking, falling, and recovery - which is currently
-the whole safety net rather than a fallback sitting beneath a learned
-residual. Training that residual policy against the viability critic above
-is the piece this repository is actively working through next; the reward
-it will be trained against is already specified end to end
-($r^{KS} = w_t r_{\text{track}} + w_c r_{\text{contact}} + w_b r_{\text{balance}} + w_s r_{\text{succ}} + w_v r_{\text{via}} - w_d D_{\text{skill}} - w_\Delta\|\Delta\mathbf{a}\|^2$),
-the gating logic above it is implemented, and what remains is the training
-run itself.
+switch between nominal tracking, falling, and recovery - since this
+repository does not yet have a separate learned recovery controller distinct
+from the frozen tracker; that's a stated simplification, not a hidden one.
+
+The residual policy itself, `code/src/viability/residual_policy.py`, has now
+been trained for the first time, against exactly this reward
+($r^{KS} = w_t r_{\text{track}} + w_c r_{\text{contact}} + w_b r_{\text{balance}} + w_s r_{\text{succ}} + w_v r_{\text{via}} - w_d D_{\text{skill}} - w_\Delta\|\Delta\mathbf{a}\|^2$)
+and the gating logic above, via `code/scripts/train_residual_policy.py` - one
+million PPO steps on top of the frozen Stage A tracker and the trained
+viability critic, both loaded frozen. The result is a real negative one,
+reported the same way the Stage A result above is: the gate stays mostly
+open (mean $\approx 0.89$, meaning the critic sees this single-motion
+trajectory as consistently near its own viability boundary), and the learned
+correction on top of it survives for fewer steps before falling than the
+frozen tracker alone, with essentially unchanged tracking accuracy.
+
+<table><tr>
+<td width="50%" align="center">
+
+![](media/videos/eval_residual.gif)
+With the trained residual policy.
+</td>
+<td width="50%" align="center">
+
+![](media/videos/eval_tracker_only.gif)
+Frozen tracker alone, residual switched off.
+</td>
+</tr></table>
+
+A single motion, a single critic, and a reward mix carrying seven competing
+terms at once is not enough signal for PPO to discover a correction that
+helps rather than hurts - the same conclusion the Stage A tracking result
+already pointed toward, now confirmed one layer up. Closing that gap needs
+the same thing SCVC's own honest-scope note above asks for: more trained
+motions to condition and train against, not a change to the method itself.
 
 ---
 
