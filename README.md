@@ -7,11 +7,11 @@
 > physically stable at this instant, and still already be committed to losing
 > the specific Kalaripayattu movement it was meant to complete.
 
-<p align="center">
+<div align="center">
 
 ![](media/kalarisena_trailer.gif)
 
-</p>
+</div>
 
 **What this is:** a 6-second preview (GIF, for inline rendering) of a
 46-second Cycles-rendered animation of a squad of Unitree G1 robots
@@ -54,11 +54,11 @@ or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float 
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
-<p align="center">
+<div align="center">
 
 ![](site/public/media/videos/retarget/overlay_kw_highkick_right.gif)
 
-</p>
+</div>
 
 **What this shows:** the human demonstrator (translucent) overlaid on the
 Unitree G1's retargeted version of the same motion, a Kalaripayattu high
