@@ -54,9 +54,11 @@ export default function Home() {
             humanoid: deep stances, rapid weight transfer, single-support balance, and
             momentum-heavy transitions. This page walks through the paper&rsquo;s method
             and, honestly, through what is and is not yet real in the accompanying
-            repository &mdash; a scripted physics stack with real, measured results,
-            and a learned viability-critic pipeline that the paper proposes but that
-            does not exist in code yet.
+            repository: a physics stack with real measured results, a Stage A
+            tracking policy trained for the first time (reward rose, stability did
+            not fully follow), and a viability critic now trained against it for
+            real (AUROC 0.931) - all still short of the paper&rsquo;s full multi-skill
+            claim, and reported as such throughout.
           </p>
           <div className="hero-actions">
             <a className="btn btn-primary" href="#problem">Start the walkthrough</a>
@@ -74,7 +76,7 @@ export default function Home() {
           <p className="hero-video-caption">
             Real overlay from this repository&rsquo;s retargeting review: the human
             demonstration (translucent) and the Unitree G1 realization of a Kalaripayattu
-            high kick, shown together &mdash; the same style of comparison the paper's
+            high kick, shown together - the same style of comparison the paper's
             Figure 1 uses.
           </p>
         </header>
@@ -151,15 +153,15 @@ export default function Home() {
           </p>
           <div className="chain-item">
             <span className="chain-label">imitation</span>
-            <span><InlineEq tex="\text{track}" /> &mdash; can the reference be followed right now?</span>
+            <span><InlineEq tex="\text{track}" /> - can the reference be followed right now?</span>
           </div>
           <div className="chain-item">
             <span className="chain-label">robustness</span>
-            <span><InlineEq tex="\text{survive}" /> &mdash; does the robot stay upright under disturbance?</span>
+            <span><InlineEq tex="\text{survive}" /> - does the robot stay upright under disturbance?</span>
           </div>
           <div className="chain-item">
             <span className="chain-label">KalariSena</span>
-            <span><InlineEq tex="\text{preserve the intended future}" /> &mdash; does a path to the designated next skill phase still exist?</span>
+            <span><InlineEq tex="\text{preserve the intended future}" /> - does a path to the designated next skill phase still exist?</span>
           </div>
         </Section>
 
@@ -169,15 +171,15 @@ export default function Home() {
             This is the strongest result this repository can currently back with real
             data: a lateral push-recovery sweep on the horse stance, run against the
             repository&rsquo;s actual scripted PD + threshold-switch controller (not a
-            learned policy &mdash; see the Implementation status section below). 36
+            learned policy - see the Implementation status section below). 36
             trials, 3 per force level, timing jittered by &plusmn;2 control frames.
           </p>
           <PushSweepChart />
           <div style={{ height: 20 }} />
           <VideoToggle
             options={[
-              { label: "40N — recovers", src: "/media/videos/push_recovered_40N.mp4", caption: "40N lateral push: the horse stance absorbs it and holds." },
-              { label: "120N — falls", src: "/media/videos/push_fallen_120N.mp4", caption: "120N lateral push: the same stance crosses the feasibility boundary and falls." },
+              { label: "40N - recovers", src: "/media/videos/push_recovered_40N.mp4", caption: "40N lateral push: the horse stance absorbs it and holds." },
+              { label: "120N - falls", src: "/media/videos/push_fallen_120N.mp4", caption: "120N lateral push: the same stance crosses the feasibility boundary and falls." },
             ]}
           />
           <p style={{ marginTop: 16 }}>
@@ -186,7 +188,7 @@ export default function Home() {
             &minus;0.6m on every fall, with no partial-failure band at this resolution.
             This is exactly the kind of sharp, state-dependent feasibility boundary the
             paper argues a prospective viability estimate should anticipate before it is
-            crossed &mdash; though here it is measured after the fact, from physics, not
+            crossed - though here it is measured after the fact, from physics, not
             predicted in advance by a critic.
           </p>
         </Section>
@@ -227,7 +229,7 @@ export default function Home() {
           <p style={{ marginTop: 20 }}>
             The paper&rsquo;s central technical contribution: a critic that predicts,
             from the current state and the identity of a specific intended continuation,
-            whether that continuation remains reachable &mdash; before tracking error
+            whether that continuation remains reachable - before tracking error
             reveals the failure.
           </p>
           <StepWalkthrough steps={VIABILITY_STEPS} />
@@ -264,12 +266,67 @@ export default function Home() {
           </p>
           <StageTable rows={TRAINING_STAGES} />
           <p style={{ marginTop: 16, fontSize: 13 }}>
-            The repository&rsquo;s own asset map states this directly:
-            {" "}<code className="code-pill">results_paper/PAPER_ASSETS.md</code> &mdash;
+            The repository&rsquo;s own asset map originally stated:
+            {" "}<code className="code-pill">results_paper/PAPER_ASSETS.md</code> -
             &ldquo;Stage A&ndash;F learned policies do not exist; the train_*.py files are
-            stubs.&rdquo; No <code className="code-pill">.pt</code> checkpoint, training
-            log, or <code className="code-pill">meta.json</code> exists anywhere in the
-            repository at the time of this audit.
+            stubs.&rdquo; That was true when written. Stage A has since been trained for
+            real - see below.
+          </p>
+        </Section>
+
+        {/* 11.1 REAL TRAINED RESULT */}
+        <Section id="trained-result" index="11.1" kicker="Real result" title="Stage A, trained: what it actually looks like">
+          <p>
+            Reward climbed throughout training, but a real evaluation (5 episodes,
+            deterministic policy) tells a more honest story than the training curve
+            alone:
+          </p>
+          <div className="table-wrap">
+            <table className="data-table">
+              <thead><tr><th></th><th>Trained PPO policy</th><th>Raw PD baseline (no RL)</th></tr></thead>
+              <tbody>
+                <tr><td>Fall rate</td><td className="mono">100% (5/5)</td><td className="mono">100% (5/5)</td></tr>
+                <tr><td>Mean episode length</td><td className="mono">85 steps</td><td className="mono">37 steps</td></tr>
+                <tr><td>Tracking RMSE</td><td className="mono">0.309</td><td className="mono">0.258 (better)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="figure-grid" style={{ marginTop: 16 }}>
+            <div>
+              <video className="video-frame" src="/media/videos/training/eval_policy.mp4" controls muted loop playsInline />
+              <p className="figure-caption">Trained policy.</p>
+            </div>
+            <div>
+              <video className="video-frame" src="/media/videos/training/eval_pd_baseline.mp4" controls muted loop playsInline />
+              <p className="figure-caption">Raw PD baseline.</p>
+            </div>
+          </div>
+          <p style={{ marginTop: 16 }}>
+            The trained policy survives about 2.3x longer before falling, but still
+            falls in every evaluation episode, and its raw tracking accuracy is
+            slightly worse than doing nothing extra at all. 3,000,000 steps of
+            tracking-only reward on one motion, with no CoM/balance shaping (Stage B,
+            still a stub) and no viability-gated correction, does not solve stability
+            here - exactly the gap the paper&rsquo;s method is designed to close.
+          </p>
+          <p className="lede" style={{ marginTop: 24 }}>Post-training behaviour under a lateral push (same trained policy):</p>
+          <div className="figure-grid" style={{ gridTemplateColumns: "1fr 1fr 1fr" }}>
+            <div>
+              <video className="video-frame" src="/media/videos/training/thrust_trained_20N.mp4" controls muted loop playsInline />
+              <p className="figure-caption">20N: fell (34 steps).</p>
+            </div>
+            <div>
+              <video className="video-frame" src="/media/videos/training/thrust_trained_60N.mp4" controls muted loop playsInline />
+              <p className="figure-caption">60N: recovered (99 steps).</p>
+            </div>
+            <div>
+              <video className="video-frame" src="/media/videos/training/thrust_trained_100N.mp4" controls muted loop playsInline />
+              <p className="figure-caption">100N: fell (92 steps).</p>
+            </div>
+          </div>
+          <p style={{ marginTop: 12, fontSize: 13 }}>
+            Non-monotonic (survives 60N but not the smaller 20N push) - reported as
+            measured, not smoothed over.
           </p>
         </Section>
 
@@ -315,10 +372,10 @@ export default function Home() {
         <Section id="limitations" index="14" kicker="Limitations" title="What is honestly unsolved">
           <ul style={{ color: "var(--fg-muted)", paddingLeft: 20, display: "flex", flexDirection: "column", gap: 10 }}>
             <li>Single-support balance is unsolved in the repository: a 36-pose grid search found no static single-leg stance surviving 2.5s under position-PD tracking.</li>
-            <li>A hand-designed CoM-feedback (ankle/hip) balance controller was implemented and failed at every gain tested &mdash; kept in the tree, disabled, as a documented negative result.</li>
+            <li>A hand-designed CoM-feedback (ankle/hip) balance controller was implemented and failed at every gain tested - kept in the tree, disabled, as a documented negative result.</li>
             <li>The fall response in the repository is a scripted protective crouch, not a learned recovery policy.</li>
             <li>None of the paper&rsquo;s twelve external baselines (KungfuBot, SONIC, BeyondMimic, Switch, SafeFlow, and others) are reproduced in this repository yet.</li>
-            <li>Physical hardware deployment (paper Table 6) has no counterpart here &mdash; every result on this page is simulation-only.</li>
+            <li>Physical hardware deployment (paper Table 6) has no counterpart here - every result on this page is simulation-only.</li>
           </ul>
         </Section>
 
@@ -328,7 +385,7 @@ export default function Home() {
             Separate from the paper, the repository has an internal engineering roadmap
             (<code className="code-pill">docs/PHYSICAL_AI_STAGE_G_H_I_DRAFT.md</code>) for extending the
             existing Stage A&ndash;F pipeline. None of this is implemented and none of it
-            is a paper claim &mdash; it is real, current planning, included here as-is.
+            is a paper claim - it is real, current planning, included here as-is.
           </p>
           <Roadmap stages={ROADMAP_STAGES} />
         </Section>

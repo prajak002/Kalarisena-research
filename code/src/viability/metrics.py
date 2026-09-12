@@ -30,7 +30,8 @@ def auprc(y_true: np.ndarray, y_score: np.ndarray) -> float:
     recall = tp / max(y.sum(), 1)
     recall = np.concatenate([[0.0], recall])
     precision = np.concatenate([[1.0], precision])
-    return float(np.trapz(precision, recall))
+    trapezoid = getattr(np, "trapezoid", None) or np.trapz
+    return float(trapezoid(precision, recall))
 
 
 def brier_score(y_true: np.ndarray, y_score: np.ndarray) -> float:

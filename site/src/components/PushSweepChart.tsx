@@ -48,8 +48,8 @@ export function PushSweepChart() {
       <div className="chart-readout">
         {active ? (
           <>
-            <strong>{active.force}N</strong> push &mdash; CP margin{" "}
-            <strong>{active.cpMargin.toFixed(3)}m</strong> &mdash;{" "}
+            <strong>{active.force}N</strong> push - CP margin{" "}
+            <strong>{active.cpMargin.toFixed(3)}m</strong> -{" "}
             {active.fallRate === 1 ? "fell (3/3 trials)" : "recovered (0/3 trials fell)"}
           </>
         ) : (

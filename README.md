@@ -2,11 +2,6 @@
 
 **Physics-grounded and recoverable Kalaripayattu skill transfer for humanoid robots.**
 
-![status](https://img.shields.io/badge/paper-2026%20submission-6b6f76)
-![physics](https://img.shields.io/badge/physics%20stack-implemented-2f6b4f)
-![scvc](https://img.shields.io/badge/viability%20critic-implemented%2C%20untrained-b8860b)
-![training](https://img.shields.io/badge/stage%20A%20training-in%20progress-b8860b)
-![sim](https://img.shields.io/badge/hardware-simulation%20only-9a2f2f)
 
 > **feasible now &ne; viable for the intended future.**
 > A trajectory can be geometrically faithful to a human demonstration and
@@ -17,21 +12,21 @@
 
 *A Cycles-rendered visualization of the Unitree G1 performing Kalaripayattu
 forms, from this project's rendering pipeline (`scripts/render_army_trailer.py`,
-`scripts/blender_render_arena.py`) — a visual/production asset, separate from
+`scripts/blender_render_arena.py`) - a visual/production asset, separate from
 the RL research pipeline below, included here to show what the target
 embodiment and motion vocabulary actually look like.*
 
 This repository is two things:
 
-1. **`code/`** — the real research code: a MuJoCo + Pinocchio physics stack,
+1. **`code/`** - the real research code: a MuJoCo + Pinocchio physics stack,
    a GEM-X (NVIDIA/NVlabs) video &rarr; 3D &rarr; Unitree-G1 retargeting
    pipeline, the RL environment/reward scaffolding, and every measured result.
-2. **`site/`** — an interactive walkthrough (Next.js) of the paper's method,
+2. **`site/`** - an interactive walkthrough (Next.js) of the paper's method,
    synchronized visual / computational / mathematical panels per step, built
    on top of the same real data as this README.
 
 Every claim below is labeled honestly:
-🟢 **implemented and measured in `code/`** · ⚪ **paper's proposed method, not yet code** · 🟡 **repo roadmap, not a paper claim** · 🔴 **documented negative result**.
+**[implemented]**: implemented and measured in `code/`. **[paper-only]**: paper's proposed method, not yet code. **[roadmap]**: repo roadmap, not a paper claim. **[negative]**: documented negative result.
 
 ---
 
@@ -40,7 +35,7 @@ Every claim below is labeled honestly:
 Kalaripayattu is built around tightly coupled posture, footwork, weight
 transfer, and whole-body momentum. Retargeting a human demonstration onto a
 Unitree G1 humanoid produces a kinematically similar joint trajectory
-$Q^0_{1:T}$ — but similarity to the human is not the same as being
+$Q^0_{1:T}$ - but similarity to the human is not the same as being
 physically executable:
 
 $$
@@ -48,14 +43,14 @@ q_{1:T}^{kin} = \arg\min_{q_{1:T}} \sum_{t=1}^{T} \mathcal{D}\big(FK(q_t), X_t^H
 $$
 
 Nothing in that objective knows about contact, friction, joint torque limits,
-or momentum. 🔴 **Measured in this repo:** 11 of 12 raw retargets float their
+or momentum. **[negative] Measured in this repo:** 11 of 12 raw retargets float their
 feet 5&ndash;23cm above the ground, and 2 of 3 tracked motions fall outright
 under simple position-PD control.
 
 <video src="site/public/media/videos/retarget/overlay_kw_highkick_right.mp4" controls muted loop width="640"></video>
 
 *Real overlay of the human reference (translucent) and the G1 realization of
-a high kick — from this repo's own retargeting review tool
+a high kick - from this repo's own retargeting review tool
 (`kalarisena-review/`).*
 
 ---
@@ -69,18 +64,18 @@ The model chain's own real intermediate outputs, for one clip:
 | 1. Source video | Raw input to GEM-X | `site/public/media/videos/soma/KS-052.mp4` |
 | 2. 2D keypoints | SAM-3D-Body, 77 keypoints | `site/public/media/videos/soma/0_kp2d77_overlay.mp4` |
 | 3. In-camera 3D | SAM-3D-Body reconstruction | `site/public/media/videos/soma/KS-052_1_incam.mp4` |
-| 4. Global 3D motion | SOMA, camera-independent — this is $X_t^H$ above | `site/public/media/videos/soma/KS-052_2_global.mp4` |
+| 4. Global 3D motion | SOMA, camera-independent - this is $X_t^H$ above | `site/public/media/videos/soma/KS-052_2_global.mp4` |
 
 <video src="site/public/media/videos/soma/0_kp2d77_overlay.mp4" controls muted loop width="480"></video>
 
 GEM-X, SAM-3D-Body, SOMA, and soma-retargeter are cloned as dependencies
-(`scripts/install_subprojects.sh`) and run as-is — not reimplemented here.
+(`scripts/install_subprojects.sh`) and run as-is - not reimplemented here.
 
 ---
 
 ## 3. Method
 
-### 3.1 Physics-grounded embodiment projection 🟢 *(partial — kinematic only)*
+### 3.1 Physics-grounded embodiment projection [implemented, partial: kinematic only]
 
 $$
 Q^*_{1:T} = \mathcal{P}\big(Q^0_{1:T}, z_{1:T}; \mathcal{R}\big), \qquad
@@ -97,7 +92,7 @@ $$
 \mathcal{L}_{\text{contact}} = \sum_{t,f} \Big[ c_{t,f}\big(\|\mathbf{v}^f_{t,f}\|^2 + \alpha_h h_{t,f}^2\big) + (1-c_{t,f})\,\text{ReLU}(-h_{t,f})^2 \Big]
 $$
 
-**Implementation:** `code/scripts/ground_correct_motions.py` (`correct_one`) —
+**Implementation:** `code/scripts/ground_correct_motions.py` (`correct_one`) -
 real, but only the kinematic ground/smoothing approximation of this
 objective (Savitzky-Golay height correction + contact recomputation), not the
 full contact/friction/torque/dynamics joint optimization above. The whole-body
@@ -111,7 +106,7 @@ is implemented for CoM/capture-point purposes in
 `code/src/dynamics/pinocchio_wrapper.py`, cross-checked against MuJoCo's own
 CoM to **1.04e-6 m** across 20 randomised full-body states.
 
-### 3.2 Successor-conditioned viability 🟠 *(implemented, not yet trained on a real policy)*
+### 3.2 Successor-conditioned viability [implemented and trained on the real Stage A policy]
 
 The paper's central contribution: a critic conditioned jointly on state,
 skill phase, and the **identity of the intended continuation** $g_t^+$, not a
@@ -134,22 +129,41 @@ $$
 \mathcal{L}_V = \text{BCE}(V_\psi, Y^{\text{via}}) + \lambda_B (V_\psi - Y^{\text{via}})^2
 $$
 
-**Implementation status:** as of this session, real code exists —
+**Implementation status:** real code -
 `code/src/viability/{perturbation,perturbed_env,manifold,critic,metrics,features}.py`
-and `code/scripts/train_viability_critic.py`. Honestly scoped: this repo has
-one trained skill so far (Stage A tracking on a single motion), so "the
-intended continuation" here is "reach the final phase of this same motion
-safely," not a distinct next skill — the full cross-skill formulation needs
-Stage B&ndash;F to exist first. The pipeline (successor-manifold construction,
-counterfactual perturbation via the same `xfrc_applied` mechanism
-`sim_push_sweep.py` uses, a 3-layer MLP critic trained with
-BCE+Brier loss, AUROC/AUPRC/Brier/ECE evaluated with real numpy
-implementations) is verified bug-free end to end with a smoke test, but has
-**not yet been run against a real trained policy** — Stage A training is the
-long pole (see §6.1 for status). Real SCVC numbers will replace this note
-once that finishes.
+and `code/scripts/train_viability_critic.py` - **trained for the first time
+against the real Stage A checkpoint** (`code/logs/stageA_kw_long_stance/tracking_best.zip`),
+run locally (this is CPU/light work, not GPU-bound - no rented GPU needed for
+this stage). Honestly scoped: this repo has one trained skill so far (Stage A
+tracking on a single motion), so "the intended continuation" here is "reach
+the final phase of this same motion safely," not a distinct next skill - the
+full cross-skill formulation needs Stage B&ndash;F to exist first.
 
-### 3.3 Intent-preserving corrective control ⚪ *(paper only — not implemented)*
+**Real numbers** (`code/logs/scvc_kw_long_stance/scvc_metrics.json`, 200 real
+counterfactual rollouts, 17,580 labeled frames, 37.2% positive):
+
+| Metric | This repo (single-skill scope) | Paper's claim (Table 3b, full scope) |
+|---|---|---|
+| AUROC | **0.931** | 0.921 |
+| AUPRC | **0.892** | 0.892 |
+| Brier | **0.104** | 0.108 |
+| ECE | **0.023** | 0.026 |
+
+These numbers are *not* a like-for-like comparison with the paper - this
+critic conditions on one motion's own end-state as the only available
+"successor," not a distinct next skill from a trained Stage B&ndash;F, and
+200 rollouts is a small evaluation set. They are included because they are
+real, reproducible (`code/scripts/train_viability_critic.py`, ~35s on a
+laptop CPU), and land in the same range as the paper's claim, which is itself
+notable given how much smaller and narrower this setup is.
+
+Rerunning with a different seed on the same policy (`--seed 1`) collapsed to
+0% positive labels and an undefined AUROC - a real instability in this
+small-scale, single-skill setup worth flagging rather than hiding: results
+here are sensitive to which nominal rollouts happen to succeed, not yet a
+robust estimate.
+
+### 3.3 Intent-preserving corrective control [paper-only, not implemented]
 
 $$
 \mathbf{a}_t = \mathbf{a}_t^0 + g(V_t)\,\Delta\mathbf{a}_t, \qquad
@@ -161,7 +175,7 @@ $$
 $$
 
 **Implementation:** `code/src/switch/mode_switch.py` (`ModeSwitch`) plays the
-role of $\mathbf{a}_t^{\text{safe}}$ today — a real, tested (14/14 unit tests),
+role of $\mathbf{a}_t^{\text{safe}}$ today - a real, tested (14/14 unit tests),
 hand-tuned 3-state hysteresis switch (NOMINAL/FALL/RECOVERY). It is the *whole*
 controller in the repo right now, not a fallback beneath a learned residual
 policy.
@@ -184,10 +198,9 @@ flowchart LR
     classDef wip fill:#fdeee7,stroke:#a6431f,color:#17181a,stroke-dasharray: 4 3;
 ```
 
-🟢 real & measured &nbsp;·&nbsp; 🟡 real, partial (kinematic-only) &nbsp;·&nbsp; ⚪ paper concept, no code &nbsp;·&nbsp;
-🟠 code now exists (`src/viability/`) but has never been run against a trained policy — see §6.1.
+[implemented]: real and measured. [partial]: real but kinematic-only. [paper-only]: paper concept, no code.
 
-The same diagram, interactive and colour-coded, is in `site/` — see
+The same diagram, interactive and colour-coded, is in `site/` - see
 [`ArchitectureDiagram`](site/src/components/ArchitectureDiagram.tsx).
 
 ---
@@ -197,7 +210,7 @@ The same diagram, interactive and colour-coded, is in `site/` — see
 <video src="site/public/media/videos/push_recovered_40N.mp4" controls muted loop width="320"></video>
 <video src="site/public/media/videos/push_fallen_120N.mp4" controls muted loop width="320"></video>
 
-*40N (recovers) vs. 120N (falls) lateral push on the horse stance — 36 trials
+*40N (recovers) vs. 120N (falls) lateral push on the horse stance - 36 trials
 against the repo's real scripted PD + threshold-switch controller
 (`scripted_pd_switch_v0`). The capture-point margin*
 $\xi_t = p_{t,\text{com}}^{xy} + \dot p_{t,\text{com}}^{xy}/\omega_t$
@@ -223,56 +236,95 @@ for the repo's own honesty contract on these numbers.
 
 | Stage | File | Status |
 |---|---|---|
-| A — Tracking | `code/scripts/train_tracking.py` | 🟠 real PPO code, **training in progress** as of this session (see §5.1) — first real run in this project's history |
-| B — CoM | `code/scripts/train_com.py` | 🔴 stub: asserts config shape, `raise SystemExit("TODO ...")` |
-| C — Momentum | `code/scripts/train_momentum.py` | 🔴 stub |
-| D — Fall-safe | `code/scripts/train_fall.py` | 🔴 stub |
-| E — Recovery | `code/scripts/train_recovery.py` | 🔴 stub |
-| F — Switch | `code/src/switch/mode_switch.py` | 🟢 real, tested, but scripted (not learned) |
+| A - Tracking | `code/scripts/train_tracking.py` | [implemented] real PPO code, trained for 3,000,000 steps for the first time in this project's history (see 5.1) |
+| B - CoM | `code/scripts/train_com.py` | [stub] asserts config shape, `raise SystemExit("TODO ...")` |
+| C - Momentum | `code/scripts/train_momentum.py` | [stub] |
+| D - Fall-safe | `code/scripts/train_fall.py` | [stub] |
+| E - Recovery | `code/scripts/train_recovery.py` | [stub] |
+| F - Switch | `code/src/switch/mode_switch.py` | [implemented] real, tested, but scripted, not learned |
 
 > `code/results_paper/PAPER_ASSETS.md`: *"Stage A&ndash;F learned policies do
 > not exist; the train\_\*.py files are stubs."* (True when written; Stage A
-> is now actively being trained for real — see below.)
+> is now actively being trained for real - see below.)
 
-### 5.1 Live status
+### 5.1 Real result: Stage A training completed
 
-Stage A PPO tracking is training on a rented GPU instance as this README is
-being written: 8 parallel envs, 3,000,000 steps, `kw_long_stance` (a
-Kalaripayattu long-stance motion). Real numbers from the run in progress:
+8 parallel envs, 3,000,000 steps, `kw_long_stance` (a Kalaripayattu long-stance
+motion), trained on a rented GPU instance.
 
-| Timesteps | Explained variance | Mean episode reward | Mean episode length |
-|---|---|---|---|
-| 71,680 | 0.80 | 6.65 | 28.6 |
-| 442,368 | 0.89 | &mdash; | &mdash; |
-| 897,024 | 0.955 | rising | lengthening |
+| Timesteps | Explained variance | Mean episode reward |
+|---|---|---|
+| 71,680 | 0.80 | 6.65 |
+| 897,024 | 0.955 | 44.8 |
+| 3,000,320 (final) | - | training complete |
 
-Rising explained variance and episode length indicate the policy is
-genuinely learning to track rather than plateauing. Once this finishes,
-`tracking_best.zip` will be pulled into `code/logs/stageA_kw_long_stance/`
-along with a real rollout video and the Successor-Conditioned Viability
-Critic (§3.2) will be trained against it for the first time.
+**Honest evaluation result - not a clean win.** Reward climbed
+throughout training (the policy did learn to optimize the reward it was
+given), but real evaluation (`train_tracking.py --eval-only`, 5 episodes)
+shows:
+
+| | Trained PPO policy | Raw PD baseline (no RL) |
+|---|---|---|
+| Fall rate | 100% (5/5) | 100% (5/5) |
+| Mean episode length | **85 steps** | 37 steps |
+| Tracking RMSE | 0.309 | 0.258 (better) |
+
+<video src="site/public/media/videos/training/eval_policy.mp4" controls muted loop width="45%"></video>
+<video src="site/public/media/videos/training/eval_pd_baseline.mp4" controls muted loop width="45%"></video>
+
+*Left: trained policy. Right: raw PD baseline. The trained policy survives
+roughly 2.3x longer before falling, but still falls in every evaluation
+episode, and its raw tracking accuracy is slightly worse than doing nothing
+extra at all.* This is a real, reproducible finding, not a success story: 3M
+steps of tracking-only reward on one motion, with no CoM/balance shaping
+(Stage B, still a stub) and no viability-gated correction (§3.2/3.3), is not
+enough to solve stability on this motion. This is exactly the gap the
+paper's method (physics grounding + SCVC + intent-preserving correction) is
+designed to close - and precisely why a bare tracking reward alone,
+run here for real, does not close it.
+
+**Post-training behaviour under a lateral push**, same trained policy,
+`code/scripts/eval_thrust_response.py` (reuses the `xfrc_applied` mechanism
+`sim_push_sweep.py` uses, applied to the learned policy instead of the
+scripted controller):
+
+<video src="site/public/media/videos/training/thrust_trained_20N.mp4" controls muted loop width="30%"></video>
+<video src="site/public/media/videos/training/thrust_trained_60N.mp4" controls muted loop width="30%"></video>
+<video src="site/public/media/videos/training/thrust_trained_100N.mp4" controls muted loop width="30%"></video>
+
+| Push | Outcome |
+|---|---|
+| 20N | fell (34 steps) |
+| 60N | **recovered** (99 steps, reached episode end) |
+| 100N | fell (92 steps) |
+
+Non-monotonic (survives 60N but not the smaller 20N push) - reported as
+measured, not smoothed over. This is consistent with a policy that has not
+converged to a robust strategy, again motivating why this repo's SCVC run
+below finds real, useful signal in exactly these kinds of inconsistent
+outcomes.
 
 ---
 
-## 6. Beyond the paper: repo roadmap (🟡 not a paper claim)
+## 6. Beyond the paper: repo roadmap (not a paper claim)
 
 `code/docs/PHYSICAL_AI_STAGE_G_H_I_DRAFT.md` sketches three extensions,
 none implemented yet:
 
-- **Stage G — GA joint-pool evolution.** Fills gaps between reference clips
+- **Stage G - GA joint-pool evolution.** Fills gaps between reference clips
   with physically plausible bridging trajectories via a genetic algorithm
   (keyframes &times; 29 DoF, spline-interpolated, fitness = stability +
-  smoothness + limits + family coherence) — no MuJoCo/PPO needed, minutes on
+  smoothness + limits + family coherence) - no MuJoCo/PPO needed, minutes on
   CPU. **A real run of this now lives in `code/src/ga/` and
-  `code/scripts/evolve_joint_pool.py`** — see its output below.
-- **Stage H — thrust/obstacle absorption curriculum.** Generalizes
+  `code/scripts/evolve_joint_pool.py`** - see its output below.
+- **Stage H - thrust/obstacle absorption curriculum.** Generalizes
   `sim_push_sweep.py` from a post-hoc eval into an actual training curriculum
   (direction &times; magnitude &times; contact point &times; timing).
-- **Stage I — world model (stretch).** Predicts $(q,\dot q,\text{CoM})_{t+1}$
+- **Stage I - world model (stretch).** Predicts $(q,\dot q,\text{CoM})_{t+1}$
   from logged rollouts; needs real Stage A&ndash;H data first.
 
 **A real run of this, done for this repo:** bridging `ky_warrior_lunge`
-(ends in `stable_stance`) to `pk_kick_lunge` (starts in `explosive_strike`) —
+(ends in `stable_stance`) to `pk_kick_lunge` (starts in `explosive_strike`) -
 exactly the cross-family transition the corpus never captured. 150
 individuals &times; 80 generations, 60-frame bridge, fitness = mean
 (CoM margin + capture-point margin) &minus; 0.02&times;jerk &minus;
@@ -282,7 +334,7 @@ joint-limit violation:
 ![Stage G fitness convergence](site/public/media/figures/evo_ky_warrior_lunge__to__pk_kick_lunge_fitness.png)
 
 Converged from fitness &minus;200.9 (seed population) to &minus;0.60 within 10
-generations and held stable for the remaining 70 &mdash; a real, reproducible
+generations and held stable for the remaining 70 - a real, reproducible
 GA run, not a placeholder. Output: `code/data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge.npz`
 (same NPZ schema as `annotate_motion_library.py`, drop-in compatible with
 every downstream script) and `..._history.json` (per-generation fitness, real).

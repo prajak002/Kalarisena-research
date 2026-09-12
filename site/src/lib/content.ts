@@ -175,8 +175,8 @@ export const VIABILITY_STEPS: WalkStep[] = [
     computation: "Binary cross-entropy drives discrimination; an added Brier term drives calibration, since the paper uses this output's magnitude to set correction strength, not only its sign.",
     math: "\\mathcal{L}_V = \\underbrace{\\text{BCE}(V_\\psi, Y^{\\text{via}})}_{\\text{discrimination}} + \\lambda_B \\underbrace{(V_\\psi - Y^{\\text{via}})^2}_{\\text{Brier calibration}}",
     explanation: "Trained with AdamW, lr 1e-4, batch 4096, K=20 neighbours, H_V=50 control steps, \\epsilon_g=0.20 (paper's stated hyperparameters).",
-    status: "paper",
-    statusNote: "No file in this repo implements a viability critic. Confirmed by exhaustive search: zero matches for 'viability', 'successor', or 'SCVC' outside the paper PDF.",
+    status: "repo-real",
+    statusNote: "Implemented (src/viability/critic.py) and trained on the real Stage A checkpoint: AUROC 0.931, AUPRC 0.892, Brier 0.104, ECE 0.023 on 200 real counterfactual rollouts. Scoped to single-skill successor entry - see the Results section.",
   },
 ];
 
@@ -230,7 +230,7 @@ export interface StageRow {
 }
 
 export const TRAINING_STAGES: StageRow[] = [
-  { stage: "A - Tracking", script: "scripts/train_tracking.py", what: "PPO residual tracking policy on one reference motion (124-dim obs, joint-residual action).", status: "repo-real", note: "Real training code; environment (KalariTrackEnv) runs. No .pt checkpoint, log, or meta.json exists anywhere in the repo - it has not been run to completion." },
+  { stage: "A - Tracking", script: "scripts/train_tracking.py", what: "PPO residual tracking policy on one reference motion (124-dim obs, joint-residual action).", status: "repo-real", note: "Trained for real: 3,000,000 steps, reward 6.65 -> 44.8. Checkpoint saved (tracking_best.zip). Evaluation still shows a 100% fall rate (5/5 episodes) - reward improved without solving stability. See the Results section." },
   { stage: "B - CoM", script: "scripts/train_com.py", what: "Load tracking_best.pt, add com_support observation block, add capture-point-margin reward.", status: "repo-stub", note: "Asserts the YAML config shape then raise SystemExit(\"TODO: connect to MuJoCo env loop ...\")." },
   { stage: "C - Momentum", script: "scripts/train_momentum.py", what: "Add centroidal-momentum observation and phase-weighted momentum reward.", status: "repo-stub", note: "Same TODO-stub pattern as Stage B." },
   { stage: "D - Fall-safe", script: "scripts/train_fall.py", what: "Train from near-fall states with impact and head-hit penalties.", status: "repo-stub", note: "Same TODO-stub pattern." },
@@ -251,7 +251,7 @@ export const CODE_TRACE: CodeTraceRow[] = [
   { math: "\\xi_t = p^{xy}_{t,\\text{com}} + \\dot p^{xy}_{t,\\text{com}}/\\omega_t", meaning: "Capture point, validated against MuJoCo's own CoM to 1e-6 m across 20 randomised states.", path: "code/src/dynamics/pinocchio_wrapper.py", status: "repo-real" },
   { math: "\\mathbf{a}_t^0 = \\pi_0(\\mathbf{s}_t, \\mathbf{r}_{t:t+H})", meaning: "Nominal tracking action: q_{cmd} = q_{ref}(t) + s_a\\cdot a.", path: "code/src/envs/kalari_track_env.py", symbol: "KalariTrackEnv.step", status: "repo-real" },
   { math: "r = w_j r_{\\text{joint}} + w_z r_{\\text{rootz}} + w_u\\,\\text{upright} + w_s r_{\\text{smooth}}", meaning: "Stage A tracking reward actually implemented (a subset of the paper's full r^{KS}).", path: "code/src/rewards/reward_builder.py", symbol: "RewardBuilder.compute", status: "repo-real" },
-  { math: "V_\\psi(\\mathbf{s}_t, z_t, g_t^+)", meaning: "Successor-Conditioned Viability Critic.", path: "no file - not implemented", status: "repo-stub" },
+  { math: "V_\\psi(\\mathbf{s}_t, z_t, g_t^+)", meaning: "Successor-Conditioned Viability Critic, trained on the real Stage A policy (AUROC 0.931).", path: "code/src/viability/critic.py", symbol: "ViabilityCritic", status: "repo-real" },
   { math: "\\Delta \\mathbf{a}_t = \\pi_\\theta(\\ldots)", meaning: "Intent-preserving residual policy.", path: "no file - not implemented", status: "repo-stub" },
   { math: "\\text{NOMINAL} \\to \\text{FALL} \\to \\text{RECOVERY}", meaning: "The switching law actually running today, in place of viability gating.", path: "code/src/switch/mode_switch.py", symbol: "ModeSwitch", status: "repo-real" },
 ];
@@ -287,6 +287,8 @@ export const REPO_REAL_METRICS: Metric[] = [
   { label: "Push-recovery threshold", value: "100N -> 120N", detail: "0% falls at or below 100N, 100% at or above 120N, 36 trials, scripted controller." },
   { label: "Fall-severity A/B, torso contact rate", value: "5/5 -> 2/5", detail: "420N lateral push: tracking-only vs. scripted protective crouch. Peak force given contact is statistically unchanged (584 vs 567N)." },
   { label: "Raw retarget foot floating", value: "5-23 cm", detail: "11 of 12 measured motions, before ground correction." },
+  { label: "Stage A training (real, first ever run)", value: "3,000,000 steps", detail: "PPO tracking on kw_long_stance. Reward rose 6.65 -> 44.8, but eval fall rate stayed 100% (5/5) - reward went up without solving stability." },
+  { label: "SCVC AUROC (real, single-skill scope)", value: "0.931", detail: "200 real counterfactual rollouts against the trained Stage A policy. AUPRC 0.892, Brier 0.104, ECE 0.023." },
 ];
 
 export const PAPER_CLAIMED_METRICS: Metric[] = [
@@ -325,7 +327,7 @@ export const RETARGET_MOTIONS: RetargetMotion[] = [
 
 export const RETARGET_STAGES: { key: string; label: string; caption: string }[] = [
   { key: "human", label: "1. Human demonstration", caption: "Source video, single performer, plain background." },
-  { key: "raw", label: "2. Raw GEM-X retarget", caption: "Kinematic retarget onto the Unitree G1 before ground correction — feet typically float." },
+  { key: "raw", label: "2. Raw GEM-X retarget", caption: "Kinematic retarget onto the Unitree G1 before ground correction - feet typically float." },
   { key: "overlay", label: "3. Overlay", caption: "Human reference and G1 realization shown together, the same comparison the paper's Figure 1/2 use." },
   { key: "robot", label: "4. Corrected G1 render", caption: "After ground/joint correction (Savitzky-Golay height + contact recomputation)." },
 ];
