@@ -391,38 +391,45 @@ outcomes.
 
 ---
 
-## 6. Beyond the paper: repo roadmap (not a paper claim)
+## 6. Stage G: genetic-algorithm posture interpolation (repo roadmap item, implemented)
 
-`code/docs/PHYSICAL_AI_STAGE_G_H_I_DRAFT.md` sketches three extensions,
-none implemented yet:
+Real bridge, evolved and run for this repo: `ky_warrior_lunge` (ends in
+`stable_stance`) &rarr; `pk_kick_lunge` (starts in `explosive_strike`) -
+exactly the cross-family transition the motion corpus never captured, filled
+by a genetic algorithm instead of a captured clip (`code/src/ga/`,
+`code/scripts/evolve_joint_pool.py`; Stage H/I from
+`code/docs/PHYSICAL_AI_STAGE_G_H_I_DRAFT.md` remain unimplemented and are not
+discussed further here).
 
-- **Stage G - GA joint-pool evolution.** Fills gaps between reference clips
-  with physically plausible bridging trajectories via a genetic algorithm
-  (keyframes &times; 29 DoF, spline-interpolated, fitness = stability +
-  smoothness + limits + family coherence) - no MuJoCo/PPO needed, minutes on
-  CPU. **A real run of this now lives in `code/src/ga/` and
-  `code/scripts/evolve_joint_pool.py`** - see its output below.
-- **Stage H - thrust/obstacle absorption curriculum.** Generalizes
-  `sim_push_sweep.py` from a post-hoc eval into an actual training curriculum
-  (direction &times; magnitude &times; contact point &times; timing).
-- **Stage I - world model (stretch).** Predicts $(q,\dot q,\text{CoM})_{t+1}$
-  from logged rollouts; needs real Stage A&ndash;H data first.
+<table><tr>
+<td width="50%">
 
-**A real run of this, done for this repo:** bridging `ky_warrior_lunge`
-(ends in `stable_stance`) to `pk_kick_lunge` (starts in `explosive_strike`) -
-exactly the cross-family transition the corpus never captured. 150
-individuals &times; 80 generations, 60-frame bridge, fitness = mean
-(CoM margin + capture-point margin) &minus; 0.02&times;jerk &minus;
-0.5&times;deviation from a linear joint-space baseline, hard death on any
-joint-limit violation:
+![](code/data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge_fitness.png)
+**Fitness convergence**, 150 individuals x 80 generations: &minus;200.9 &rarr; &minus;0.60 within 10 generations.
+</td>
+<td width="50%">
 
-![Stage G fitness convergence](site/public/media/figures/evo_ky_warrior_lunge__to__pk_kick_lunge_fitness.png)
+![](code/data/motions_evolved/posture_interpolation.png)
+**Posture interpolation**, 3 representative joints of 29.
+</td>
+</tr></table>
 
-Converged from fitness &minus;200.9 (seed population) to &minus;0.60 within 10
-generations and held stable for the remaining 70 - a real, reproducible
-GA run, not a placeholder. Output: `code/data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge.npz`
-(same NPZ schema as `annotate_motion_library.py`, drop-in compatible with
-every downstream script) and `..._history.json` (per-generation fitness, real).
+**How the bridge is actually built - posture interpolation, joints hidden
+between keyframes:** the GA does not evolve all 60 frames of the bridge. It
+evolves 6 keyframe postures (full 29-DoF joint vectors at bridge times
+0, 0.2, 0.4, 0.6, 0.8, 1.0) and a cubic spline fills in the other 54 frames.
+In the right-hand plot, the dots are the 6 GA-optimized keyframes; the line
+between them is not measured or evolved directly - every joint angle at
+every non-keyframe timestep is **hidden from the optimizer** and only exists
+as the spline's interpolation of its neighbouring keyframes. Fitness
+(CoM margin + capture-point margin, minus jerk, minus deviation from a
+linear-joint-space baseline, hard death on joint-limit violation) is
+evaluated on the full interpolated 60-frame trajectory, so the GA is
+selecting keyframes for how well the *interpolation* behaves, not just the
+keyframes themselves. Output NPZ:
+[`code/data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge.npz`](code/data/motions_evolved/evo_ky_warrior_lunge__to__pk_kick_lunge.npz)
+(same schema `annotate_motion_library.py` produces, drop-in compatible with
+every downstream script).
 
 ---
 
