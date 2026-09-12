@@ -466,6 +466,27 @@ informative: spreading the same training budget across twelve motions
 instead of one clearly buys some real generalization, at a real accuracy
 cost, and unevenly across the motion library rather than uniformly.
 
+**Stage B, on top of that.** The paper's next stage adds a reward and
+observation block for CoM/capture-point recoverability specifically - the
+same quantities the physics-grounded projection above measures, now shaping
+training instead of only being reported after the fact. The reward and
+observation terms this needed already existed as generic, config-driven
+code (`code/src/rewards/reward_builder.py`, `code/src/envs/observation_builder.py`)
+from earlier in this project; what was missing was an actual environment
+and training loop using them, which `code/src/envs/com_refine_env.py` and
+`code/scripts/train_com.py` now are. Trained from scratch (Stage A's
+checkpoint has a different observation width, so its weights don't
+transfer directly) on the stable-stance family, two million steps: the
+capture-point margin stays negative on average and the fall rate stays at
+100%, with episode length actually *shrinking* over the course of training
+rather than growing. A real result, and not a flattering one - the same
+honest pattern as everything above it. Optimizing the CoM/capture-point
+reward term directly, on its own, doesn't yet produce a policy that
+generalizes to actual recoverability; that gap is exactly what motivates
+pairing it with the learned viability critic and residual correction
+described in the Method section above, rather than treating either stage
+in isolation as sufficient.
+
 ---
 
 ## Filling the gaps a captured clip never covered
