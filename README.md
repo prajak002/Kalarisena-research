@@ -9,7 +9,7 @@
 
 <div align="center">
 
-![](media/kalarisena_trailer.gif)
+<video src="https://github.com/prajak002/Kalarisena-research/raw/refs/heads/main/media/kalarisena_trailer.mp4" width="1000" controls></video>
 
 </div>
 
