@@ -1,14 +1,5 @@
-"""PerturbedTrackEnv: KalariTrackEnv + counterfactual disturbance injection.
-
-Minimal extension of the real Stage A environment (src/envs/kalari_track_env.py)
-for SCVC data collection - reuses its exact reward/termination/observation
-logic (via super().step()'s building blocks, not a rewrite) and adds only:
-(1) an injected external impulse via the same `xfrc_applied` mechanism
-scripts/sim_push_sweep.py uses, (2) additive observation noise, (3) exposing
-the extra physics features (CoM/capture-point margin, via PinocchioWrapper -
-the same source of truth every other stage in this repo uses) the viability
-critic needs but the plain tracking observation does not carry.
-"""
+"""KalariTrackEnv + external impulse injection, observation noise, and
+CoM/capture-point features via PinocchioWrapper."""
 
 from __future__ import annotations
 
@@ -38,6 +29,10 @@ class PerturbedTrackEnv(KalariTrackEnv):
 
     def set_perturbation(self, pert: Perturbation) -> None:
         self._pert = pert
+
+    @property
+    def t(self) -> float:
+        return self._t
 
     def reset(self, *, seed=None, options=None):
         obs, info = super().reset(seed=seed, options=options)
@@ -88,13 +83,36 @@ class PerturbedTrackEnv(KalariTrackEnv):
         return self._noisy(self._obs()), float(reward), terminated, truncated, info
 
     def physics_features(self) -> dict:
-        """Real CoM/capture-point features via PinocchioWrapper (MuJoCo-convention state)."""
+        """CoM/capture-point features via PinocchioWrapper (MuJoCo-convention state)."""
         d = self.rt.data
         q = np.concatenate([d.qpos[0:3], d.qpos[3:7][[1, 2, 3, 0]], d.qpos[self.rt.act_qadr]])
         dq = np.concatenate([d.qvel[0:3], d.qvel[3:6], d.qvel[self.rt.act_vadr]])
         left_c, right_c = self._foot_contacts()
         feats = self.pin.get_support_features(q, dq, np.array([left_c, right_c]))
         return feats
+
+    def switch_features(self, step_index: int = 0) -> dict:
+        """Feature set consumed by src/switch/mode_switch.ModeSwitch."""
+        d = self.rt.data
+        q = np.concatenate([d.qpos[0:3], d.qpos[3:7][[1, 2, 3, 0]], d.qpos[self.rt.act_qadr]])
+        dq = np.concatenate([d.qvel[0:3], d.qvel[3:6], d.qvel[self.rt.act_vadr]])
+        feats = self.physics_features()
+        hg = self.pin.compute_centroidal_momentum(q, dq)
+        upright = self.rt.torso_upright_cos()
+        return {
+            "cp_margin": feats["cp_margin"] if feats.get("support_area", 0) > 0 else 0.0,
+            "momentum_norm": float(np.linalg.norm(hg[3:])),
+            "base_height": float(self.rt.base_height),
+            "is_fallen": bool(upright < 0.3),
+            "is_upright": bool(upright > 0.7),
+            "step_index": step_index,
+        }
+
+    def torso_force(self) -> float:
+        """Impact force on the torso geoms."""
+        torso_body = self.rt.mujoco.mj_name2id(self.rt.model, self.rt.mujoco.mjtObj.mjOBJ_BODY, "torso_link")
+        torso_geoms = self.rt._collision_geoms_of_body(torso_body)
+        return self.rt.geom_group_force(torso_geoms)
 
     def _foot_contacts(self, z_thresh: float = 0.05) -> tuple[bool, bool]:
         rt = self.rt

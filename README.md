@@ -601,6 +601,84 @@ paper's headline claims are actually about.
 
 ---
 
+## Scaling to the full corpus, and fixing what wasn't training
+
+Two gaps sat in the training story above by construction rather than
+oversight: every multi-motion result was measured on the same twelve
+motions it trained on, and Stage E's zero-percent recovery rate had been
+reported without ever being diagnosed. Both are being addressed directly.
+
+**A genuine held-out split.** `code/data/splits/{train,val,test}_ids.txt`
+divides the retargeted corpus into 56 training motions and 14 held out (7
+validation, 7 test), stratified across the same three-family taxonomy used
+throughout this project - present in this repository already, but unused
+by any training run until now. `code/scripts/train_tracking_multi_full.py`
+is the first script to read them: it trains Stage A on all 56 train-split
+motions instead of the fixed twelve, and evaluates separately on the
+fourteen the policy never sees during training, so a fall-rate or
+tracking-RMSE number reported against that split measures generalization
+rather than memorization. Launched at 30 million steps across 24 parallel
+environments on a rented multi-core box; the run is still in progress, and
+final numbers will be reported here once it finishes, in the same table
+style as everything above.
+
+Running that many environments at once surfaced an infrastructure lesson
+worth stating plainly. PPO with a small MLP policy over vectorized CPU
+MuJoCo environments is bound by CPU cores for environment stepping, not by
+GPU compute - Stable-Baselines3's own runtime warning says as much, and a
+`device="cpu"` run matched or beat `"cuda"` here. The rented box's actual
+value was 24 CPU cores for parallel environments, not its GPU. A second,
+sharper lesson: `SubprocVecEnv` spawning many worker processes, each
+defaulting to a full-core BLAS thread pool, exhausts the container's
+process limit non-deterministically somewhere past twenty environments;
+capping `OMP_NUM_THREADS`/`OPENBLAS_NUM_THREADS`/`MKL_NUM_THREADS` to 1
+before launch fixed it outright.
+
+**Stage E's reward had no gradient below its own success line.** The
+0%-success result reported above was left as an open question; it no
+longer is. `configs/recovery.yaml`'s reward was two terms: a flat per-step
+time penalty, and a `+10` bonus that fired only once the torso was already
+past a 0.75 upright-cosine threshold. Below that threshold - which a
+policy starting from a randomly tipped-over pose reaches only by chance -
+the reward carried exactly zero information about which direction was
+"more upright." Two million steps of PPO had nothing to climb toward. The
+fix adds two dense terms to `code/src/rewards/reward_builder.py`:
+`upright_shaping` (proportional to the upright cosine itself, everywhere,
+not only past the threshold) and `height_shaping` (squared shortfall
+against the standing target height, the same functional form
+`_com_support_margin`/`_capture_point_margin` already use elsewhere in this
+file) - plus `VecNormalize`, the same reward-scale fix Stage D needed for
+an unrelated reason. A retrain at 15 million steps, up from 2 million, is
+running now; whether the fix is sufficient is still an open, honestly
+unresolved question until that run finishes.
+
+## A controlled environment for probing balance recovery
+
+Every perturbation script up to this point runs a single, fixed push and
+reports one number afterward. `code/scripts/sim_controlled_perturbation.py`
+is a different kind of tool: specify a push pattern - timing, direction,
+magnitude, one push or a repeated sequence across an episode - against any
+trained checkpoint, optionally routed through the real
+`code/src/switch/mode_switch.py` FSM, and it renders back an annotated
+video with the push arrow, live capture-point margin, angular momentum,
+active mode, and fall status burned directly into the frames.
+
+<div align="center">
+
+![](media/videos/controlled_demo/single_push_annotated.gif)
+
+</div>
+
+A single 60N push at t=0.5s against the twelve-motion tracker
+(`logs/stageA_multi12`), mode switching off. The robot is already falling
+face-first by the time the push lands - consistent with, not contradicted
+by, this checkpoint's own 83% baseline fall rate reported above. That's the
+tool doing its job correctly on its first real run: before asking whether a
+policy survives a push, it's worth being able to see, frame by frame,
+whether it was already failing on its own.
+
+---
+
 ## Filling the gaps a captured clip never covered
 
 Not every transition between two Kalaripayattu stances exists as a recorded
@@ -657,6 +735,12 @@ python3 code/scripts/make_tables.py --results results_sim --out results_paper
 python3 code/scripts/evolve_joint_pool.py \
   --clip-a data/motions_retargeted/ky_warrior_lunge.npz \
   --clip-b data/motions_retargeted/pk_kick_lunge.npz
+
+# controlled-perturbation demo: your own push pattern, annotated video out
+python3 code/scripts/sim_controlled_perturbation.py \
+  --nominal code/logs/stageA_multi12/tracking_multi_best.zip \
+  --npz data/motions_retargeted/kw_long_stance.npz \
+  --push 1.0 90 80 0.1 --out logs/controlled_demo
 ```
 
 The interactive review is already deployed and needs nothing run locally:
@@ -671,6 +755,7 @@ paper.pdf                 the paper
 code/src/                 physics stack, RL environment, rewards, switch, genetic algorithm
 code/scripts/             retargeting, training, evaluation, figure and table generation
 code/configs/             per-stage configuration: observation blocks, reward weights, curricula
+code/data/splits/         train/val/test motion-id splits, for held-out generalization eval
 code/results_sim/         MuJoCo experiment outputs - CSV, JSON, video, plots
 code/results_paper/       result tables and figures, each traced back to a real run
 code/docs/                the internal engineering notes this project is working from

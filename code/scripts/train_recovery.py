@@ -1,12 +1,6 @@
 #!/usr/bin/env python3
 """Stage E: recovery-to-standing, via src/envs/recovery_env.py.
 
-The one stage in this ladder that couldn't reuse the tracking-episode
-structure every other stage does: there's no reference motion to recover
-into, so the environment starts from a randomized, physically-settled
-fallen pose and the policy has to reach and hold an upright stance with no
-tracking target at all.
-
 Usage
   python3 scripts/train_recovery.py --steps 2000000 --n-envs 8 --out logs/stageE_recovery
 """
@@ -66,6 +60,8 @@ def main() -> int:
     ap.add_argument("--out", default="logs/stageE_recovery")
     ap.add_argument("--eval-only", action="store_true")
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--eval-episodes", type=int, default=20)
+    ap.add_argument("--device", default="cpu")
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -73,13 +69,14 @@ def main() -> int:
     reward_cfg = cfg["rewards"]
 
     from stable_baselines3 import PPO
-    from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv, VecMonitor
+    from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv, VecMonitor, VecNormalize
 
     ckpt = os.path.join(args.out, "recovery_best.zip")
+    norm_path = os.path.join(args.out, "vecnormalize.pkl")
 
     if args.eval_only:
-        model = PPO.load(ckpt)
-        summary = evaluate(model, reward_cfg)
+        model = PPO.load(ckpt, device=args.device)
+        summary = evaluate(model, reward_cfg, n_episodes=args.eval_episodes)
         print(json.dumps(summary, indent=2))
         return 0
 
@@ -88,13 +85,14 @@ def main() -> int:
 
     meta = {"experiment_name": "stageE_recovery", "stage": "E (recovery-to-standing)",
             "algo": "PPO (stable-baselines3)", "config": args.config,
-            "steps": args.steps, "n_envs": args.n_envs,
-            "note": "starts from a randomized settled fallen pose, no reference motion"}
+            "steps": args.steps, "n_envs": args.n_envs, "device": args.device,
+            "note": "randomized fallen start, no reference motion; dense upright/height shaping in configs/recovery.yaml"}
     with open(os.path.join(args.out, "meta.json"), "w") as fh:
         json.dump(meta, fh, indent=2)
 
     vec_cls = SubprocVecEnv if args.n_envs > 1 else DummyVecEnv
     venv = VecMonitor(vec_cls([make_env(reward_cfg, i) for i in range(args.n_envs)]))
+    venv = VecNormalize(venv, norm_obs=False, norm_reward=True, clip_reward=10.0)
 
     model = PPO(
         "MlpPolicy", venv, verbose=1,
@@ -102,14 +100,15 @@ def main() -> int:
         gamma=0.99, gae_lambda=0.95, clip_range=0.2, ent_coef=0.003,
         policy_kwargs={"net_arch": [256, 256]},
         tensorboard_log=os.path.join(args.out, "tb"),
-        seed=49, device="auto",
+        seed=49, device=args.device,
     )
     print(f"training {args.steps:,} steps on {args.n_envs} envs -> {args.out}")
     model.learn(total_timesteps=args.steps, progress_bar=False)
     model.save(ckpt)
+    venv.save(norm_path)
     print(f"saved {ckpt}")
 
-    summary = evaluate(model, reward_cfg)
+    summary = evaluate(model, reward_cfg, n_episodes=args.eval_episodes)
     with open(os.path.join(args.out, "eval_summary.json"), "w") as fh:
         json.dump({"meta": meta, "summary": summary}, fh, indent=2)
     print(json.dumps(summary, indent=2))

@@ -1,66 +1,48 @@
-# KalariSena Pipeline (Teammate Install Guide)
+# KalariSena — code
 
-This repo lets you run a full pipeline from an input MP4 to a Unitree G1 retarget
-and then prepare training data for the physics-aware stages (B–F).
+This is the research code behind the top-level README's narrative: a MuJoCo +
+Pinocchio physics stack, the GEM-X video-to-3D-to-robot retargeting chain, and
+the staged PPO training curriculum (Stage A tracking through Stage F mode
+switching), plus a learned viability critic and residual safety policy on top.
 
-The code is runnable end-to-end **once** the G1 URDF, Euler conventions, and a
-sample NPZ are available. Until then, the TODO markers tell you exactly where to
-paste diagnostics.
+Unlike the companion working repo, this repo commits its small result
+artifacts directly — `logs/*/eval_summary.json`, `logs/*/meta.json`, and
+`logs/*.zip` checkpoints — so every number in the top-level README traces back
+to a file you can open here. It does **not** commit the retargeted motion
+corpus (`data/motions_retargeted/*.npz`) or the G1 MJCF/URDF assets
+(third-party, regenerate via the pipeline below or via the companion repo).
 
-## Prerequisites
+## Status
 
-Minimum:
-- macOS, Linux, or Windows (see note below)
-- Python 3.10+
-- Git
+See the top-level `README.md` for the full narrative and measured results.
+In short: every stage in the A–F ladder has real code, a real run, and a real
+number in `logs/` — several honestly negative (Stage E recovery, the residual
+policy). A full-corpus retrain of Stage A (with genuine held-out
+generalization eval) and a reward-shaping fix for Stage E are in progress as
+of this commit — see the top-level README for their status.
 
-For GEM-X retargeting:
-- NVIDIA GPU + CUDA (GEM-X default)
-- Optional: ONNX Runtime path for macOS (no CUDA)
-
-For training (later stages):
-- MuJoCo dependencies for unitree_rl_mjlab
-
-Repo expectations:
-- The folders GEM-X/ and unitree_rl_mjlab/ should exist at repo root.
-  If they are not present, clone them separately or add as submodules.
-
-Windows note:
-- The pipeline can run on Windows, but GEM-X + CUDA + MuJoCo are most reliable on
-  Linux. For Windows users, we recommend WSL2 + Ubuntu with NVIDIA GPU passthrough.
-
-## Install (subprojects)
+## Setup
 
 ```bash
-chmod +x scripts/install_subprojects.sh
-bash scripts/install_subprojects.sh
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.pipeline.txt
+pip install mujoco gymnasium stable-baselines3 torch pin scipy shapely imageio opencv-python-headless
 ```
 
-This pulls:
-- GEM-X (NVlabs)
-- unitree_rl_mjlab (Unitree)
-
-## Install (pipeline only)
+GPU is not required for training here: PPO with an MlpPolicy over vectorized
+CPU MuJoCo envs is bound by CPU cores for parallel env stepping, not by GPU
+compute — SB3 itself recommends `device="cpu"` for this shape of problem. A
+rented multi-core box helps via `--n-envs`, not its GPU.
 
 ```bash
-chmod +x scripts/install_pipeline.sh
-bash scripts/install_pipeline.sh
-source .venv/bin/activate
+# cap BLAS threads before running many parallel envs - otherwise
+# SubprocVecEnv can crash the thread/process limit above ~20-30 envs
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+python3 scripts/train_tracking_multi_full.py --steps 30000000 --n-envs 24 \
+    --out logs/stageA_multi_full
 ```
 
-This installs:
-- numpy, pandas, pyyaml, scipy, shapely, pin (Pinocchio)
-
-## Install (GEM-X retargeting)
-
-GEM-X is included as a subfolder and has its own setup steps. Follow:
-- GEM-X/README.md
-- GEM-X/docs/INSTALL.md
-
-If you are on macOS without CUDA, check:
-- GEM-X/docs/INSTALL_MACOS.md
-
-## One-go pipeline run
+## Data pipeline: video → retargeted motion
 
 ```bash
 python scripts/run_pipeline.py \
@@ -70,154 +52,63 @@ python scripts/run_pipeline.py \
   --angles-deg
 ```
 
-What this does:
-1. Runs GEM-X retargeting (GPU required unless you use ONNX).
-2. Writes retarget outputs under cloud_outputs/<motion_id>/
-3. Runs motion annotation and writes data/motions_retargeted/*.npz
+Runs GEM-X retargeting, writes raw output under `cloud_outputs/<motion_id>/`,
+then annotates and writes the training-ready reference to
+`data/motions_retargeted/*.npz`. Skip either half with `--skip-gemx` /
+`--skip-annotate`. GEM-X itself is pulled in as a dependency
+(`scripts/install_subprojects.sh`) and run as-is.
 
-Skip steps if needed:
+## The controlled-perturbation demo
 
-```bash
-python scripts/run_pipeline.py --video /path/to/input.mp4 --skip-gemx
-python scripts/run_pipeline.py --video /path/to/input.mp4 --skip-annotate
-```
-
-## Hugging Face Dataset Sync (Private)
-
-Use this when your source videos are stored in a private Hugging Face dataset,
-and you want to push the retargeted G1 references back into the dataset under a
-separate folder.
-
-Set your token once:
+`scripts/sim_controlled_perturbation.py` applies a push pattern you specify
+(timing, direction, magnitude, one push or a sequence) to a trained policy —
+optionally routed through the real `src/switch/mode_switch.py` FSM — and
+renders an annotated video: live capture-point margin, angular momentum,
+active mode, and fall status burned into the frames.
 
 ```bash
-export HF_TOKEN="<your_hf_token>"
+python3 scripts/sim_controlled_perturbation.py \
+  --nominal logs/stageA_multi12/tracking_multi_best.zip \
+  --npz data/motions_retargeted/kw_long_stance.npz \
+  --push 1.0 90 80 0.1 --out logs/controlled_demo/single_push
 ```
 
-Download MP4 videos from a dataset folder (for example, `videos/`):
-
-```bash
-python scripts/sync_hf_dataset.py \
-  --repo-id <user_or_org>/<dataset_name> \
-  --mode download \
-  --remote-video-prefix videos \
-  --download-dir inputs/hf_videos
-```
-
-Upload retargeted G1 outputs from `cloud_outputs/` to a different dataset
-folder (for example, `retargeted_g1/`):
-
-```bash
-python scripts/sync_hf_dataset.py \
-  --repo-id <user_or_org>/<dataset_name> \
-  --mode upload \
-  --upload-source cloud_outputs \
-  --remote-retarget-prefix retargeted_g1 \
-  --skip-existing
-```
-
-Run both in one command:
-
-```bash
-python scripts/sync_hf_dataset.py \
-  --repo-id <user_or_org>/<dataset_name> \
-  --mode both \
-  --remote-video-prefix videos \
-  --download-dir inputs/hf_videos \
-  --upload-source cloud_outputs \
-  --remote-retarget-prefix retargeted_g1 \
-  --skip-existing
-```
-
-Notes:
-- The script defaults to `repo_type=dataset` and `revision=main`.
-- Default upload patterns include G1 retarget CSVs and retarget MP4 previews.
-- Use `--dry-run` to preview uploads without pushing files.
-
-### One-Command Cloud Flow (Pull -> Process -> Push)
-
-For cloud workers, use the orchestrator to run the full dataset loop in one go:
-
-```bash
-python scripts/hf_e2e_pipeline.py \
-  --repo-id liteleliya/kalarisena_clipped_vids \
-  --mode all \
-  --remote-video-prefix videos \
-  --local-video-dir inputs/hf_videos \
-  --output-root cloud_outputs \
-  --remote-retarget-prefix retargeted_g1 \
-  --skip-existing-motion \
-  --skip-existing-remote \
-  --continue-on-error
-```
-
-This runs:
-1. Download MP4 clips from HF dataset.
-2. Run `scripts/run_pipeline.py` for each clip.
-3. Upload retargeted G1 references back to HF.
-
-Use `--mode pull`, `--mode process`, or `--mode push` to run stages separately.
-
-## Required diagnostics (must be filled)
-
-Before training, you **must** fill the TODO blocks with real diagnostics:
-
-- src/dynamics/pinocchio_wrapper.py
-- scripts/annotate_motion_library.py
-
-Run the diagnostics listed in those files and paste their outputs at the top.
-This locks in:
-- model.nq, model.nv, joint names
-- exact left/right foot frame names
-- real NPZ keys and shapes
-- real CSV column names
-
-## Checklist
-
-Use this checklist when setting up on a new machine:
-
-- [ ] Install subprojects (scripts/install_subprojects.sh)
-- [ ] Install pipeline deps (scripts/install_pipeline.sh)
-- [ ] Install GEM-X deps (GEM-X/docs/INSTALL.md)
-- [ ] Put G1 URDF on disk and note its path
-- [ ] Determine Euler order and units for root_rotateXYZ
-- [ ] Run diagnostics and paste results into TODO blocks
-- [ ] Run scripts/run_pipeline.py on a test MP4
-- [ ] Fill configs/motion_families.yaml with real labels
-- [ ] Wire training scripts to your MuJoCo PPO loop (stubs are TODO)
-
-## Training scripts
-
-These are stubs until your PPO loop is wired:
-- scripts/train_com.py
-- scripts/train_momentum.py
-- scripts/train_fall.py
-- scripts/train_recovery.py
-- scripts/train_switch.py
+`--push T ANGLE_DEG MAGNITUDE_N DURATION_S` may be repeated for a multi-push
+pattern in one episode; `--preset {single,double,relentless,growing}` gives
+ready-made patterns. See the top-level README for a real recorded example.
 
 ## Repo layout
 
 ```
 src/
-  dynamics/
-  envs/
-  rewards/
-  switch/
+  sim/        MuJoCo runtime, camera/render, rollout + video helpers
+  dynamics/   PinocchioWrapper - CoM, capture-point, support polygon, momentum
+  envs/       Gymnasium envs for every stage (tracking, CoM, momentum, fall,
+              recovery, multi-motion)
+  rewards/    reward_builder.py - all reward terms, config-driven
+  switch/     mode_switch.py - the NOMINAL/FALL/RECOVERY FSM
+  viability/  SCVC critic, successor manifold, perturbation sampler/pattern,
+              residual policy
+  ga/         Joint-pool evolution (motion augmentation)
 scripts/
-  run_pipeline.py
-  annotate_motion_library.py
-  train_*.py
+  run_pipeline.py                video -> GEM-X retarget -> annotated NPZ
+  train_tracking*.py             Stage A (single-motion, 12-motion, full-corpus)
+  train_com.py / train_momentum.py / train_fall.py / train_recovery.py
+                                  Stages B-E
+  train_viability_critic*.py     SCVC critic
+  train_residual_policy*.py      Residual policy
+  eval_integrated_switch.py      Stage F evaluation through the real switch
+  eval_thrust_response.py        Single controllable push against a policy
+  sim_controlled_perturbation.py Multi-push, annotated-video demo
+  eval_protocol.py               IPR / MPJPE evaluation
 configs/
   com.yaml, momentum.yaml, fall.yaml, recovery.yaml, switch.yaml
+  motion_families.yaml   taxonomy labels, drives curriculum oversampling
+data/splits/
+  train_ids.txt (56) / val_ids.txt (7) / test_ids.txt (7) - used by
+  train_tracking_multi_full.py for genuine held-out generalization eval
+logs/       every experiment's meta.json + eval_summary.json + checkpoint
 ```
-
-## Git hygiene
-
-Outputs are ignored by the root .gitignore. Do not commit:
-- cloud_outputs/
-- data/motions_retargeted/
-- data/splits/
-- large media files or logs
 
 ## License
 

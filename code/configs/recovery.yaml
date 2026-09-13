@@ -4,3 +4,5 @@ obs:
 rewards:
   recovery_success: {bonus: 10.0}
   time_to_upright: {lam: 0.01}
+  upright_shaping: {W: 1.0}
+  height_shaping: {target: 1.0, lam: 0.5}

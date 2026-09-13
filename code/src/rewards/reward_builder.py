@@ -49,6 +49,14 @@ def _time_to_upright(step: int, lam: float = 0.01) -> float:
     return -lam * float(step)
 
 
+def _upright_shaping(upright: float, W: float = 1.0) -> float:
+    return W * float(upright)
+
+
+def _height_shaping(base_height: float, target: float = 1.0, lam: float = 1.0) -> float:
+    return -lam * max(0.0, float(target) - float(base_height)) ** 2
+
+
 class RewardBuilder:
     """Stateless reward computation. Returns (total, breakdown)."""
 
@@ -109,6 +117,16 @@ class RewardBuilder:
             elif term_name == "time_to_upright":
                 cfg = term_cfg if isinstance(term_cfg, dict) else {"lam": float(term_cfg)}
                 value = _time_to_upright(kwargs["step"], lam=float(cfg.get("lam", 0.01)))
+            elif term_name == "upright_shaping":
+                cfg = term_cfg if isinstance(term_cfg, dict) else {"W": float(term_cfg)}
+                value = _upright_shaping(kwargs["upright"], W=float(cfg.get("W", 1.0)))
+            elif term_name == "height_shaping":
+                cfg = term_cfg if isinstance(term_cfg, dict) else {}
+                value = _height_shaping(
+                    kwargs["base_height"],
+                    target=float(cfg.get("target", 1.0)),
+                    lam=float(cfg.get("lam", 1.0)),
+                )
             else:
                 raise KeyError(f"Unknown reward term: {term_name}")
 

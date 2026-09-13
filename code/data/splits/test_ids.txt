@@ -1,0 +1,7 @@
+ky_leg_raise
+kw_highkick_left
+kt_vadivu_lowseat
+iv_guard_squat_r
+nk_step_jumps
+iv_kick_block_r
+kw_deep_reach

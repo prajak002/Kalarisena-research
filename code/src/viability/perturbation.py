@@ -1,14 +1,6 @@
-"""Counterfactual perturbation sampler for SCVC training (paper Sec 3.3, D_pert).
-
-The paper's D_pert covers external impulse, friction, mass/inertia, latency,
-observation noise, contact timing, and phase. This implementation covers the
-two dimensions that don't require reloading the MuJoCo model per trial:
-external impulse (direction, magnitude, timing - reusing the exact
-`rt.pelvis_body` / `xfrc_applied` mechanism scripts/sim_push_sweep.py already
-uses) and observation noise. Friction/mass/inertia/latency randomization would
-need per-episode model reconstruction, which G1MujocoRuntime does not support
-live; that is a real, stated scope limit, not something quietly skipped.
-"""
+"""Counterfactual perturbation sampler for SCVC training: external impulse
+(direction, magnitude, timing, via `rt.pelvis_body` / `xfrc_applied`) and
+observation noise."""
 
 from __future__ import annotations
 
@@ -54,3 +46,54 @@ def sample_perturbation(
 def null_perturbation() -> Perturbation:
     """No disturbance - used to collect the nominal successor-entry manifold."""
     return Perturbation(t_start=1e9, duration=0.0, force_x=0.0, force_y=0.0, obs_noise_std=0.0)
+
+
+@dataclass
+class PushSegment:
+    t_start: float
+    duration: float
+    force_x: float
+    force_y: float
+
+    @property
+    def magnitude(self) -> float:
+        return float(np.hypot(self.force_x, self.force_y))
+
+    @property
+    def angle_deg(self) -> float:
+        return float(np.degrees(np.arctan2(self.force_y, self.force_x)))
+
+
+class PushPattern:
+    """Sequence of push segments; duck-types Perturbation's
+    (`.active(t)`, `.force_x`, `.force_y`, `.obs_noise_std`) interface."""
+
+    def __init__(self, segments: list[PushSegment], obs_noise_std: float = 0.0):
+        self.segments = segments
+        self.obs_noise_std = obs_noise_std
+        self._current: PushSegment | None = None
+
+    def active(self, t: float) -> bool:
+        self._current = next((s for s in self.segments if s.t_start <= t < s.t_start + s.duration), None)
+        return self._current is not None
+
+    @property
+    def force_x(self) -> float:
+        return self._current.force_x if self._current else 0.0
+
+    @property
+    def force_y(self) -> float:
+        return self._current.force_y if self._current else 0.0
+
+    @classmethod
+    def from_polar(cls, pushes: list[tuple[float, float, float, float]]) -> "PushPattern":
+        """pushes: list of (t_start, angle_deg, magnitude_N, duration_s)."""
+        segs = [
+            PushSegment(
+                t_start=float(t), duration=float(dur),
+                force_x=float(mag) * np.cos(np.radians(angle)),
+                force_y=float(mag) * np.sin(np.radians(angle)),
+            )
+            for t, angle, mag, dur in pushes
+        ]
+        return cls(segs)

@@ -1,0 +1,7 @@
+ks_leg_raise_stance
+vb_jump_kick
+iv_bend_kick_r
+sc_squat_pivots
+fw_square_steps
+pk_low_sweeps
+sc_stance_shifts
