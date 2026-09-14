@@ -514,6 +514,17 @@ pairing it with the learned viability critic and residual correction
 described in the Method section above, rather than treating either stage
 in isolation as sufficient.
 
+<div align="center">
+
+![](media/videos/six_stages/stageb.gif)
+
+</div>
+
+Even after fixing two real observation bugs found later the same day (a
+duplicated value, an unguarded `-999.0` sentinel reaching the policy
+uncapped - see below), the retrain falls faster than Stage A alone, in
+well under a second on this standing lunge.
+
 **Stage C, momentum.** The explosive-strike family (kicks, jumps) generates
 real angular momentum a tracking-only reward never has to account for.
 `code/src/envs/momentum_env.py` adds the momentum-regulation term from
@@ -526,6 +537,16 @@ exactly the quantity this stage optimizes for - though the fall rate is
 still 100%. Regulating momentum and staying upright turned out to be
 partially separable objectives here: the policy learned the first without
 the second following automatically.
+
+<div align="center">
+
+![](media/videos/six_stages/stagec.gif)
+
+</div>
+
+On `ks_side_kick`: the angular-momentum norm this stage is directly
+optimizing does come down in the readout as the clip plays - the metric
+it targets moves, fall rate doesn't.
 
 **Stage D, fall impact.** `code/src/envs/fall_env.py` reads real per-step
 contact force off the torso via MuJoCo's own contact solver
@@ -556,6 +577,16 @@ whose direction held up under scrutiny even though its magnitude didn't.
 It's motion-dependent, not universal: better on 8 of 12 motions, worse on
 4 (`kw_long_stance`, `kt_chuvadu_step`, `kw_highkick_right`, `ky_kick_seq`).
 
+<div align="center">
+
+![](media/videos/six_stages/staged.gif)
+
+</div>
+
+`kw_long_stance` is one of the four where Stage D loses to doing nothing -
+shown as one of the worse cases on purpose, not the best one. Real ground
+contact, continued 1.5s past official termination to actually capture it.
+
 **Stage F, switching.** The paper's own note for this stage says to start
 with threshold-based switching, not a learned one - so `code/src/switch/mode_switch.py`
 (the hand-tuned hysteresis switch used everywhere above) is finally wired
@@ -566,6 +597,15 @@ recovery policy live, based on the switch's own cp_margin/momentum/height
 thresholds. Real result: switching shortens the average episode rather than
 lengthening it, and roughly tracks Stage D's corrected impact-reduction
 story above - it changes how the fall happens, it doesn't prevent it.
+
+<div align="center">
+
+![](media/videos/six_stages/stagef.gif)
+
+</div>
+
+All three real policies live on one rollout, no external push - the
+switch engages on its own, from the tracker's own instability.
 
 **Stage E, standing back up.** The one stage that couldn't reuse the
 tracking-episode structure every other stage above shares: there is no
@@ -601,6 +641,17 @@ the underlying problem - genuinely standing back up from the ground -
 remains open, and is now the project's single most promising lever, since
 it is the only stage whose reward structure already points the right
 direction.
+
+<div align="center">
+
+![](media/videos/six_stages/stagee.gif)
+
+</div>
+
+The exact pattern described above, on video: torso orientation climbs
+toward upright while `base_height` stays near the floor the entire clip -
+what the old, height-blind metric would have called a success partway
+through, and what the corrected one correctly doesn't.
 
 **Where this training story actually stands, end to end.** All five ladder
 stages this repository could attempt without physical hardware now have
@@ -808,20 +859,22 @@ tuning problem either.
 
 <div align="center">
 
-![](media/videos/stageA_balanced/fall_demo.gif)
+![](media/videos/six_stages/stagea.gif)
 
 </div>
 
-The balanced-tracking checkpoint on `kw_long_stance`, frame 0, no push
-applied - the deep stance itself is enough. Tracking holds cleanly for
-about 1.5 seconds before the capture point exits the support polygon and
-recovery authority runs out. That consistent ~1-1.5s collapse window,
-reproduced across every variant above, is now the project's central open
-problem: not a bug, not a single missing reward term, but the ceiling of
-what joint-space residual correction on top of position-PD control can
-do for these stances. The next thing being tried is a structural change -
-curriculum pretraining on static stance-holding before the full dynamic
-motion - rather than another reward-shaping variant.
+The balanced-tracking checkpoint on `kt_warrior_pose`, a standing lunge,
+frame 0, no push applied - the pose itself is enough. Tracking holds
+briefly before the capture point exits the support polygon and recovery
+authority runs out; on `kw_long_stance` the same checkpoint holds for
+closer to 1.5 seconds before the identical collapse. That consistent
+sub-two-second collapse window, reproduced across every variant above, is
+now the project's central open problem: not a bug, not a single missing
+reward term, but the ceiling of what joint-space residual correction on
+top of position-PD control can do for these stances. The next thing tried
+was a structural change - curriculum pretraining on static stance-holding
+before the full dynamic motion - rather than another reward-shaping
+variant.
 
 `code/src/envs/static_stance_env.py` freezes the reference to a single
 real frame for the whole episode (reward/fall/truncation code paths are
@@ -829,8 +882,11 @@ untouched - they just see a "motion" that happens to be one pose repeated),
 so a policy first has to master holding any one stance indefinitely.
 `code/scripts/train_curriculum.py` trains that as phase 1, then continues
 the same policy (`model.set_env()`) on the real moving corpus as phase 2.
-Run in progress; whether static-hold mastery transfers into the moving
-task is still open.
+It didn't help: **100% fall rate**, tracking RMSE 0.248 (still worse than
+plain PD), mean episode length 46.1 steps - not better than the
+non-curriculum balanced-tracking variant above (99.2%, RMSE 0.244, 51.8
+steps), and by episode length, slightly worse. Static-hold mastery did not
+transfer into the moving task.
 
 Two standalone, self-hosted pages (no external dependency but a Google
 Fonts link) let you look at the raw data directly instead of trusting a
