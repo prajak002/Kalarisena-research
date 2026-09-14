@@ -1,0 +1,12 @@
+{
+  "experiment_name": "stageE_recovery",
+  "stage": "E (recovery-to-standing)",
+  "algo": "PPO (stable-baselines3)",
+  "config": "configs/recovery.yaml",
+  "steps": 20000000,
+  "n_envs": 8,
+  "device": "cpu",
+  "seed": 60,
+  "warm_start": null,
+  "note": "randomized fallen start, no reference motion; dense upright/height shaping in configs/recovery.yaml"
+}

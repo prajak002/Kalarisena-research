@@ -573,15 +573,27 @@ reference motion to recover into, so `code/src/envs/recovery_env.py` starts
 each episode from a randomized, physically-settled fallen pose (tipped over,
 dropped, and let its contact dynamics resolve for real before the episode
 even begins) with no tracking target at all - the policy has 300 steps to
-reach and hold an upright stance. Two million PPO steps: **0% success** -
-it never once crosses the upright threshold and holds it - but real,
-measured progress underneath that zero: the best upright angle reached
-during an episode rose from 0.10 to **0.34** over training (1.0 is fully
-upright, 0.75 is the success bar). Standing up from flat on the ground with
-no shaping beyond a sparse upright bonus is a hard exploration problem in
-humanoid RL generally, and two million steps with this reward alone wasn't
-enough to solve it here - a real, unresolved result, reported as exactly
-that rather than dressed up.
+reach and hold an upright stance. Two million PPO steps with a sparse
+upright-only reward: 0% success, but real, measured progress underneath -
+best upright angle reached during an episode rose from 0.10 to 0.34 over
+training. Dense upright/height reward shaping plus a longer, 15M-step run
+fixed the sparse-gradient problem itself: two seeds reached 10% and 0%
+success respectively (the second still climbing to a 0.70 mean max-upright,
+up from 0.34).
+
+That "15% success" (a third eval, 20 episodes) turned out to be measuring
+the wrong thing. The success check was `torso_upright_cos() > 0.75` alone -
+orientation only, no height requirement - which a robot can satisfy while
+still curled on the ground. Checked directly: at the instant one
+"successful" episode registered, real `base_height` was **0.19m** against
+**0.78m** standing, about a quarter of the way up. `HEIGHT_SUCCESS = 0.6`
+now gates success on height as well as orientation; re-evaluated on the
+same, unchanged checkpoint across 30 episodes, the honest rate is **0%**,
+mean peak height reached **0.285m**. A fresh run against the corrected
+criterion is in progress (the prior checkpoint was fit to the wrong
+objective, so this one trains from scratch rather than warm-starting).
+Reported as exactly what it is: the metric bug is fixed, the underlying
+problem - genuinely standing back up from the ground - remains open.
 
 **Where this training story actually stands, end to end.** All five ladder
 stages this repository could attempt without physical hardware now have
@@ -855,6 +867,16 @@ register a difference across magnitudes; the latter is a genuinely seated
 stance, not a camera problem. `kw_long_stance` gives a real, honest,
 monotonic result instead: 63 steps survived at 0N down to 51 at 100N -
 more force does make it fall sooner, it still falls every time.
+
+One more page, [`code/demos/six_stages/`](code/demos/six_stages/index.html)
+("Six Stages"), walks through A-F in order on one scroll: a real checkpoint,
+a real clean/slow rollout, and real telemetry for each, closing with the
+honest synthesis above. Building its Stage E section is where the
+height-blind success-metric bug two paragraphs up was actually caught -
+the page was about to ship "15% success" with a clip that, checked frame by
+frame, showed the robot curled on the ground the whole time. The page
+documents that correction inline rather than quietly using a different
+number.
 
 ## A controlled environment for probing balance recovery
 

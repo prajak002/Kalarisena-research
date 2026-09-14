@@ -1,0 +1,422 @@
+{
+ "stage": "C",
+ "motion_id": "ks_side_kick",
+ "fell_at": 0.16,
+ "frames": [
+  {
+   "t": 0.02,
+   "fell": false,
+   "hg_angular_norm": 0.0889
+  },
+  {
+   "t": 0.04,
+   "fell": false,
+   "hg_angular_norm": 0.1681
+  },
+  {
+   "t": 0.06,
+   "fell": false,
+   "hg_angular_norm": 0.0732
+  },
+  {
+   "t": 0.08,
+   "fell": false,
+   "hg_angular_norm": 0.034
+  },
+  {
+   "t": 0.1,
+   "fell": false,
+   "hg_angular_norm": 0.019
+  },
+  {
+   "t": 0.12,
+   "fell": false,
+   "hg_angular_norm": 0.0196
+  },
+  {
+   "t": 0.14,
+   "fell": false,
+   "hg_angular_norm": 0.0232
+  },
+  {
+   "t": 0.16,
+   "fell": true,
+   "hg_angular_norm": 0.4948
+  },
+  {
+   "t": 0.18,
+   "fell": true,
+   "hg_angular_norm": 3.514
+  },
+  {
+   "t": 0.2,
+   "fell": true,
+   "hg_angular_norm": 5.8115
+  },
+  {
+   "t": 0.22,
+   "fell": true,
+   "hg_angular_norm": 8.0896
+  },
+  {
+   "t": 0.24,
+   "fell": true,
+   "hg_angular_norm": 8.5713
+  },
+  {
+   "t": 0.26,
+   "fell": true,
+   "hg_angular_norm": 8.9561
+  },
+  {
+   "t": 0.28,
+   "fell": true,
+   "hg_angular_norm": 6.8518
+  },
+  {
+   "t": 0.3,
+   "fell": true,
+   "hg_angular_norm": 2.6103
+  },
+  {
+   "t": 0.32,
+   "fell": true,
+   "hg_angular_norm": 0.7695
+  },
+  {
+   "t": 0.34,
+   "fell": true,
+   "hg_angular_norm": 2.7554
+  },
+  {
+   "t": 0.36,
+   "fell": true,
+   "hg_angular_norm": 3.3633
+  },
+  {
+   "t": 0.38,
+   "fell": true,
+   "hg_angular_norm": 3.0153
+  },
+  {
+   "t": 0.4,
+   "fell": true,
+   "hg_angular_norm": 1.5644
+  },
+  {
+   "t": 0.42,
+   "fell": true,
+   "hg_angular_norm": 0.8537
+  },
+  {
+   "t": 0.44,
+   "fell": true,
+   "hg_angular_norm": 0.6524
+  },
+  {
+   "t": 0.46,
+   "fell": true,
+   "hg_angular_norm": 1.0274
+  },
+  {
+   "t": 0.48,
+   "fell": true,
+   "hg_angular_norm": 1.3325
+  },
+  {
+   "t": 0.5,
+   "fell": true,
+   "hg_angular_norm": 1.7851
+  },
+  {
+   "t": 0.52,
+   "fell": true,
+   "hg_angular_norm": 1.8062
+  },
+  {
+   "t": 0.54,
+   "fell": true,
+   "hg_angular_norm": 2.2977
+  },
+  {
+   "t": 0.56,
+   "fell": true,
+   "hg_angular_norm": 2.0062
+  },
+  {
+   "t": 0.58,
+   "fell": true,
+   "hg_angular_norm": 1.8369
+  },
+  {
+   "t": 0.6,
+   "fell": true,
+   "hg_angular_norm": 1.6195
+  },
+  {
+   "t": 0.62,
+   "fell": true,
+   "hg_angular_norm": 1.9394
+  },
+  {
+   "t": 0.64,
+   "fell": true,
+   "hg_angular_norm": 2.272
+  },
+  {
+   "t": 0.66,
+   "fell": true,
+   "hg_angular_norm": 2.5531
+  },
+  {
+   "t": 0.68,
+   "fell": true,
+   "hg_angular_norm": 3.2103
+  },
+  {
+   "t": 0.7,
+   "fell": true,
+   "hg_angular_norm": 3.7149
+  },
+  {
+   "t": 0.72,
+   "fell": true,
+   "hg_angular_norm": 4.2745
+  },
+  {
+   "t": 0.74,
+   "fell": true,
+   "hg_angular_norm": 4.7696
+  },
+  {
+   "t": 0.76,
+   "fell": true,
+   "hg_angular_norm": 5.2423
+  },
+  {
+   "t": 0.78,
+   "fell": true,
+   "hg_angular_norm": 5.3541
+  },
+  {
+   "t": 0.8,
+   "fell": true,
+   "hg_angular_norm": 5.1671
+  },
+  {
+   "t": 0.82,
+   "fell": true,
+   "hg_angular_norm": 4.9773
+  },
+  {
+   "t": 0.84,
+   "fell": true,
+   "hg_angular_norm": 5.2371
+  },
+  {
+   "t": 0.86,
+   "fell": true,
+   "hg_angular_norm": 5.1783
+  },
+  {
+   "t": 0.88,
+   "fell": true,
+   "hg_angular_norm": 4.3687
+  },
+  {
+   "t": 0.9,
+   "fell": true,
+   "hg_angular_norm": 5.0395
+  },
+  {
+   "t": 0.92,
+   "fell": true,
+   "hg_angular_norm": 7.3279
+  },
+  {
+   "t": 0.94,
+   "fell": true,
+   "hg_angular_norm": 10.071
+  },
+  {
+   "t": 0.96,
+   "fell": true,
+   "hg_angular_norm": 12.4969
+  },
+  {
+   "t": 0.98,
+   "fell": true,
+   "hg_angular_norm": 14.734
+  },
+  {
+   "t": 1.0,
+   "fell": true,
+   "hg_angular_norm": 11.8465
+  },
+  {
+   "t": 1.02,
+   "fell": true,
+   "hg_angular_norm": 10.1757
+  },
+  {
+   "t": 1.04,
+   "fell": true,
+   "hg_angular_norm": 10.6853
+  },
+  {
+   "t": 1.06,
+   "fell": true,
+   "hg_angular_norm": 9.969
+  },
+  {
+   "t": 1.08,
+   "fell": true,
+   "hg_angular_norm": 8.5479
+  },
+  {
+   "t": 1.1,
+   "fell": true,
+   "hg_angular_norm": 8.0172
+  },
+  {
+   "t": 1.12,
+   "fell": true,
+   "hg_angular_norm": 7.903
+  },
+  {
+   "t": 1.14,
+   "fell": true,
+   "hg_angular_norm": 8.0332
+  },
+  {
+   "t": 1.16,
+   "fell": true,
+   "hg_angular_norm": 8.4943
+  },
+  {
+   "t": 1.18,
+   "fell": true,
+   "hg_angular_norm": 8.839
+  },
+  {
+   "t": 1.2,
+   "fell": true,
+   "hg_angular_norm": 8.8432
+  },
+  {
+   "t": 1.22,
+   "fell": true,
+   "hg_angular_norm": 8.8358
+  },
+  {
+   "t": 1.24,
+   "fell": true,
+   "hg_angular_norm": 8.8553
+  },
+  {
+   "t": 1.26,
+   "fell": true,
+   "hg_angular_norm": 7.2912
+  },
+  {
+   "t": 1.28,
+   "fell": true,
+   "hg_angular_norm": 8.1238
+  },
+  {
+   "t": 1.3,
+   "fell": true,
+   "hg_angular_norm": 8.5299
+  },
+  {
+   "t": 1.32,
+   "fell": true,
+   "hg_angular_norm": 8.3051
+  },
+  {
+   "t": 1.34,
+   "fell": true,
+   "hg_angular_norm": 8.4213
+  },
+  {
+   "t": 1.36,
+   "fell": true,
+   "hg_angular_norm": 8.5056
+  },
+  {
+   "t": 1.38,
+   "fell": true,
+   "hg_angular_norm": 8.4996
+  },
+  {
+   "t": 1.4,
+   "fell": true,
+   "hg_angular_norm": 8.3786
+  },
+  {
+   "t": 1.42,
+   "fell": true,
+   "hg_angular_norm": 8.2433
+  },
+  {
+   "t": 1.44,
+   "fell": true,
+   "hg_angular_norm": 8.0446
+  },
+  {
+   "t": 1.46,
+   "fell": true,
+   "hg_angular_norm": 7.8562
+  },
+  {
+   "t": 1.48,
+   "fell": true,
+   "hg_angular_norm": 7.9829
+  },
+  {
+   "t": 1.5,
+   "fell": true,
+   "hg_angular_norm": 8.2699
+  },
+  {
+   "t": 1.52,
+   "fell": true,
+   "hg_angular_norm": 6.0962
+  },
+  {
+   "t": 1.54,
+   "fell": true,
+   "hg_angular_norm": 4.5458
+  },
+  {
+   "t": 1.56,
+   "fell": true,
+   "hg_angular_norm": 1.7403
+  },
+  {
+   "t": 1.58,
+   "fell": true,
+   "hg_angular_norm": 0.8786
+  },
+  {
+   "t": 1.6,
+   "fell": true,
+   "hg_angular_norm": 1.7379
+  },
+  {
+   "t": 1.62,
+   "fell": true,
+   "hg_angular_norm": 1.2265
+  },
+  {
+   "t": 1.64,
+   "fell": true,
+   "hg_angular_norm": 0.9701
+  },
+  {
+   "t": 1.66,
+   "fell": true,
+   "hg_angular_norm": 1.7002
+  }
+ ]
+}

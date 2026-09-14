@@ -17,6 +17,13 @@ ACTION_SCALE = 0.5
 MAX_STEPS = 300
 UPRIGHT_SUCCESS = 0.75
 UPRIGHT_DWELL_STEPS = 30
+# Real standing base_height (default_qpos()[2]) is ~0.779m. Success used to
+# check torso_upright_cos() alone, which a robot can satisfy while crouched
+# or kneeling - torso orientation vertical, height near the floor. Verified
+# directly: a "successful" episode had base_height=0.19m at the moment of
+# success, ~24% of standing height. HEIGHT_SUCCESS requires genuinely
+# standing back up, not just an upright torso at any height.
+HEIGHT_SUCCESS = 0.6
 
 
 class RecoveryEnv(gym.Env):
@@ -25,11 +32,13 @@ class RecoveryEnv(gym.Env):
 
     metadata = {"render_modes": ["rgb_array"]}
 
-    def __init__(self, reward_cfg: dict, seed: int | None = None, render_mode: str | None = None):
+    def __init__(self, reward_cfg: dict, seed: int | None = None, render_mode: str | None = None,
+                 render_camera: str = "track"):
         super().__init__()
         self.rt = G1MujocoRuntime()
         self.reward_builder = RewardBuilder(reward_cfg)
         self.render_mode = render_mode
+        self.render_camera = render_camera
         self.nu = self.rt.model.nu
         self.target = self.rt.default_joint_targets()
 
@@ -98,7 +107,8 @@ class RecoveryEnv(gym.Env):
         self._step += 1
 
         upright = self.rt.torso_upright_cos()
-        is_upright = upright > UPRIGHT_SUCCESS
+        base_height = float(self.rt.base_height)
+        is_upright = upright > UPRIGHT_SUCCESS and base_height > HEIGHT_SUCCESS
         self._upright_dwell = self._upright_dwell + 1 if is_upright else 0
 
         success = self._upright_dwell >= UPRIGHT_DWELL_STEPS
@@ -108,16 +118,16 @@ class RecoveryEnv(gym.Env):
 
         reward, breakdown = self.reward_builder.compute(
             is_upright=is_upright, step=self._step,
-            upright=upright, base_height=float(self.rt.base_height))
+            upright=upright, base_height=base_height)
 
         info = {"upright": float(upright), "is_upright": bool(is_upright),
                  "success": bool(success), "step": self._step,
-                 "base_height": float(self.rt.base_height), "reward_breakdown": breakdown}
+                 "base_height": base_height, "reward_breakdown": breakdown}
         return self._obs(), float(reward), terminated, truncated, info
 
     def render(self):
         if self.render_mode == "rgb_array":
-            return self.rt.render_frame(camera="track")
+            return self.rt.render_frame(camera=self.render_camera)
         return None
 
     def close(self):

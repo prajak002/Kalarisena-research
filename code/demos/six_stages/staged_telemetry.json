@@ -1,0 +1,697 @@
+{
+ "stage": "D",
+ "motion_id": "kw_long_stance",
+ "fell_at": 1.2600000000000007,
+ "frames": [
+  {
+   "t": 0.02,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.04,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.06,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.08,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.1,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.12,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.14,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.16,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.18,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.2,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.22,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.24,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.26,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.28,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.3,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.32,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.34,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.36,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.38,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.4,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.42,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.44,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.46,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.48,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.5,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.52,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.54,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.56,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.58,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.6,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.62,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.64,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.66,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.68,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.7,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.72,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.74,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.76,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.78,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.8,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.82,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.84,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.86,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.88,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.9,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.92,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.94,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.96,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 0.98,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.0,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.02,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.04,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.06,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.08,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.1,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.12,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.14,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.16,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.18,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.2,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.22,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.24,
+   "fell": false,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.26,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.28,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.3,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.32,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.34,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.36,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.38,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.4,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.42,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.44,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.46,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.48,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.5,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.52,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.54,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.56,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.58,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.6,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.62,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.64,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.66,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.68,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.7,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.72,
+   "fell": true,
+   "torso_impact_force": 707.09
+  },
+  {
+   "t": 1.74,
+   "fell": true,
+   "torso_impact_force": 149.82
+  },
+  {
+   "t": 1.76,
+   "fell": true,
+   "torso_impact_force": 49.85
+  },
+  {
+   "t": 1.78,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.8,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.82,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.84,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.86,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.88,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.9,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.92,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.94,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.96,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 1.98,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.0,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.02,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.04,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.06,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.08,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.1,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.12,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.14,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.16,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.18,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.2,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.22,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.24,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.26,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.28,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.3,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.32,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.34,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.36,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.38,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.4,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.42,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.44,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.46,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.48,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.5,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.52,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.54,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.56,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.58,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.6,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.62,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.64,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.66,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.68,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.7,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.72,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.74,
+   "fell": true,
+   "torso_impact_force": 0.0
+  },
+  {
+   "t": 2.76,
+   "fell": true,
+   "torso_impact_force": 0.0
+  }
+ ]
+}

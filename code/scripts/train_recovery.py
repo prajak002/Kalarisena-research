@@ -63,6 +63,9 @@ def main() -> int:
     ap.add_argument("--eval-episodes", type=int, default=20)
     ap.add_argument("--device", default="cpu")
     ap.add_argument("--seed", type=int, default=49)
+    ap.add_argument("--warm-start", default=None,
+                     help="path to an existing recovery_best.zip to continue training from, "
+                          "instead of initializing a fresh policy")
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -87,6 +90,7 @@ def main() -> int:
     meta = {"experiment_name": "stageE_recovery", "stage": "E (recovery-to-standing)",
             "algo": "PPO (stable-baselines3)", "config": args.config,
             "steps": args.steps, "n_envs": args.n_envs, "device": args.device, "seed": args.seed,
+            "warm_start": args.warm_start,
             "note": "randomized fallen start, no reference motion; dense upright/height shaping in configs/recovery.yaml"}
     with open(os.path.join(args.out, "meta.json"), "w") as fh:
         json.dump(meta, fh, indent=2)
@@ -95,16 +99,22 @@ def main() -> int:
     venv = VecMonitor(vec_cls([make_env(reward_cfg, i) for i in range(args.n_envs)]))
     venv = VecNormalize(venv, norm_obs=False, norm_reward=True, clip_reward=10.0)
 
-    model = PPO(
-        "MlpPolicy", venv, verbose=1,
-        n_steps=256, batch_size=1024, learning_rate=3e-4,
-        gamma=0.99, gae_lambda=0.95, clip_range=0.2, ent_coef=0.003,
-        policy_kwargs={"net_arch": [256, 256]},
-        tensorboard_log=os.path.join(args.out, "tb"),
-        seed=args.seed, device=args.device,
-    )
+    if args.warm_start:
+        model = PPO.load(args.warm_start, env=venv, device=args.device,
+                          tensorboard_log=os.path.join(args.out, "tb"))
+        print(f"warm-started from {args.warm_start}")
+    else:
+        model = PPO(
+            "MlpPolicy", venv, verbose=1,
+            n_steps=256, batch_size=1024, learning_rate=3e-4,
+            gamma=0.99, gae_lambda=0.95, clip_range=0.2, ent_coef=0.003,
+            policy_kwargs={"net_arch": [256, 256]},
+            tensorboard_log=os.path.join(args.out, "tb"),
+            seed=args.seed, device=args.device,
+        )
     print(f"training {args.steps:,} steps on {args.n_envs} envs -> {args.out}")
-    model.learn(total_timesteps=args.steps, progress_bar=False)
+    model.learn(total_timesteps=args.steps, progress_bar=False,
+                reset_num_timesteps=args.warm_start is None)
     model.save(ckpt)
     venv.save(norm_path)
     print(f"saved {ckpt}")
