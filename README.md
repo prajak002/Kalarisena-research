@@ -791,6 +791,15 @@ do for these stances. The next thing being tried is a structural change -
 curriculum pretraining on static stance-holding before the full dynamic
 motion - rather than another reward-shaping variant.
 
+`code/src/envs/static_stance_env.py` freezes the reference to a single
+real frame for the whole episode (reward/fall/truncation code paths are
+untouched - they just see a "motion" that happens to be one pose repeated),
+so a policy first has to master holding any one stance indefinitely.
+`code/scripts/train_curriculum.py` trains that as phase 1, then continues
+the same policy (`model.set_env()`) on the real moving corpus as phase 2.
+Run in progress; whether static-hold mastery transfers into the moving
+task is still open.
+
 ## A controlled environment for probing balance recovery
 
 Every perturbation script up to this point runs a single, fixed push and
