@@ -652,6 +652,82 @@ an unrelated reason. A retrain at 15 million steps, up from 2 million, is
 running now; whether the fix is sufficient is still an open, honestly
 unresolved question until that run finishes.
 
+That question is now answered by two seeds: **10% success (seed 49)** and
+**0% success but a 0.70 mean max-upright-cosine (seed 50, up from 0.34
+pre-fix)**. The dense-shaping fix works in the sense that the policy
+consistently gets much closer to standing than before; it does not
+consistently cross the exact success threshold. Reported as what it is - a
+real, partial improvement, not a solved stage.
+
+## Diagnosing the rest of the curriculum, and the residual policy's real result
+
+Three more components got the same treatment as Stage E above: don't retry
+with more steps and call it fixed, find the actual bug or state plainly that
+there isn't one.
+
+**The residual policy tied its own baseline, and that was correct - the
+first time.** `code/src/viability/residual_policy.py`'s gate had three
+compounding bugs: a balance reward that was a hard dead-zone (`clip(cp_margin,
+0, 0.3) / 0.3`) rather than a continuous signal until the policy was already
+in danger; a single global `(tau_l, tau_h)` threshold pair applied across
+motions whose raw viability score spans roughly ten orders of magnitude
+(calibrating against one outlier motion alone pinned the gate fully shut,
+`mean_gate = 0.0`, across the rest of the corpus - the residual arm and the
+frozen-tracker baseline came back byte-identical down to the third decimal,
+which is what first exposed the bug rather than a real result); and an EMA
+viability tracker that bootstrapped from a hardcoded `v_bar = 1.0` instead of
+its first real observation. `code/scripts/calibrate_residual_gate.py` now
+computes per-motion thresholds empirically instead of guessing one pair
+globally. All three fixed, then rerun on two independent seeds: the residual
+policy still exactly ties the frozen tracker's fall rate. That is now a real,
+reproducible negative result rather than an artifact of broken gating - the
+residual authority as currently scoped isn't earning its keep, which is a
+legitimate finding to report rather than paper over. IPR did move on the
+fixed checkpoint, from 0% to **5.6%** overall (**8.3%** at 40N/80N push
+forces, still 0% at 0N - baseline instability, not disturbance recovery, is
+still the dominant failure mode).
+
+**Stage B had two bugs in its observation, not its reward.**
+`code/src/envs/com_refine_env.py`'s augmented observation duplicated
+`cp_margin` into a slot meant to encode support mode, and - more seriously -
+fed the policy a raw `-999.0` sentinel (`PinocchioWrapper.get_support_features`'s
+placeholder for "no foot contact detected") directly into its input whenever
+contact was briefly lost, exactly the moment a clean balance signal matters
+most. The reward path already guarded against this; the observation path
+didn't. Both fixed; a retrain (`logs/stageB_com_fixed`) is in progress.
+
+**Stage C has no bug, but does have a gap.** `code/src/envs/momentum_env.py`'s
+reward and observation code is clean - dense terms throughout, no sentinel or
+duplication issues found. `configs/momentum.yaml` declares a Stage B warm
+start (`checkpoint: models/com_best.pt`), but `train_momentum.py` never
+actually loads it - a real, still-open engineering gap (Stage B and C have
+different observation dimensions, so it needs a proper weight-transfer
+step, not a direct `PPO.load`), not yet closed.
+
+**Stage F's mode switching had never been evaluated with a real recovery
+policy, and the first attempt at fixing that hid a second bug.**
+`code/scripts/eval_integrated_switch.py` previously fell back to the nominal
+tracker's own action whenever the switch entered RECOVERY mode, since no
+Stage E policy existed yet to route through. Wiring in the real one
+initially produced a 100% fall rate under mode-switching - worse than doing
+nothing - which didn't get reported as a result; it got traced. The cause:
+`RecoveryEnv` trains its policy's actions as offsets from a **fixed**
+standing pose at scale 0.5, but the eval script was feeding those same
+actions into `KalariTrackEnv.step()`, which reinterprets any action as a
+small offset from the **moving** Kalaripayattu reference pose at scale 0.25 -
+two incompatible action spaces, silently swapped. `_recovery_step()` now
+drives the sim the way `RecoveryEnv` itself does, with the reference frame
+frozen for the duration of RECOVERY mode. The real result, after the fix:
+mode-switching into FALL/RECOVERY still roughly ties nominal-only (100% vs
+94% fall rate on the twelve-motion set, shorter episodes when switching).
+The likely reason is a metric-definition issue rather than a control
+failure: "fell" is defined relative to the *original* reference pose's
+height and uprightness at that frame, so a genuine recovery-to-standing that
+doesn't happen to match what the specific dance movement demanded at that
+instant still counts as a fall - the same "survives, doesn't necessarily
+preserve intent" limitation already called out for IPR below, now showing up
+in a second metric.
+
 ## A controlled environment for probing balance recovery
 
 Every perturbation script up to this point runs a single, fixed push and

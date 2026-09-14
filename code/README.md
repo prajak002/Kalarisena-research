@@ -17,9 +17,32 @@ corpus (`data/motions_retargeted/*.npz`) or the G1 MJCF/URDF assets
 See the top-level `README.md` for the full narrative and measured results.
 In short: every stage in the A–F ladder has real code, a real run, and a real
 number in `logs/` — several honestly negative (Stage E recovery, the residual
-policy). A full-corpus retrain of Stage A (with genuine held-out
-generalization eval) and a reward-shaping fix for Stage E are in progress as
-of this commit — see the top-level README for their status.
+policy, Stage F mode-switching). Since the full-corpus/Stage E update above:
+
+- **Stage E**, two seeds: 10% success (seed 49) and 0% success but 0.70 mean
+  max-upright-cosine (seed 50, up from 0.34 pre-fix) — consistently gets much
+  closer to standing, inconsistently crosses the exact success threshold.
+- **Residual policy**: found and fixed three real bugs (a dead-zone-only
+  balance reward, per-motion gate-threshold miscalibration, an EMA
+  bootstrap bug) — see `scripts/calibrate_residual_gate.py`. Confirmed via
+  two independent seeds that even with all three fixed, the residual policy
+  still exactly ties the frozen tracker baseline: a real, reproducible
+  negative result, not broken infrastructure. IPR did move on the fixed
+  checkpoint: 0% → 5.6% overall (8.3% at 40N/80N push forces).
+- **Stage B**: found and fixed a duplicate observation value and an
+  unguarded `-999.0` sentinel leaking into the policy's input whenever foot
+  contact was briefly lost. Retrain in progress (`logs/stageB_com_fixed`).
+- **Stage C**: reward/observation code is clean, but the declared Stage
+  B→C warm-start (`configs/momentum.yaml`'s `checkpoint: models/com_best.pt`)
+  is never actually loaded by `train_momentum.py` — a real, still-open gap.
+- **Stage F**: wiring the real Stage E policy into
+  `eval_integrated_switch.py` surfaced a genuine action-space bug (the
+  recovery policy's actions, offsets from a fixed standing pose, were being
+  fed through the tracker's residual-on-moving-reference formula instead).
+  Fixed; the real result is mode-switching into FALL/RECOVERY still roughly
+  ties nominal-only under the current fall metric, which is itself defined
+  relative to the original reference pose — the same "survives without
+  falling, not true recovery" limitation already flagged for IPR.
 
 ## Setup
 
@@ -101,6 +124,7 @@ scripts/
   eval_thrust_response.py        Single controllable push against a policy
   sim_controlled_perturbation.py Multi-push, annotated-video demo
   eval_protocol.py               IPR / MPJPE evaluation
+  calibrate_residual_gate.py     Per-motion V_raw calibration for the SCVC gate
 configs/
   com.yaml, momentum.yaml, fall.yaml, recovery.yaml, switch.yaml
   motion_families.yaml   taxonomy labels, drives curriculum oversampling
