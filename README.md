@@ -516,7 +516,7 @@ in isolation as sufficient.
 
 <div align="center">
 
-![](media/videos/six_stages/stageb.gif)
+<video src="code/demos/six_stages/stageb.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -540,7 +540,7 @@ the second following automatically.
 
 <div align="center">
 
-![](media/videos/six_stages/stagec.gif)
+<video src="code/demos/six_stages/stagec.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -579,7 +579,7 @@ It's motion-dependent, not universal: better on 8 of 12 motions, worse on
 
 <div align="center">
 
-![](media/videos/six_stages/staged.gif)
+<video src="code/demos/six_stages/staged.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -600,7 +600,7 @@ story above - it changes how the fall happens, it doesn't prevent it.
 
 <div align="center">
 
-![](media/videos/six_stages/stagef.gif)
+<video src="code/demos/six_stages/stagef.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -644,7 +644,7 @@ direction.
 
 <div align="center">
 
-![](media/videos/six_stages/stagee.gif)
+<video src="code/demos/six_stages/stagee.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -859,7 +859,7 @@ tuning problem either.
 
 <div align="center">
 
-![](media/videos/six_stages/stagea.gif)
+<video src="code/demos/six_stages/stagea.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -890,10 +890,10 @@ transfer into the moving task.
 
 Two standalone, self-hosted pages (no external dependency but a Google
 Fonts link) let you look at the raw data directly instead of trusting a
-summary number: [`code/demos/capture_point_trace/`](code/demos/capture_point_trace/index.html)
+summary number: [`code/demos/capture_point_trace/`](code/demos/capture_point_trace/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/capture_point_trace/))
 scrubs a rollout with the capture-point margin chart synced frame-for-frame
 to the actual logged value, and
-[`code/demos/thrust_control/`](code/demos/thrust_control/index.html) is a
+[`code/demos/thrust_control/`](code/demos/thrust_control/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/thrust_control/)) is a
 draggable force slider across four real recorded trials (0/30/60/100N,
 Stage A+D+E composed live through the actual `ModeSwitch` FSM) - all four
 still fall; more force only delays the exact collapse frame, shown as-is.
@@ -904,7 +904,7 @@ policy) in this sibling script too - same fix applied.
 
 <div align="center">
 
-![](media/videos/thrust_control/push_60N.gif)
+<video src="code/demos/thrust_control/push_60N.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
@@ -920,7 +920,7 @@ the switch never sees a clean enough `nominal` window to hand off to
 | 60N | falls | 51 | FALL, 100% of episode |
 | 100N | falls | 51 | FALL, 100% of episode |
 
-A third page, [`code/demos/full_diagnostic/`](code/demos/full_diagnostic/index.html)
+A third page, [`code/demos/full_diagnostic/`](code/demos/full_diagnostic/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/full_diagnostic/))
 ("Posture Gap"), surfaces what the first two didn't: `com_margin` plotted
 alongside `cp_margin` (both were already computed every frame, only
 capture-point margin was ever shown), the single actuated joint furthest
@@ -949,7 +949,7 @@ stance, not a camera problem. `kw_long_stance` gives a real, honest,
 monotonic result instead: 63 steps survived at 0N down to 51 at 100N -
 more force does make it fall sooner, it still falls every time.
 
-One more page, [`code/demos/six_stages/`](code/demos/six_stages/index.html)
+One more page, [`code/demos/six_stages/`](code/demos/six_stages/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/))
 ("Six Stages"), walks through A-F in order on one scroll: a real checkpoint,
 a real clean/slow rollout, and real telemetry for each, closing with the
 honest synthesis above. Building its Stage E section is where the
