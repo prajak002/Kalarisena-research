@@ -1,0 +1,4 @@
+family,n_motions,success_rate,fall_rate,mean_impact,mean_com_margin,mean_cp_margin,mean_momentum_norm,recovery_success_rate,resume_success_rate
+stable_stance,4,0.0,1.0,525.6500000000001,0.0,0.0,0.0,0.0,0.0
+translational,4,0.0,1.0,696.72,0.0,0.0,0.0,0.0,0.0
+explosive_strike,4,0.0,1.0,1285.1075,0.0,0.0,0.0,0.0,0.0

@@ -1,0 +1,13 @@
+motion_id,family,n_trials,success_rate,fall_rate,mean_impact,mean_com_margin,mean_cp_margin,mean_momentum_norm,recovery_success_rate,resume_success_rate
+kw_long_stance,stable_stance,3,0.0,1.0,307.64,0.0,0.0,0.0,0.0,0.0
+kt_vadivu_lowseat,stable_stance,3,0.0,1.0,1288.22,0.0,0.0,0.0,0.0,0.0
+kt_warrior_pose,stable_stance,3,0.0,1.0,2269.17,0.0,0.0,0.0,0.0,0.0
+ky_warrior_lunge,stable_stance,3,0.0,1.0,702.9,0.0,0.0,0.0,0.0,0.0
+kt_chuvadu_step,translational,3,0.0,1.0,11.910000000000002,0.0,0.0,0.0,0.0,0.0
+kw_deep_reach,translational,3,0.0,1.0,2325.83,0.0,0.0,0.0,0.0,0.0
+ky_deep_lunge,translational,3,0.0,1.0,2097.02,0.0,0.0,0.0,0.0,0.0
+pk_stance_transitions,translational,3,0.0,1.0,993.39,0.0,0.0,0.0,0.0,0.0
+ks_side_kick,explosive_strike,3,0.0,1.0,1789.87,0.0,0.0,0.0,0.0,0.0
+kw_highkick_right,explosive_strike,3,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+ky_kick_seq,explosive_strike,3,0.0,1.0,264.23,0.0,0.0,0.0,0.0,0.0
+pk_kick_lunge,explosive_strike,3,0.0,1.0,4252.47,0.0,0.0,0.0,0.0,0.0

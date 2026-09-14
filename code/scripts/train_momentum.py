@@ -82,6 +82,11 @@ def main() -> int:
     ap.add_argument("--out", default="logs/stageC_momentum")
     ap.add_argument("--eval-only", action="store_true")
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--seed", type=int, default=46)
+    ap.add_argument("--device", default="cpu")
+    ap.add_argument("--warm-start", default=None,
+                     help="path to Stage B's checkpoint to warm-start from (paper Table 34: "
+                          "Stage C loads com_best) via src/rl/warm_start.py")
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -96,7 +101,7 @@ def main() -> int:
     ckpt = os.path.join(args.out, "momentum_best.zip")
 
     if args.eval_only:
-        model = PPO.load(ckpt)
+        model = PPO.load(ckpt, device=args.device)
         summary = evaluate(model, reward_cfg, phase_weight)
         print(json.dumps(summary["overall"], indent=2))
         return 0
@@ -107,8 +112,13 @@ def main() -> int:
     meta = {"experiment_name": "stageC_momentum", "stage": "C (momentum regulation)",
             "algo": "PPO (stable-baselines3)", "config": args.config,
             "motions": EXPLOSIVE_MOTIONS, "phase_weight": phase_weight,
-            "steps": args.steps, "n_envs": args.n_envs,
-            "note": "trained from scratch; see docstring re: rotational/explosive_strike mismatch"}
+            "steps": args.steps, "n_envs": args.n_envs, "seed": args.seed,
+            "warm_start": args.warm_start,
+            "note": ("see docstring re: rotational/explosive_strike mismatch. "
+                     + ("Warm-started from Stage B (paper Table 34: Stage C loads com_best) "
+                        "via src/rl/warm_start.py; here the obs width happens to already match "
+                        "(130-d for both), so this is effectively a plain weight copy."
+                        if args.warm_start else "Trained from scratch (no --warm-start given)."))}
     with open(os.path.join(args.out, "meta.json"), "w") as fh:
         json.dump(meta, fh, indent=2)
 
@@ -121,8 +131,11 @@ def main() -> int:
         gamma=0.99, gae_lambda=0.95, clip_range=0.2, ent_coef=0.003,
         policy_kwargs={"net_arch": [256, 256]},
         tensorboard_log=os.path.join(args.out, "tb"),
-        seed=46, device="auto",
+        seed=args.seed, device=args.device,
     )
+    if args.warm_start:
+        from src.rl.warm_start import warm_start_from_smaller_obs
+        warm_start_from_smaller_obs(model, args.warm_start, device=args.device)
     print(f"training {args.steps:,} steps on {args.n_envs} envs -> {args.out}")
     model.learn(total_timesteps=args.steps, progress_bar=False)
     model.save(ckpt)

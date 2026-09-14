@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "experiment_name": "stageD_fall_corrected",
+    "model_name": "pd_baseline",
+    "checkpoint_path": null,
+    "seed": 12000,
+    "git_commit": "cb5982cd597064859b45c7ea2b6cd45fb01d1bdd",
+    "simulator_version": "mujoco-3.11.0",
+    "robot_model": "g1_29dof_rev_1_0",
+    "config_path": "configs/fall.yaml",
+    "train_split": null,
+    "val_split": null,
+    "test_split": null,
+    "evaluation_datetime": "2026-09-14T17:55:42.359554+00:00"
+  },
+  "model_summary": {
+    "n_families": 3,
+    "aggregation": "uniform_over_families",
+    "success_rate": 0.0,
+    "fall_rate": 1.0,
+    "mean_impact": 1358.5541666666668,
+    "mean_com_margin": 0.0,
+    "mean_cp_margin": 0.0,
+    "mean_momentum_norm": 0.0,
+    "recovery_success_rate": 0.0,
+    "resume_success_rate": 0.0
+  },
+  "family_summary": {
+    "stable_stance": {
+      "n_motions": 4,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 1141.9825,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    },
+    "translational": {
+      "n_motions": 4,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 1357.0375000000001,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    },
+    "explosive_strike": {
+      "n_motions": 4,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 1576.6425,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    }
+  }
+}

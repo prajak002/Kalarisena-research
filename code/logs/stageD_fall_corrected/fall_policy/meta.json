@@ -1,0 +1,14 @@
+{
+  "experiment_name": "stageD_fall_corrected",
+  "model_name": "fall_best.zip",
+  "checkpoint_path": "logs/stageD_fall/fall_best.zip",
+  "seed": 12000,
+  "git_commit": "cb5982cd597064859b45c7ea2b6cd45fb01d1bdd",
+  "simulator_version": "mujoco-3.11.0",
+  "robot_model": "g1_29dof_rev_1_0",
+  "config_path": "configs/fall.yaml",
+  "train_split": null,
+  "val_split": null,
+  "test_split": null,
+  "evaluation_datetime": "2026-09-14T17:55:42.377280+00:00"
+}

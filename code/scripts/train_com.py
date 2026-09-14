@@ -86,6 +86,10 @@ def main() -> int:
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--seed", type=int, default=45)
     ap.add_argument("--device", default="cpu")
+    ap.add_argument("--warm-start", default=None,
+                     help="path to Stage A's checkpoint to warm-start from (paper Table 34: "
+                          "Stage B loads tracking_best) - handles the 124->130-d observation "
+                          "mismatch via src/rl/warm_start.py instead of training from scratch")
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -109,11 +113,14 @@ def main() -> int:
     meta = {"experiment_name": "stageB_com", "stage": "B (CoM/capture-point recoverability)",
             "algo": "PPO (stable-baselines3)", "config": args.config, "seed": args.seed,
             "motions": STABLE_STANCE_MOTIONS, "steps": args.steps, "n_envs": args.n_envs,
-            "note": ("trained from scratch; Stage A checkpoint has a different obs dim. "
-                     "Fixed two real bugs in the obs path: raw -999 sentinel values "
+            "warm_start": args.warm_start,
+            "note": ("Fixed two real bugs in the obs path: raw -999 sentinel values "
                      "(com_margin/cp_margin when there's no foot contact) were being fed "
                      "directly into the policy's observation uncapped, and cp_margin was "
-                     "duplicated in the obs vector instead of encoding support_mode.")}
+                     "duplicated in the obs vector instead of encoding support_mode. "
+                     + ("Warm-started from Stage A via src/rl/warm_start.py (paper Table 34) "
+                        "instead of training from scratch." if args.warm_start else
+                        "Trained from scratch (no --warm-start given)."))}
     with open(os.path.join(args.out, "meta.json"), "w") as fh:
         json.dump(meta, fh, indent=2)
 
@@ -128,6 +135,9 @@ def main() -> int:
         tensorboard_log=os.path.join(args.out, "tb"),
         seed=args.seed, device=args.device,
     )
+    if args.warm_start:
+        from src.rl.warm_start import warm_start_from_smaller_obs
+        warm_start_from_smaller_obs(model, args.warm_start, device=args.device)
     print(f"training {args.steps:,} steps on {args.n_envs} envs -> {args.out}")
     model.learn(total_timesteps=args.steps, progress_bar=False)
     model.save(ckpt)
