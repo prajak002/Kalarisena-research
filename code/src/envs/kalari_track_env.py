@@ -80,8 +80,10 @@ class KalariTrackEnv(gym.Env):
     metadata = {"render_modes": ["rgb_array"]}
 
     def __init__(self, npz_path: str, seed: int | None = None,
-                 max_start_frac: float = 0.7, render_mode: str | None = None):
+                 max_start_frac: float = 0.7, render_mode: str | None = None,
+                 action_scale: float = ACTION_SCALE):
         super().__init__()
+        self.action_scale = action_scale
         self.rt = G1MujocoRuntime()
         self.ref = load_reference(npz_path)
         self.render_mode = render_mode
@@ -157,7 +159,7 @@ class KalariTrackEnv(gym.Env):
 
     def step(self, action):
         action = np.clip(np.asarray(action, dtype=np.float64), -1.0, 1.0)
-        q_cmd = np.clip(self._ref_joints(self._frame) + ACTION_SCALE * action,
+        q_cmd = np.clip(self._ref_joints(self._frame) + self.action_scale * action,
                         self.jnt_lo, self.jnt_hi)
         self.rt.control_step(q_cmd)
         self._frame += 1

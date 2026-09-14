@@ -16,14 +16,23 @@ from src.sim.conventions import quat_wxyz_to_matrix, quat_xyzw_to_wxyz
 
 class MultiMotionTrackEnv(KalariTrackEnv):
     def __init__(self, npz_paths: list[str], seed: int | None = None,
-                 max_start_frac: float = 0.7, render_mode: str | None = None):
+                 max_start_frac: float = 0.7, render_mode: str | None = None,
+                 action_scale: float | None = None):
         if not npz_paths:
             raise ValueError("MultiMotionTrackEnv needs at least one npz path")
+        kwargs = {} if action_scale is None else {"action_scale": action_scale}
         super().__init__(npz_paths[0], seed=seed, max_start_frac=max_start_frac,
-                          render_mode=render_mode)
+                          render_mode=render_mode, **kwargs)
         self.max_start_frac_ = max_start_frac
         self.npz_paths = list(npz_paths)
         self._refs = [self._prepare_ref(p) for p in self.npz_paths]
+        # None => use each ref's own max_start (curriculum default). When an
+        # eval script sets env.max_start = 0 (or any int) to pin a
+        # deterministic start frame, _set_active_ref() used to silently
+        # clobber it back to the ref's max_start on every reset() - every
+        # "start from frame 0" eval in this codebase was actually starting
+        # from a random frame up to 70% into the motion instead.
+        self._max_start_override: int | None = None
         self._set_active_ref(0)
 
     def _prepare_ref(self, npz_path: str) -> dict:
@@ -49,8 +58,21 @@ class MultiMotionTrackEnv(KalariTrackEnv):
         self.n_frames = r["n_frames"]
         self.ref_z = r["ref_z"]
         self.ref_up = r["ref_up"]
-        self.max_start = r["max_start"]
+        self.max_start = (r["max_start"] if self._max_start_override is None
+                           else self._max_start_override)
         self._active_motion_idx = i
+
+    @property
+    def max_start_override(self) -> int | None:
+        return self._max_start_override
+
+    @max_start_override.setter
+    def max_start_override(self, value: int | None) -> None:
+        """Pins reset()'s start frame across every reset, including motion
+        switches. Eval code should use this instead of `env.max_start = 0`,
+        which only survives until the next reset() re-derives it per-motion."""
+        self._max_start_override = value
+        self.max_start = value if value is not None else self._refs[self._active_motion_idx]["max_start"]
 
     def reset(self, *, seed=None, options=None):
         if seed is not None:

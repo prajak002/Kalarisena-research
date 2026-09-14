@@ -153,7 +153,7 @@ def main() -> int:
         mid = os.path.basename(npz)[:-4]
         tau_l, tau_h = tau_map[mid]
         env = PerturbedMultiMotionTrackEnv([npz], seed=15000)
-        env.max_start = 0
+        env.max_start_override = 0
         body_ids = _joint_body_ids(env)
         for force in PUSH_FORCES:
             for arm in ("tracker_only", "residual_gated"):

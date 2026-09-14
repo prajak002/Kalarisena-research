@@ -728,6 +728,44 @@ instant still counts as a fall - the same "survives, doesn't necessarily
 preserve intent" limitation already called out for IPR below, now showing up
 in a second metric.
 
+## A measurement bug that had been inflating every fall-rate number
+
+Every eval script above uses `env.max_start = 0` to force episodes to start
+at frame 0 of the motion, so a fall rate measures whether the policy can
+complete the whole clip, not just survive whatever segment it happened to
+land on. That override was silently broken: `MultiMotionTrackEnv.reset()`
+re-derives `max_start` from the active motion on every call, after the
+override had already been set, so it was clobbered back to a random start
+frame up to 70% into the motion every single time. Every "fall rate"
+number reported in this project - including the 83% cited above for the
+twelve-motion tracker - was measured from a random mid-motion start, not
+the beginning.
+
+Fixed with a `max_start_override` property that survives `reset()`
+(`code/src/envs/multi_motion_env.py`), and the eight call sites that were
+actually affected. Rerunning the already-trained checkpoints under the
+corrected eval: the twelve-motion tracker's honest fall rate is **100%**,
+not 83% - the old number was an artifact of episodes truncating on lucky
+late-motion starts before there was time to fall, not real stability. The
+full-corpus tracker and the fixed Stage B checkpoint are also 100% under
+the corrected eval, and so - tellingly - is the plain zero-action PD
+baseline. Traced by hand on one motion (`kw_long_stance`, pure PD control
+from frame 0): the robot tracks cleanly for about half a second, then a
+deep stance's balance demand exceeds what position control alone can hold,
+and it collapses over the following 0.2s. A real physical failure mode, not
+a bug.
+
+That reframes the actual open problem: Stage A itself carries no direct
+balance signal (only a 0.1-weighted upright bonus), and Stage B - which
+does have a real capture-point margin term - trains it in isolation on six
+motions and still can't hold a single one of them from a clean start.
+`code/src/envs/balanced_track_env.py` composes Stage A's existing tracking
+reward with a real, correctly-guarded capture-point margin term over the
+full multi-motion corpus instead of treating balance as a separate later
+stage. A run is in progress (`logs/stageA_balanced`); whether that
+composition is what was missing is still an open, honestly unresolved
+question until it finishes.
+
 ## A controlled environment for probing balance recovery
 
 Every perturbation script up to this point runs a single, fixed push and

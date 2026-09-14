@@ -68,7 +68,7 @@ def evaluate_split(model, motions: list[str], out_dir: str, tag: str,
                 want_video = record_video and not first_motion_done and ep == 0
                 env = MultiMotionTrackEnv([npz], seed=9000 + ep,
                                            render_mode="rgb_array" if want_video else None)
-                env.max_start = 0
+                env.max_start_override = 0
                 obs, info = env.reset(seed=9000 + ep)
                 done = trunc = False
                 mses, rewards, fell = [], [], False

@@ -50,7 +50,7 @@ def evaluate(model, reward_cfg: dict, phase_weight: float, n_episodes_per_motion
         rows = []
         for ep in range(n_episodes_per_motion):
             env = MomentumEnv([npz], reward_cfg, phase_weight=phase_weight, seed=9000 + ep)
-            env.max_start = 0
+            env.max_start_override = 0
             obs, _ = env.reset(seed=9000 + ep)
             done = trunc = False
             hg_norms, rewards, fell = [], [], False

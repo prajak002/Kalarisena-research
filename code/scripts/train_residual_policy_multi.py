@@ -73,7 +73,7 @@ def evaluate(model, tracker_path: str, critic_path: str, tau_map: dict[str, tupl
             for ep in range(n_episodes_per_motion):
                 env = IntentPreservingResidualMultiEnv([npz], tracker, critic_path, seed=7500 + ep,
                                                          tau_l=[tau_l], tau_h=[tau_h], force_gate=force_gate)
-                env.max_start = 0
+                env.max_start_override = 0
                 obs, _ = env.reset(seed=7500 + ep)
                 done = trunc = False
                 mses, rewards, gates, fell = [], [], [], False

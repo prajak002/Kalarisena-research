@@ -54,7 +54,7 @@ def evaluate(model, reward_cfg: dict, n_episodes_per_motion: int = 3) -> dict:
         rows = []
         for ep in range(n_episodes_per_motion):
             env = FallEnv([npz], reward_cfg, seed=11000 + ep)
-            env.max_start = 0
+            env.max_start_override = 0
             obs, _ = env.reset(seed=11000 + ep)
             done = trunc = False
             peak_force, rewards, fell = 0.0, [], False

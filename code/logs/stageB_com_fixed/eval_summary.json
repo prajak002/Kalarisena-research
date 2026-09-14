@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "experiment_name": "stageB_com",
+    "stage": "B (CoM/capture-point recoverability)",
+    "algo": "PPO (stable-baselines3)",
+    "config": "configs/com.yaml",
+    "seed": 45,
+    "motions": [
+      "data/motions_retargeted/kw_long_stance.npz",
+      "data/motions_retargeted/kw_long_stance_l.npz",
+      "data/motions_retargeted/kt_vadivu_lowseat.npz",
+      "data/motions_retargeted/kt_warrior_pose.npz",
+      "data/motions_retargeted/ky_warrior_lunge.npz",
+      "data/motions_retargeted/pk_warrior_oneleg.npz"
+    ],
+    "steps": 5000000,
+    "n_envs": 8,
+    "note": "trained from scratch; Stage A checkpoint has a different obs dim. Fixed two real bugs in the obs path: raw -999 sentinel values (com_margin/cp_margin when there's no foot contact) were being fed directly into the policy's observation uncapped, and cp_margin was duplicated in the obs vector instead of encoding support_mode."
+  },
+  "summary": {
+    "overall": {
+      "mean_cp_margin": -0.2528730769906226,
+      "fall_rate": 1.0
+    },
+    "per_motion": {
+      "kw_long_stance": {
+        "mean_cp_margin": -0.3096177514616634,
+        "fall_rate": 1.0
+      },
+      "kw_long_stance_l": {
+        "mean_cp_margin": -0.21609043415947726,
+        "fall_rate": 1.0
+      },
+      "kt_vadivu_lowseat": {
+        "mean_cp_margin": -0.05668830233221939,
+        "fall_rate": 1.0
+      },
+      "kt_warrior_pose": {
+        "mean_cp_margin": -0.343804266915803,
+        "fall_rate": 1.0
+      },
+      "ky_warrior_lunge": {
+        "mean_cp_margin": -0.4703106343252588,
+        "fall_rate": 1.0
+      },
+      "pk_warrior_oneleg": {
+        "mean_cp_margin": -0.1207270727493137,
+        "fall_rate": 1.0
+      }
+    }
+  }
+}

@@ -174,7 +174,7 @@ def main() -> int:
     for npz in MOTION_SET:
         mid = os.path.basename(npz)[:-4]
         env = MultiMotionTrackEnv([npz], seed=12000)
-        env.max_start = 0
+        env.max_start_override = 0
         rows = {"switched": [], "nominal_only": []}
         for arm, use_switch in (("switched", True), ("nominal_only", False)):
             for ep in range(args.episodes_per_motion):

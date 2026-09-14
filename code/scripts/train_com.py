@@ -51,7 +51,7 @@ def evaluate(model, reward_cfg: dict, out_dir: str, n_episodes_per_motion: int =
         rows = []
         for ep in range(n_episodes_per_motion):
             env = ComRefineEnv([npz], reward_cfg, seed=8000 + ep)
-            env.max_start = 0
+            env.max_start_override = 0
             obs, _ = env.reset(seed=8000 + ep)
             done = trunc = False
             cp_margins, rewards, fell = [], [], False
