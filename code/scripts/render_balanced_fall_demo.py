@@ -20,7 +20,6 @@ import json
 import os
 import sys
 
-import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -28,26 +27,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.envs.balanced_track_env import BalancedTrackEnv
 from src.sim.rollout import write_video
 
-
-def _draw_overlay(frame: np.ndarray, t: float, cp_margin: float, fell: bool) -> np.ndarray:
-    # MuJoCo renders RGB; cv2 draws assuming BGR. Round-trip through BGR so
-    # the color tuples below (written by eye as R,G,B) come out correct
-    # instead of red/blue swapped.
-    frame = cv2.cvtColor(np.ascontiguousarray(frame), cv2.COLOR_RGB2BGR)
-    h, w = frame.shape[:2]
-    y = [22]
-
-    def line(text: str, color=(255, 255, 255)) -> None:
-        cv2.putText(frame, text, (10, y[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 3, cv2.LINE_AA)
-        cv2.putText(frame, text, (10, y[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
-        y[0] += 20
-
-    line(f"t = {t:5.2f}s")
-    line("Stage A + capture-point reward (logs/stageA_balanced)")
-    line(f"cp_margin: {cp_margin:+.3f}", (80, 220, 80) if cp_margin > 0.05 else (60, 60, 255))
-    if fell:
-        cv2.putText(frame, "FELL", (w - 110, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 3, cv2.LINE_AA)
-    return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+# Video frames are left completely clean - no burned-in text. Every
+# annotation, including the balance-recovery arrow, is real telemetry the
+# page itself renders as HTML/SVG synced to playback.
 
 
 def main() -> int:
@@ -98,12 +80,28 @@ def main() -> int:
         t += dt
         if si["fell"] and fell_at is None:
             fell_at = t
+
+        feats = env._support_feats()
+        has_support = feats.get("support_area", 0) > 0
+        cp_pt, sc_pt = feats.get("capture_point"), feats.get("support_center")
+        if has_support and cp_pt is not None and not np.any(np.isnan(cp_pt)):
+            recovery_vec = (sc_pt - cp_pt).tolist()
+            cp_xy, sc_xy = cp_pt.tolist(), sc_pt.tolist()
+            poly_xy = feats["support_polygon"].tolist()
+        else:
+            recovery_vec = cp_xy = sc_xy = [0.0, 0.0]
+            poly_xy = []
+
         frame = env.render()
         if frame is not None:
-            frames.append(_draw_overlay(frame, t, si["cp_margin"], si["fell"]))
+            frames.append(frame)
             telemetry.append({"t": round(t, 3), "cp_margin": round(float(si["cp_margin"]), 4),
                                "com_margin": round(float(si["com_margin"]), 4),
-                               "fell": bool(si["fell"])})
+                               "fell": bool(si["fell"]),
+                               "capture_point_xy": [round(v, 4) for v in cp_xy],
+                               "support_center_xy": [round(v, 4) for v in sc_xy],
+                               "recovery_vec_xy": [round(v, 4) for v in recovery_vec],
+                               "support_polygon_xy": [[round(v, 4) for v in p] for p in poly_xy]})
         if fell_at is not None and t > fell_at + args.post_fall_hold:
             break
 

@@ -15,6 +15,15 @@ everything that page's demos didn't surface -
     physics-free G1MujocoRuntime driven kinematically to the same
     frame), so the commanded pose and the actual pose can be compared
     directly instead of only numerically
+  - recovery_vec_xy: the real vector from the capture point to the
+    center of the support polygon each frame - not a model's suggestion,
+    literally what capture-point margin is measured against - for
+    drawing a "which way to shift weight" arrow
+
+Video frames are written completely clean, no burned-in text. All of the
+above is dumped to telemetry.json for the page itself to render as HTML/
+SVG synced to playback, instead of pixels that can't be restyled, copied,
+or (as today's earlier RGB/BGR bug showed) trusted to even be correct.
 
 Usage
   python3 scripts/render_full_diagnostic.py \
@@ -32,7 +41,6 @@ import json
 import os
 import sys
 
-import cv2
 import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -47,33 +55,11 @@ from src.switch.mode_switch import Mode, ModeSwitch, SwitchConfig
 from src.viability.perturbation import null_perturbation
 from src.viability.perturbed_env import PerturbedTrackEnv
 
-MODE_COLOR = {"nominal": (80, 220, 80), "fall": (60, 160, 255), "recovery": (60, 60, 255)}
-
-
-def _overlay(frame: np.ndarray, label: str, t: float, cp: float, com: float,
-             mode: str | None, fell: bool, worst_joint: str, worst_err: float,
-             action_norm: float | None) -> np.ndarray:
-    frame = cv2.cvtColor(np.ascontiguousarray(frame), cv2.COLOR_RGB2BGR)
-    h, w = frame.shape[:2]
-    y = [22]
-
-    def line(text: str, color=(255, 255, 255)) -> None:
-        cv2.putText(frame, text, (10, y[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 3, cv2.LINE_AA)
-        cv2.putText(frame, text, (10, y[0]), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1, cv2.LINE_AA)
-        y[0] += 20
-
-    line(label, (200, 200, 60))
-    line(f"t = {t:5.2f}s")
-    if mode is not None:
-        line(f"MODE: {mode.upper()}", MODE_COLOR[mode])
-    line(f"cp_margin: {cp:+.3f}", (80, 220, 80) if cp > 0.05 else (60, 60, 255))
-    line(f"com_margin: {com:+.3f}", (80, 220, 80) if com > 0.05 else (60, 60, 255))
-    line(f"worst joint: {worst_joint} ({worst_err:.3f} rad)")
-    if action_norm is not None:
-        line(f"|action|: {action_norm:.2f}")
-    if fell:
-        cv2.putText(frame, "FELL", (w - 110, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 3, cv2.LINE_AA)
-    return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+# Video frames are left completely clean (no burned-in text) - every
+# annotation, including the balance-recovery arrow, is real telemetry
+# rendered as HTML/SVG outside the video by the page's own JS, synced to
+# playback time. Burning it into pixels made it unstylable, uncopyable,
+# and (until today) silently wrong (RGB/BGR channel swap).
 
 
 def main() -> int:
@@ -146,13 +132,28 @@ def main() -> int:
         worst_err = float(joint_err[worst_i])
         action_norm = float(np.linalg.norm(action)) if mode_name != "recovery" else None
 
-        com_margin = feats.get("com_margin", 0.0) if feats.get("support_area", 0) > 0 else 0.0
-        cp_margin = feats.get("cp_margin", 0.0) if feats.get("support_area", 0) > 0 else 0.0
+        has_support = feats.get("support_area", 0) > 0
+        com_margin = feats.get("com_margin", 0.0) if has_support else 0.0
+        cp_margin = feats.get("cp_margin", 0.0) if has_support else 0.0
+        # Real, computed recovery direction: the vector from where the
+        # robot's momentum is currently carrying it (capture point) back to
+        # the center of its own base of support. Not a suggested fix from a
+        # model - literally what "capture point margin" is defined against.
+        capture_point = feats.get("capture_point")
+        support_center = feats.get("support_center")
+        if has_support and capture_point is not None and not np.any(np.isnan(capture_point)):
+            recovery_vec = (support_center - capture_point).tolist()
+            cp_xy = capture_point.tolist()
+            support_center_xy = support_center.tolist()
+            support_polygon_xy = feats["support_polygon"].tolist()
+        else:
+            recovery_vec = [0.0, 0.0]
+            cp_xy = support_center_xy = [0.0, 0.0]
+            support_polygon_xy = []
 
         frame = env.render()
         if frame is not None:
-            actual_frames.append(_overlay(frame, "ACTUAL", t, cp_margin, com_margin, mode_name,
-                                           fell, worst_joint, worst_err, action_norm))
+            actual_frames.append(frame)
 
             ghost.data.qpos[:] = ghost.default_qpos()
             ghost.data.qpos[0:3] = env.ref["root_pos"][k]
@@ -160,15 +161,17 @@ def main() -> int:
             ghost.data.qpos[env.rt.act_qadr] = ref_q
             ghost.data.qvel[:] = 0.0
             ghost.mujoco.mj_forward(ghost.model, ghost.data)
-            gframe = ghost.render_frame(camera=args.camera)
-            ghost_frames.append(_overlay(gframe, "REFERENCE (target)", t, cp_margin, com_margin,
-                                          None, False, worst_joint, worst_err, None))
+            ghost_frames.append(ghost.render_frame(camera=args.camera))
 
             telemetry.append({
                 "t": round(t, 3), "cp_margin": round(cp_margin, 4), "com_margin": round(com_margin, 4),
                 "mode": mode_name, "fell": bool(fell),
                 "worst_joint": worst_joint, "worst_joint_err": round(worst_err, 4),
                 "action_norm": round(action_norm, 4) if action_norm is not None else None,
+                "capture_point_xy": [round(v, 4) for v in cp_xy],
+                "support_center_xy": [round(v, 4) for v in support_center_xy],
+                "recovery_vec_xy": [round(v, 4) for v in recovery_vec],
+                "support_polygon_xy": [[round(v, 4) for v in p] for p in support_polygon_xy],
             })
         step += 1
         if fell_at is not None and t > fell_at + args.post_fall_hold:

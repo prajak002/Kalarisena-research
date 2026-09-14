@@ -10,7 +10,37 @@
    "fell": false,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 0.2013,
-   "action_norm": 4.5523
+   "action_norm": 4.5523,
+   "capture_point_xy": [
+    -0.0914,
+    0.0081
+   ],
+   "support_center_xy": [
+    -0.4767,
+    0.4096
+   ],
+   "recovery_vec_xy": [
+    -0.3853,
+    0.4015
+   ],
+   "support_polygon_xy": [
+    [
+     0.4341,
+     -0.4858
+    ],
+    [
+     0.4093,
+     -0.4439
+    ],
+    [
+     0.5247,
+     -0.3335
+    ],
+    [
+     0.5454,
+     -0.3684
+    ]
+   ]
   },
   {
    "t": 0.04,
@@ -20,7 +50,37 @@
    "fell": false,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 0.3476,
-   "action_norm": 4.6057
+   "action_norm": 4.6057,
+   "capture_point_xy": [
+    -0.0261,
+    -0.0613
+   ],
+   "support_center_xy": [
+    -0.4808,
+    0.4218
+   ],
+   "recovery_vec_xy": [
+    -0.4547,
+    0.4832
+   ],
+   "support_polygon_xy": [
+    [
+     0.4402,
+     -0.4961
+    ],
+    [
+     0.422,
+     -0.451
+    ],
+    [
+     0.526,
+     -0.3481
+    ],
+    [
+     0.5412,
+     -0.3857
+    ]
+   ]
   },
   {
    "t": 0.06,
@@ -30,7 +90,37 @@
    "fell": false,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 0.4141,
-   "action_norm": 4.5903
+   "action_norm": 4.5903,
+   "capture_point_xy": [
+    0.0874,
+    0.125
+   ],
+   "support_center_xy": [
+    -0.4877,
+    0.4423
+   ],
+   "recovery_vec_xy": [
+    -0.5751,
+    0.3173
+   ],
+   "support_polygon_xy": [
+    [
+     0.4543,
+     -0.5189
+    ],
+    [
+     0.4402,
+     -0.4756
+    ],
+    [
+     0.5247,
+     -0.3658
+    ],
+    [
+     0.5365,
+     -0.4019
+    ]
+   ]
   },
   {
    "t": 0.08,
@@ -40,7 +130,37 @@
    "fell": false,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 0.4205,
-   "action_norm": 4.4016
+   "action_norm": 4.4016,
+   "capture_point_xy": [
+    0.1294,
+    0.0788
+   ],
+   "support_center_xy": [
+    -0.495,
+    0.4532
+   ],
+   "recovery_vec_xy": [
+    -0.6243,
+    0.3745
+   ],
+   "support_polygon_xy": [
+    [
+     0.4662,
+     -0.5278
+    ],
+    [
+     0.4598,
+     -0.4824
+    ],
+    [
+     0.5263,
+     -0.3792
+    ],
+    [
+     0.5317,
+     -0.4171
+    ]
+   ]
   },
   {
    "t": 0.1,
@@ -50,7 +170,20 @@
    "fell": false,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 0.3863,
-   "action_norm": 4.4999
+   "action_norm": 4.4999,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.12,
@@ -60,7 +193,20 @@
    "fell": false,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 0.3388,
-   "action_norm": 4.4558
+   "action_norm": 4.4558,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.14,
@@ -70,7 +216,45 @@
    "fell": false,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 0.3034,
-   "action_norm": 4.4857
+   "action_norm": 4.4857,
+   "capture_point_xy": [
+    -0.0142,
+    -0.0073
+   ],
+   "support_center_xy": [
+    -0.2282,
+    0.0449
+   ],
+   "recovery_vec_xy": [
+    -0.214,
+    0.0523
+   ],
+   "support_polygon_xy": [
+    [
+     0.4387,
+     -0.5714
+    ],
+    [
+     -0.0968,
+     0.4794
+    ],
+    [
+     -0.0719,
+     0.523
+    ],
+    [
+     0.0382,
+     0.4083
+    ],
+    [
+     0.5047,
+     -0.4297
+    ],
+    [
+     0.503,
+     -0.4679
+    ]
+   ]
   },
   {
    "t": 0.16,
@@ -80,7 +264,45 @@
    "fell": false,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 0.3062,
-   "action_norm": 4.4737
+   "action_norm": 4.4737,
+   "capture_point_xy": [
+    -0.0173,
+    -0.0109
+   ],
+   "support_center_xy": [
+    -0.2246,
+    0.0601
+   ],
+   "recovery_vec_xy": [
+    -0.2073,
+    0.0711
+   ],
+   "support_polygon_xy": [
+    [
+     0.4196,
+     -0.5815
+    ],
+    [
+     -0.0897,
+     0.4668
+    ],
+    [
+     -0.0637,
+     0.5114
+    ],
+    [
+     0.0422,
+     0.3966
+    ],
+    [
+     0.4941,
+     -0.445
+    ],
+    [
+     0.4917,
+     -0.484
+    ]
+   ]
   },
   {
    "t": 0.18,
@@ -90,7 +312,45 @@
    "fell": false,
    "worst_joint": "right_knee_joint",
    "worst_joint_err": 0.3411,
-   "action_norm": 4.3802
+   "action_norm": 4.3802,
+   "capture_point_xy": [
+    0.0205,
+    0.0015
+   ],
+   "support_center_xy": [
+    -0.2228,
+    0.0668
+   ],
+   "recovery_vec_xy": [
+    -0.2432,
+    0.0653
+   ],
+   "support_polygon_xy": [
+    [
+     0.4105,
+     -0.5866
+    ],
+    [
+     -0.0861,
+     0.4604
+    ],
+    [
+     -0.0607,
+     0.5051
+    ],
+    [
+     0.0455,
+     0.391
+    ],
+    [
+     0.4894,
+     -0.4536
+    ],
+    [
+     0.486,
+     -0.4929
+    ]
+   ]
   },
   {
    "t": 0.2,
@@ -100,7 +360,45 @@
    "fell": false,
    "worst_joint": "right_knee_joint",
    "worst_joint_err": 0.3701,
-   "action_norm": 4.4634
+   "action_norm": 4.4634,
+   "capture_point_xy": [
+    -0.0196,
+    0.0313
+   ],
+   "support_center_xy": [
+    -0.2233,
+    0.07
+   ],
+   "recovery_vec_xy": [
+    -0.2037,
+    0.0387
+   ],
+   "support_polygon_xy": [
+    [
+     0.4141,
+     -0.5928
+    ],
+    [
+     -0.0853,
+     0.4616
+    ],
+    [
+     -0.0604,
+     0.505
+    ],
+    [
+     0.0441,
+     0.3879
+    ],
+    [
+     0.4875,
+     -0.4558
+    ],
+    [
+     0.4827,
+     -0.4939
+    ]
+   ]
   },
   {
    "t": 0.22,
@@ -110,7 +408,45 @@
    "fell": true,
    "worst_joint": "right_knee_joint",
    "worst_joint_err": 0.3647,
-   "action_norm": 4.5657
+   "action_norm": 4.5657,
+   "capture_point_xy": [
+    -0.0075,
+    0.073
+   ],
+   "support_center_xy": [
+    -0.2225,
+    0.0755
+   ],
+   "recovery_vec_xy": [
+    -0.215,
+    0.0025
+   ],
+   "support_polygon_xy": [
+    [
+     0.4147,
+     -0.5999
+    ],
+    [
+     -0.085,
+     0.4638
+    ],
+    [
+     -0.0594,
+     0.5053
+    ],
+    [
+     0.0415,
+     0.3834
+    ],
+    [
+     0.4845,
+     -0.465
+    ],
+    [
+     0.4765,
+     -0.5031
+    ]
+   ]
   },
   {
    "t": 0.24,
@@ -120,7 +456,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3509,
-   "action_norm": 4.6909
+   "action_norm": 4.6909,
+   "capture_point_xy": [
+    0.001,
+    0.1045
+   ],
+   "support_center_xy": [
+    -0.2207,
+    0.0817
+   ],
+   "recovery_vec_xy": [
+    -0.2218,
+    -0.0228
+   ],
+   "support_polygon_xy": [
+    [
+     0.4122,
+     -0.6062
+    ],
+    [
+     -0.0846,
+     0.4668
+    ],
+    [
+     -0.0581,
+     0.5066
+    ],
+    [
+     0.0383,
+     0.3799
+    ],
+    [
+     0.4807,
+     -0.479
+    ],
+    [
+     0.469,
+     -0.5181
+    ]
+   ]
   },
   {
    "t": 0.26,
@@ -130,7 +504,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3631,
-   "action_norm": 4.75
+   "action_norm": 4.75,
+   "capture_point_xy": [
+    0.0218,
+    0.1133
+   ],
+   "support_center_xy": [
+    -0.2167,
+    0.0832
+   ],
+   "recovery_vec_xy": [
+    -0.2385,
+    -0.0301
+   ],
+   "support_polygon_xy": [
+    [
+     0.4112,
+     -0.6118
+    ],
+    [
+     -0.084,
+     0.4703
+    ],
+    [
+     -0.0565,
+     0.5085
+    ],
+    [
+     0.0354,
+     0.3777
+    ],
+    [
+     0.4741,
+     -0.494
+    ],
+    [
+     0.4586,
+     -0.5344
+    ]
+   ]
   },
   {
    "t": 0.28,
@@ -140,7 +552,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3726,
-   "action_norm": 4.7596
+   "action_norm": 4.7596,
+   "capture_point_xy": [
+    0.0447,
+    0.1112
+   ],
+   "support_center_xy": [
+    -0.2136,
+    0.083
+   ],
+   "recovery_vec_xy": [
+    -0.2583,
+    -0.0283
+   ],
+   "support_polygon_xy": [
+    [
+     0.4121,
+     -0.6166
+    ],
+    [
+     -0.0821,
+     0.4742
+    ],
+    [
+     -0.055,
+     0.5109
+    ],
+    [
+     0.0338,
+     0.3771
+    ],
+    [
+     0.4689,
+     -0.5091
+    ],
+    [
+     0.4505,
+     -0.5506
+    ]
+   ]
   },
   {
    "t": 0.3,
@@ -150,7 +600,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3771,
-   "action_norm": 4.7929
+   "action_norm": 4.7929,
+   "capture_point_xy": [
+    0.0547,
+    0.1016
+   ],
+   "support_center_xy": [
+    -0.2138,
+    0.0828
+   ],
+   "recovery_vec_xy": [
+    -0.2685,
+    -0.0188
+   ],
+   "support_polygon_xy": [
+    [
+     0.4144,
+     -0.6199
+    ],
+    [
+     -0.0744,
+     0.4799
+    ],
+    [
+     -0.0481,
+     0.5149
+    ],
+    [
+     0.0348,
+     0.3776
+    ],
+    [
+     0.4637,
+     -0.5224
+    ],
+    [
+     0.4433,
+     -0.5648
+    ]
+   ]
   },
   {
    "t": 0.32,
@@ -160,7 +648,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3759,
-   "action_norm": 4.8316
+   "action_norm": 4.8316,
+   "capture_point_xy": [
+    0.0763,
+    0.0684
+   ],
+   "support_center_xy": [
+    -0.2193,
+    0.0856
+   ],
+   "recovery_vec_xy": [
+    -0.2956,
+    0.0172
+   ],
+   "support_polygon_xy": [
+    [
+     0.4165,
+     -0.6217
+    ],
+    [
+     -0.0576,
+     0.4843
+    ],
+    [
+     -0.0335,
+     0.5175
+    ],
+    [
+     0.0422,
+     0.3767
+    ],
+    [
+     0.4584,
+     -0.5338
+    ],
+    [
+     0.4422,
+     -0.5698
+    ]
+   ]
   },
   {
    "t": 0.34,
@@ -170,7 +696,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3663,
-   "action_norm": 4.9787
+   "action_norm": 4.9787,
+   "capture_point_xy": [
+    0.0863,
+    0.0299
+   ],
+   "support_center_xy": [
+    -0.232,
+    0.0998
+   ],
+   "recovery_vec_xy": [
+    -0.3183,
+    0.0699
+   ],
+   "support_polygon_xy": [
+    [
+     0.4183,
+     -0.6223
+    ],
+    [
+     -0.0321,
+     0.4841
+    ],
+    [
+     -0.0109,
+     0.5154
+    ],
+    [
+     0.0538,
+     0.3706
+    ],
+    [
+     0.4535,
+     -0.5437
+    ],
+    [
+     0.4447,
+     -0.5697
+    ]
+   ]
   },
   {
    "t": 0.36,
@@ -180,7 +744,45 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3518,
-   "action_norm": 4.9587
+   "action_norm": 4.9587,
+   "capture_point_xy": [
+    0.105,
+    -0.0032
+   ],
+   "support_center_xy": [
+    -0.24,
+    0.0934
+   ],
+   "recovery_vec_xy": [
+    -0.345,
+    0.0966
+   ],
+   "support_polygon_xy": [
+    [
+     0.4198,
+     -0.6195
+    ],
+    [
+     0.0548,
+     0.329
+    ],
+    [
+     0.0047,
+     0.4736
+    ],
+    [
+     0.0229,
+     0.503
+    ],
+    [
+     0.4477,
+     -0.5527
+    ],
+    [
+     0.4463,
+     -0.566
+    ]
+   ]
   },
   {
    "t": 0.38,
@@ -190,7 +792,41 @@
    "fell": true,
    "worst_joint": "waist_roll_joint",
    "worst_joint_err": 0.3283,
-   "action_norm": 4.9277
+   "action_norm": 4.9277,
+   "capture_point_xy": [
+    0.0976,
+    -0.0326
+   ],
+   "support_center_xy": [
+    -0.242,
+    0.0672
+   ],
+   "recovery_vec_xy": [
+    -0.3396,
+    0.0999
+   ],
+   "support_polygon_xy": [
+    [
+     0.4221,
+     -0.6121
+    ],
+    [
+     0.0762,
+     0.3015
+    ],
+    [
+     0.0511,
+     0.45
+    ],
+    [
+     0.0658,
+     0.4777
+    ],
+    [
+     0.4475,
+     -0.5578
+    ]
+   ]
   },
   {
    "t": 0.4,
@@ -200,7 +836,45 @@
    "fell": true,
    "worst_joint": "right_shoulder_pitch_joint",
    "worst_joint_err": 0.3067,
-   "action_norm": 4.9171
+   "action_norm": 4.9171,
+   "capture_point_xy": [
+    0.0768,
+    -0.0621
+   ],
+   "support_center_xy": [
+    -0.2524,
+    0.0671
+   ],
+   "recovery_vec_xy": [
+    -0.3292,
+    0.1292
+   ],
+   "support_polygon_xy": [
+    [
+     0.4236,
+     -0.6031
+    ],
+    [
+     0.4176,
+     -0.5962
+    ],
+    [
+     0.0944,
+     0.268
+    ],
+    [
+     0.0957,
+     0.4177
+    ],
+    [
+     0.1068,
+     0.444
+    ],
+    [
+     0.4473,
+     -0.5479
+    ]
+   ]
   },
   {
    "t": 0.42,
@@ -210,7 +884,45 @@
    "fell": true,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 0.3219,
-   "action_norm": 4.9067
+   "action_norm": 4.9067,
+   "capture_point_xy": [
+    0.0483,
+    -0.087
+   ],
+   "support_center_xy": [
+    -0.2606,
+    0.0838
+   ],
+   "recovery_vec_xy": [
+    -0.3089,
+    0.1708
+   ],
+   "support_polygon_xy": [
+    [
+     0.4213,
+     -0.5979
+    ],
+    [
+     0.408,
+     -0.5932
+    ],
+    [
+     0.1052,
+     0.2356
+    ],
+    [
+     0.1299,
+     0.3841
+    ],
+    [
+     0.1373,
+     0.4095
+    ],
+    [
+     0.4434,
+     -0.5422
+    ]
+   ]
   },
   {
    "t": 0.44,
@@ -220,7 +932,45 @@
    "fell": true,
    "worst_joint": "right_shoulder_yaw_joint",
    "worst_joint_err": 0.424,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.076,
+    -0.1451
+   ],
+   "support_center_xy": [
+    -0.2607,
+    0.1006
+   ],
+   "recovery_vec_xy": [
+    -0.1847,
+    0.2457
+   ],
+   "support_polygon_xy": [
+    [
+     0.394,
+     -0.5978
+    ],
+    [
+     0.1067,
+     0.2107
+    ],
+    [
+     0.109,
+     0.2323
+    ],
+    [
+     0.1529,
+     0.3818
+    ],
+    [
+     0.4355,
+     -0.5417
+    ],
+    [
+     0.414,
+     -0.5976
+    ]
+   ]
   },
   {
    "t": 0.46,
@@ -230,7 +980,37 @@
    "fell": true,
    "worst_joint": "left_hip_roll_joint",
    "worst_joint_err": 0.7151,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.2725,
+    -0.0262
+   ],
+   "support_center_xy": [
+    -0.1212,
+    -0.346
+   ],
+   "recovery_vec_xy": [
+    0.1513,
+    -0.3198
+   ],
+   "support_polygon_xy": [
+    [
+     0.1419,
+     0.2599
+    ],
+    [
+     0.0996,
+     0.3993
+    ],
+    [
+     0.1021,
+     0.4303
+    ],
+    [
+     0.1439,
+     0.2857
+    ]
+   ]
   },
   {
    "t": 0.48,
@@ -240,7 +1020,37 @@
    "fell": true,
    "worst_joint": "right_knee_joint",
    "worst_joint_err": 1.332,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.2298,
+    0.1835
+   ],
+   "support_center_xy": [
+    -0.1279,
+    -0.4161
+   ],
+   "recovery_vec_xy": [
+    0.1018,
+    -0.5997
+   ],
+   "support_polygon_xy": [
+    [
+     0.1934,
+     0.3537
+    ],
+    [
+     0.0649,
+     0.4443
+    ],
+    [
+     0.0665,
+     0.4786
+    ],
+    [
+     0.1948,
+     0.3823
+    ]
+   ]
   },
   {
    "t": 0.5,
@@ -250,7 +1060,37 @@
    "fell": true,
    "worst_joint": "right_knee_joint",
    "worst_joint_err": 1.6631,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.2247,
+    0.0734
+   ],
+   "support_center_xy": [
+    -0.1275,
+    -0.4648
+   ],
+   "recovery_vec_xy": [
+    0.0972,
+    -0.5382
+   ],
+   "support_polygon_xy": [
+    [
+     0.2126,
+     0.4388
+    ],
+    [
+     0.044,
+     0.4602
+    ],
+    [
+     0.0479,
+     0.4928
+    ],
+    [
+     0.2158,
+     0.466
+    ]
+   ]
   },
   {
    "t": 0.52,
@@ -260,7 +1100,37 @@
    "fell": true,
    "worst_joint": "right_knee_joint",
    "worst_joint_err": 1.77,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.1643,
+    -0.0979
+   ],
+   "support_center_xy": [
+    -0.1875,
+    -0.3974
+   ],
+   "recovery_vec_xy": [
+    -0.0232,
+    -0.2995
+   ],
+   "support_polygon_xy": [
+    [
+     0.273,
+     0.3761
+    ],
+    [
+     0.1032,
+     0.3853
+    ],
+    [
+     0.1075,
+     0.4213
+    ],
+    [
+     0.2766,
+     0.406
+    ]
+   ]
   },
   {
    "t": 0.54,
@@ -270,7 +1140,37 @@
    "fell": true,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 1.8387,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.2423,
+    -0.1747
+   ],
+   "support_center_xy": [
+    -0.288,
+    -0.3
+   ],
+   "recovery_vec_xy": [
+    -0.0457,
+    -0.1253
+   ],
+   "support_polygon_xy": [
+    [
+     0.37,
+     0.2641
+    ],
+    [
+     0.2043,
+     0.3007
+    ],
+    [
+     0.2115,
+     0.3377
+    ],
+    [
+     0.376,
+     0.2949
+    ]
+   ]
   },
   {
    "t": 0.56,
@@ -280,7 +1180,20 @@
    "fell": true,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 1.9983,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.58,
@@ -290,7 +1203,20 @@
    "fell": true,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 2.1202,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.6,
@@ -300,7 +1226,20 @@
    "fell": true,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 2.1505,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.62,
@@ -310,7 +1249,20 @@
    "fell": true,
    "worst_joint": "right_hip_pitch_joint",
    "worst_joint_err": 2.2047,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.64,
@@ -320,7 +1272,20 @@
    "fell": true,
    "worst_joint": "right_shoulder_pitch_joint",
    "worst_joint_err": 2.1765,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.66,
@@ -330,7 +1295,20 @@
    "fell": true,
    "worst_joint": "right_shoulder_pitch_joint",
    "worst_joint_err": 2.2466,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.68,
@@ -340,7 +1318,20 @@
    "fell": true,
    "worst_joint": "right_shoulder_pitch_joint",
    "worst_joint_err": 2.315,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.7,
@@ -350,7 +1341,20 @@
    "fell": true,
    "worst_joint": "right_shoulder_pitch_joint",
    "worst_joint_err": 2.3402,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.72,
@@ -360,7 +1364,37 @@
    "fell": true,
    "worst_joint": "right_shoulder_pitch_joint",
    "worst_joint_err": 2.3427,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.0378,
+    -0.1009
+   ],
+   "support_center_xy": [
+    -0.4424,
+    0.0843
+   ],
+   "recovery_vec_xy": [
+    -0.4045,
+    0.1852
+   ],
+   "support_polygon_xy": [
+    [
+     0.4618,
+     -0.1186
+    ],
+    [
+     0.4142,
+     -0.1041
+    ],
+    [
+     0.4208,
+     -0.0546
+    ],
+    [
+     0.4697,
+     -0.0592
+    ]
+   ]
   },
   {
    "t": 0.74,
@@ -370,7 +1404,37 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 2.4256,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.3059,
+    0.0199
+   ],
+   "support_center_xy": [
+    -0.4688,
+    0.0024
+   ],
+   "recovery_vec_xy": [
+    -0.1628,
+    -0.0175
+   ],
+   "support_polygon_xy": [
+    [
+     0.5069,
+     -0.0493
+    ],
+    [
+     0.4367,
+     -0.0061
+    ],
+    [
+     0.4292,
+     0.0409
+    ],
+    [
+     0.498,
+     0.0071
+    ]
+   ]
   },
   {
    "t": 0.76,
@@ -380,7 +1444,37 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 2.4801,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.23,
+    0.1165
+   ],
+   "support_center_xy": [
+    -0.4702,
+    -0.0464
+   ],
+   "recovery_vec_xy": [
+    -0.2402,
+    -0.1629
+   ],
+   "support_polygon_xy": [
+    [
+     0.5017,
+     0.0093
+    ],
+    [
+     0.4419,
+     0.0298
+    ],
+    [
+     0.4374,
+     0.0792
+    ],
+    [
+     0.4964,
+     0.0685
+    ]
+   ]
   },
   {
    "t": 0.78,
@@ -390,7 +1484,45 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 2.5751,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.3888,
+    0.0273
+   ],
+   "support_center_xy": [
+    -0.433,
+    0.0227
+   ],
+   "recovery_vec_xy": [
+    -0.0442,
+    -0.0046
+   ],
+   "support_polygon_xy": [
+    [
+     0.4065,
+     -0.156
+    ],
+    [
+     0.3757,
+     -0.1187
+    ],
+    [
+     0.399,
+     0.0032
+    ],
+    [
+     0.4236,
+     0.072
+    ],
+    [
+     0.4923,
+     0.0775
+    ],
+    [
+     0.493,
+     0.0175
+    ]
+   ]
   },
   {
    "t": 0.8,
@@ -400,7 +1532,37 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 2.7005,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.2641,
+    -0.1307
+   ],
+   "support_center_xy": [
+    -0.391,
+    0.0883
+   ],
+   "recovery_vec_xy": [
+    -0.1269,
+    0.219
+   ],
+   "support_polygon_xy": [
+    [
+     0.3864,
+     -0.1657
+    ],
+    [
+     0.3668,
+     -0.1222
+    ],
+    [
+     0.3982,
+     -0.0109
+    ],
+    [
+     0.4146,
+     -0.0472
+    ]
+   ]
   },
   {
    "t": 0.82,
@@ -410,7 +1572,37 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 2.78,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.2101,
+    -0.2785
+   ],
+   "support_center_xy": [
+    -0.3848,
+    0.0893
+   ],
+   "recovery_vec_xy": [
+    -0.1747,
+    0.3678
+   ],
+   "support_polygon_xy": [
+    [
+     0.3768,
+     -0.1659
+    ],
+    [
+     0.3637,
+     -0.1206
+    ],
+    [
+     0.3948,
+     -0.0131
+    ],
+    [
+     0.4057,
+     -0.0508
+    ]
+   ]
   },
   {
    "t": 0.84,
@@ -420,7 +1612,37 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 2.9099,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.1932,
+    -0.2158
+   ],
+   "support_center_xy": [
+    -0.3773,
+    0.0793
+   ],
+   "recovery_vec_xy": [
+    -0.1841,
+    0.2951
+   ],
+   "support_polygon_xy": [
+    [
+     0.3701,
+     -0.1564
+    ],
+    [
+     0.3593,
+     -0.1116
+    ],
+    [
+     0.3862,
+     -0.0024
+    ],
+    [
+     0.3952,
+     -0.0398
+    ]
+   ]
   },
   {
    "t": 0.86,
@@ -430,7 +1652,37 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.0131,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    -0.1524,
+    -0.1715
+   ],
+   "support_center_xy": [
+    -0.3857,
+    0.1144
+   ],
+   "recovery_vec_xy": [
+    -0.2333,
+    0.2858
+   ],
+   "support_polygon_xy": [
+    [
+     0.3747,
+     -0.1877
+    ],
+    [
+     0.3698,
+     -0.1396
+    ],
+    [
+     0.3979,
+     -0.042
+    ],
+    [
+     0.4019,
+     -0.082
+    ]
+   ]
   },
   {
    "t": 0.88,
@@ -440,7 +1692,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.0903,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.9,
@@ -450,7 +1715,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.1717,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.92,
@@ -460,7 +1738,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.2164,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.94,
@@ -470,7 +1761,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.2594,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.96,
@@ -480,7 +1784,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.2935,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 0.98,
@@ -490,7 +1807,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.3143,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.0,
@@ -500,7 +1830,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.3474,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.02,
@@ -510,7 +1853,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.351,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.04,
@@ -520,7 +1876,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.3672,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.06,
@@ -530,7 +1899,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.3807,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.08,
@@ -540,7 +1922,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4058,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.1,
@@ -550,7 +1945,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.411,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.12,
@@ -560,7 +1968,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4255,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.14,
@@ -570,7 +1991,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4257,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.16,
@@ -580,7 +2014,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4379,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.18,
@@ -590,7 +2037,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4341,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.2,
@@ -600,7 +2060,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4341,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.22,
@@ -610,7 +2083,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4392,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.24,
@@ -620,7 +2106,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4578,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.26,
@@ -630,7 +2129,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4656,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.28,
@@ -640,7 +2152,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4639,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.3,
@@ -650,7 +2175,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.46,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.32,
@@ -660,7 +2198,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4683,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.34,
@@ -670,7 +2221,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4719,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.36,
@@ -680,7 +2244,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4794,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.38,
@@ -690,7 +2267,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4859,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.4,
@@ -700,7 +2290,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4805,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.42,
@@ -710,7 +2313,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4738,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.44,
@@ -720,7 +2336,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4778,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.46,
@@ -730,7 +2359,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4839,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.48,
@@ -740,7 +2382,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4842,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.5,
@@ -750,7 +2405,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4817,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.52,
@@ -760,7 +2428,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4817,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.54,
@@ -770,7 +2451,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4781,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.56,
@@ -780,7 +2474,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.478,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.58,
@@ -790,7 +2497,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4815,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.6,
@@ -800,7 +2520,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4838,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.62,
@@ -810,7 +2543,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4858,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.64,
@@ -820,7 +2566,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4862,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.66,
@@ -830,7 +2589,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4842,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.68,
@@ -840,7 +2612,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4848,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.7,
@@ -850,7 +2635,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4676,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.72,
@@ -860,7 +2658,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4705,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.74,
@@ -870,7 +2681,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4721,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.76,
@@ -880,7 +2704,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4733,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.78,
@@ -890,7 +2727,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4757,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.8,
@@ -900,7 +2750,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4785,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.82,
@@ -910,7 +2773,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4811,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.84,
@@ -920,7 +2796,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4855,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.86,
@@ -930,7 +2819,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4872,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.88,
@@ -940,7 +2842,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4744,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.9,
@@ -950,7 +2865,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4692,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.92,
@@ -960,7 +2888,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4601,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.94,
@@ -970,7 +2911,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4644,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.96,
@@ -980,7 +2934,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4691,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 1.98,
@@ -990,7 +2957,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4706,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.0,
@@ -1000,7 +2980,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4688,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.02,
@@ -1010,7 +3003,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4721,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.04,
@@ -1020,7 +3026,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4722,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.06,
@@ -1030,7 +3049,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4724,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.08,
@@ -1040,7 +3072,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4726,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.1,
@@ -1050,7 +3095,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4682,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.12,
@@ -1060,7 +3118,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4671,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.14,
@@ -1070,7 +3141,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4686,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.16,
@@ -1080,7 +3164,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4743,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.18,
@@ -1090,7 +3187,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4768,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.2,
@@ -1100,7 +3210,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4766,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   },
   {
    "t": 2.22,
@@ -1110,7 +3233,20 @@
    "fell": true,
    "worst_joint": "left_shoulder_pitch_joint",
    "worst_joint_err": 3.4778,
-   "action_norm": null
+   "action_norm": null,
+   "capture_point_xy": [
+    0.0,
+    0.0
+   ],
+   "support_center_xy": [
+    0.0,
+    0.0
+   ],
+   "recovery_vec_xy": [
+    0.0,
+    0.0
+   ],
+   "support_polygon_xy": []
   }
  ]
 }

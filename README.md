@@ -825,6 +825,24 @@ the same frame with no physics - synced next to the real rollout so the
 commanded pose and the actual one are visible side by side, not only as
 numbers.
 
+All three pages were then rebuilt around a simple rule: nothing gets
+burned into the video pixels. Every render script now writes completely
+clean frames, and every reading - including a new "balance compass" panel
+- lives in the page's own HTML/SVG, synced to playback. The compass arrow
+is real, not illustrative: `support_center - capture_point`, computed
+every frame from the same `get_support_features` call that already
+defines capture-point margin, so it shows literally what margin is
+measured against - which way the capture point would need to move, and
+how far, to land back inside the base of support. It disappears once both
+feet lose contact, since there's no base left to recover onto. The two
+push-response demos also moved off `kt_warrior_pose`/`kt_vadivu_lowseat`
+onto `kw_long_stance` (a standing lunge, not a seated pose) - the former
+collapses in ~0.2s, too fast for a push landing at t=0.05s to ever
+register a difference across magnitudes; the latter is a genuinely seated
+stance, not a camera problem. `kw_long_stance` gives a real, honest,
+monotonic result instead: 63 steps survived at 0N down to 51 at 100N -
+more force does make it fall sooner, it still falls every time.
+
 ## A controlled environment for probing balance recovery
 
 Every perturbation script up to this point runs a single, fixed push and
