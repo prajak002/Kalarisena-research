@@ -888,30 +888,46 @@ non-curriculum balanced-tracking variant above (99.2%, RMSE 0.244, 51.8
 steps), and by episode length, slightly worse. Static-hold mastery did not
 transfer into the moving task.
 
-Two standalone, self-hosted pages (no external dependency but a Google
-Fonts link) let you look at the raw data directly instead of trusting a
-summary number: [`code/demos/capture_point_trace/`](code/demos/capture_point_trace/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/capture_point_trace/))
-scrubs a rollout with the capture-point margin chart synced frame-for-frame
-to the actual logged value, and
-[`code/demos/thrust_control/`](code/demos/thrust_control/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/thrust_control/)) is a
-draggable force slider across four real recorded trials (0/30/60/100N,
-Stage A+D+E composed live through the actual `ModeSwitch` FSM) - all four
-still fall; more force only delays the exact collapse frame, shown as-is.
-Fixing `scripts/sim_controlled_perturbation.py` to build the second page
-surfaced the same RECOVERY-routing bug `eval_integrated_switch.py` had
-(silently falling back to the nominal tracker instead of the real Stage E
-policy) in this sibling script too - same fix applied.
+One standalone, self-hosted page (no external dependency but a Google
+Fonts link) - [`code/demos/six_stages/`](code/demos/six_stages/index.html)
+([live](https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/)),
+"Six Stages" - lets you look at the raw data directly instead of trusting
+a summary number. It started as four separate pages built over the course
+of one day and was consolidated into this one afterward, so it carries all
+of what they showed:
+
+- **Stages A-F**, each with a real checkpoint, a real clean/slow rollout
+  (no text burned into the frames), and real telemetry synced to playback.
+  Building its Stage E section is where the height-blind success-metric
+  bug two paragraphs up was actually caught - the page was about to ship
+  "15% success" with a clip that, checked frame by frame, showed the robot
+  curled on the ground the whole time. The page documents that correction
+  inline rather than quietly using a different number.
+- **Thrust Control**, a draggable force slider across four real recorded
+  trials (0/30/60/100N, Stage A+D+E composed live through the actual
+  `ModeSwitch` FSM) - all four still fall; more force only delays the
+  exact collapse frame, shown as-is. Building this surfaced the same
+  RECOVERY-routing bug `eval_integrated_switch.py` had (silently falling
+  back to the nominal tracker instead of the real Stage E policy) in
+  `scripts/sim_controlled_perturbation.py` too - same fix applied.
+- **Posture Gap**, the actual rollout next to a second, physics-free video
+  of the reference posture it was supposed to be holding at that same
+  instant - driven kinematically to the same frame with no physics, synced
+  alongside so the commanded pose and the actual one are visible side by
+  side, not only as numbers - plus the single actuated joint furthest from
+  its target each instant and the residual action's L2 norm as a proxy for
+  correction effort.
 
 <div align="center">
 
-<video src="code/demos/thrust_control/push_60N.mp4" controls muted playsinline width="480"></video>
+<video src="code/demos/six_stages/push_60N.mp4" controls muted playsinline width="480"></video>
 
 </div>
 
-The 60N trial, `kw_long_stance`, pushed at t=0.05s. All four magnitudes
-land in `FALL` mode for the entire episode in this specific trial set -
-the switch never sees a clean enough `nominal` window to hand off to
-`RECOVERY` before the episode ends:
+The 60N Thrust Control trial, `kw_long_stance`, pushed at t=0.05s. All four
+magnitudes land in `FALL` mode for the entire episode in this specific
+trial set - the switch never sees a clean enough `nominal` window to hand
+off to `RECOVERY` before the episode ends:
 
 | Push | Outcome | Steps survived | Mode |
 |---|---|---|---|
@@ -920,44 +936,29 @@ the switch never sees a clean enough `nominal` window to hand off to
 | 60N | falls | 51 | FALL, 100% of episode |
 | 100N | falls | 51 | FALL, 100% of episode |
 
-A third page, [`code/demos/full_diagnostic/`](code/demos/full_diagnostic/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/full_diagnostic/))
-("Posture Gap"), surfaces what the first two didn't: `com_margin` plotted
-alongside `cp_margin` (both were already computed every frame, only
-capture-point margin was ever shown), the single actuated joint furthest
-from its reference target at each instant and by how much, the residual
-action's L2 norm as a proxy for correction effort, and a second,
-physics-free video of the reference posture - driven kinematically to
-the same frame with no physics - synced next to the real rollout so the
-commanded pose and the actual one are visible side by side, not only as
-numbers.
+The whole page runs on one rule: nothing gets burned into the video
+pixels. Every render script writes completely clean frames, and every
+reading - including a "balance compass" panel - lives in the page's own
+HTML/SVG, synced to playback. The compass arrow is real, not illustrative:
+`support_center - capture_point`, computed every frame from the same
+`get_support_features` call that already defines capture-point margin, so
+it shows literally what margin is measured against - which way the
+capture point would need to move, and how far, to land back inside the
+base of support. It disappears once both feet lose contact, since there's
+no base left to recover onto. The push-response trials moved off
+`kt_warrior_pose`/`kt_vadivu_lowseat` onto `kw_long_stance` (a standing
+lunge, not a seated pose) - the former collapses in ~0.2s, too fast for a
+push landing at t=0.05s to ever register a difference across magnitudes;
+the latter is a genuinely seated stance, not a camera problem.
+`kw_long_stance` gives a real, honest, monotonic result instead: 63 steps
+survived at 0N down to 51 at 100N - more force does make it fall sooner,
+it still falls every time.
 
-All three pages were then rebuilt around a simple rule: nothing gets
-burned into the video pixels. Every render script now writes completely
-clean frames, and every reading - including a new "balance compass" panel
-- lives in the page's own HTML/SVG, synced to playback. The compass arrow
-is real, not illustrative: `support_center - capture_point`, computed
-every frame from the same `get_support_features` call that already
-defines capture-point margin, so it shows literally what margin is
-measured against - which way the capture point would need to move, and
-how far, to land back inside the base of support. It disappears once both
-feet lose contact, since there's no base left to recover onto. The two
-push-response demos also moved off `kt_warrior_pose`/`kt_vadivu_lowseat`
-onto `kw_long_stance` (a standing lunge, not a seated pose) - the former
-collapses in ~0.2s, too fast for a push landing at t=0.05s to ever
-register a difference across magnitudes; the latter is a genuinely seated
-stance, not a camera problem. `kw_long_stance` gives a real, honest,
-monotonic result instead: 63 steps survived at 0N down to 51 at 100N -
-more force does make it fall sooner, it still falls every time.
-
-One more page, [`code/demos/six_stages/`](code/demos/six_stages/index.html) ([live](https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/))
-("Six Stages"), walks through A-F in order on one scroll: a real checkpoint,
-a real clean/slow rollout, and real telemetry for each, closing with the
-honest synthesis above. Building its Stage E section is where the
-height-blind success-metric bug two paragraphs up was actually caught -
-the page was about to ship "15% success" with a clip that, checked frame by
-frame, showed the robot curled on the ground the whole time. The page
-documents that correction inline rather than quietly using a different
-number.
+GitHub strips `<script>`/`<style>` from rendered markdown for security, so
+the drag slider, the live-synced compass, and the JS-driven readouts
+genuinely can't run inside this README - the `<video>` tags above are real
+playable clips, the live page linked above is where the interactive parts
+actually work.
 
 ## A controlled environment for probing balance recovery
 
