@@ -40,7 +40,7 @@ def main() -> int:
     ap.add_argument("--telemetry-out", default=None,
                      help="optional path to dump per-frame JSON telemetry (t, cp_margin, "
                           "upright, fell) for building a synced interactive viewer")
-    ap.add_argument("--fps", type=int, default=12,
+    ap.add_argument("--fps", type=int, default=8,
                      help="playback fps; physics runs at 50Hz regardless, so fps < 50 plays "
                           "back in slow motion (12 -> about 4x slower than real time)")
     ap.add_argument("--post-fall-hold", type=float, default=2.0,

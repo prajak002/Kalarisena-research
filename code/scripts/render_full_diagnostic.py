@@ -69,7 +69,7 @@ def main() -> int:
     ap.add_argument("--recovery", default=None)
     ap.add_argument("--npz", required=True)
     ap.add_argument("--out-dir", default="demos/full_diagnostic")
-    ap.add_argument("--fps", type=int, default=12)
+    ap.add_argument("--fps", type=int, default=8)
     ap.add_argument("--post-fall-hold", type=float, default=2.0)
     ap.add_argument("--camera", default="side", choices=["track", "front", "side"])
     args = ap.parse_args()

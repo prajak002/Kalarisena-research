@@ -530,35 +530,42 @@ the second following automatically.
 **Stage D, fall impact.** `code/src/envs/fall_env.py` reads real per-step
 contact force off the torso via MuJoCo's own contact solver
 (`geom_group_force`), the same mechanism `code/scripts/sim_push_sweep.py`
-already used for the push-recovery numbers above. One real wrinkle worth
-naming: an episode here always terminates the instant the fall threshold
-trips, so there's no multi-step "falling" phase to train against - checked
-directly by rolling out random actions and confirming real, large impact
-forces (up to 265N) do show up on that terminal step itself, which turned
-out to be enough signal. It was also initially unusable for a different
-reason: `configs/fall.yaml`'s impact-penalty weights, applied literally to
-real newton-scale contact forces, produce rewards on the order of 1e5-1e6 -
-large enough that PPO's value function never got off the ground (loss in
-the tens of billions, zero effective policy update). Standard reward
-normalization (`VecNormalize`) fixed that without touching the configured
-weights themselves. The trained result: peak torso impact force drops from
-roughly 31N (untrained) to **9N** - a real, substantial reduction, genuinely
-the first unambiguous positive result among Stages B through D.
+already used for the push-recovery numbers above. It was initially unusable
+for one reason: `configs/fall.yaml`'s impact-penalty weights, applied
+literally to real newton-scale contact forces, produce rewards on the order
+of 1e5-1e6 - large enough that PPO's value function never got off the
+ground (loss in the tens of billions, zero effective policy update).
+Standard reward normalization (`VecNormalize`) fixed that without touching
+the configured weights themselves.
+
+The originally reported result - peak torso impact force dropping from
+roughly 31N (untrained) to 9N - turned out to be wrong, and by a lot. The
+episode here terminates the instant the fall threshold trips, which is
+*before* the torso has actually reached the ground; the original check
+(confirming real impact forces up to 265N show up on that terminal step)
+happened to catch real contact in that specific case, but `peak_official`
+is 0.0 in the majority of trials - the torso simply hasn't landed yet when
+the episode ends. `code/scripts/eval_fall_impact_corrected.py` reruns both
+arms across the full 12-motion set with 1.5s of real physics continued past
+official termination, capturing the actual ground-impact peak. The real
+numbers are two orders of magnitude larger than reported - PD baseline mean
+**1358.6N**, fall policy **835.8N**, worst case **4252.5N &rarr; 1778.6N** -
+but the *direction* of the claim survives correction: roughly a 38% mean
+reduction and 58% worst-case reduction, genuinely the first result today
+whose direction held up under scrutiny even though its magnitude didn't.
+It's motion-dependent, not universal: better on 8 of 12 motions, worse on
+4 (`kw_long_stance`, `kt_chuvadu_step`, `kw_highkick_right`, `ky_kick_seq`).
 
 **Stage F, switching.** The paper's own note for this stage says to start
 with threshold-based switching, not a learned one - so `code/src/switch/mode_switch.py`
 (the hand-tuned hysteresis switch used everywhere above) is finally wired
 to real trained sub-policies instead of only a scripted controller:
 `code/scripts/eval_integrated_switch.py` routes between the multi-motion
-tracker and the Stage D fall policy live, based on the switch's own
-cp_margin/momentum/height thresholds. No Stage E recovery policy exists
-yet, so a RECOVERY-mode step falls back to the tracker's own action - the
-same honest simplification used for $\mathbf{a}_t^{\text{safe}}$ elsewhere.
-Real result: switching to the fall policy shortens the average episode
-(21.0 steps against 38.2 for the tracker alone) while - by Stage D's own
-measurement above - substantially lowering impact severity. That's the
-actual, intended trade a protective fall response makes: it doesn't prevent
-falling, it changes how the fall happens.
+tracker, the Stage D fall policy, and (once it existed) the real Stage E
+recovery policy live, based on the switch's own cp_margin/momentum/height
+thresholds. Real result: switching shortens the average episode rather than
+lengthening it, and roughly tracks Stage D's corrected impact-reduction
+story above - it changes how the fall happens, it doesn't prevent it.
 
 **Stage E, standing back up.** The one stage that couldn't reuse the
 tracking-episode structure every other stage above shares: there is no
@@ -578,10 +585,16 @@ that rather than dressed up.
 
 **Where this training story actually stands, end to end.** All five ladder
 stages this repository could attempt without physical hardware now have
-real code, a real run, and a real number behind them - some encouraging
-(Stage A's multi-motion generalization, Stage D's impact reduction, Stage
-C's momentum drop), some flatly negative (Stage B, the residual policy at
-both scopes tried), one unresolved (Stage E). The number that matters most
+real code, a real run, and a real number behind them. Read this paragraph
+alongside the eval-bug and Stage-D-correction sections further down,
+though - both were written after this one and change the picture: Stage
+A's multi-motion generalization is not encouraging once measured from a
+fixed start frame (honest fall rate ~100%, same as every variant tried),
+and Stage D's impact reduction is real in direction but two orders of
+magnitude smaller in absolute terms than first reported. Stage C's
+momentum drop, Stage B, and the residual policy (both scopes tried) stand
+as described below. Stage E remains the one unresolved result. The number
+that matters most
 for judging all of it together is the paper's own primary metric, Intent
 Preservation Rate - completing the intended motion despite a disturbance,
 not merely surviving one step longer. Run for real here for the first time

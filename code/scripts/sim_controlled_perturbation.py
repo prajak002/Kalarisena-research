@@ -103,20 +103,25 @@ PRESETS = {
 
 def run_episode(env: PerturbedTrackEnv, nominal, fall, recovery,
                  switch: ModeSwitch | None, pattern: PushPattern,
-                 out_path: str, fps: int = 30) -> dict:
+                 out_path: str, fps: int = 30, post_fall_hold: float = 1.5) -> dict:
     obs, info = env.reset()
     if switch is not None:
         switch.reset()
     env.set_perturbation(pattern)
 
-    done = trunc = False
+    trunc = False
     step = 0
     frames = []
     telemetry = []
     fell_ever = False
+    fell_at = None
     mode_counts: dict[str, int] = {}
 
-    while not (done or trunc):
+    # Ignores gym `done` once the fall threshold is first crossed and keeps
+    # recording real physics for post_fall_hold seconds instead - stopping
+    # at the threshold cuts the video (and every impact-force reading) off
+    # before the body has actually reached the ground.
+    while not trunc:
         feats = env.switch_features(step)
         mode = switch.step(feats) if switch is not None else Mode.NOMINAL
         mode_counts[mode.value] = mode_counts.get(mode.value, 0) + 1
@@ -134,6 +139,8 @@ def run_episode(env: PerturbedTrackEnv, nominal, fall, recovery,
             obs, r, done, trunc, si = env.step(action)
             fell = si["fell"]
         fell_ever = fell_ever or fell
+        if fell and fell_at is None:
+            fell_at = env.t
 
         seg = pattern._current
         seg_mag = seg.magnitude if seg else 0.0
@@ -161,6 +168,8 @@ def run_episode(env: PerturbedTrackEnv, nominal, fall, recovery,
                            "recovery_vec_xy": [round(v, 4) for v in recovery_vec],
                            "support_polygon_xy": [[round(v, 4) for v in p] for p in poly_xy]})
         step += 1
+        if fell_at is not None and env.t > fell_at + post_fall_hold:
+            break
 
     write_video(out_path, frames, fps=fps)
     return {
@@ -180,11 +189,16 @@ def main() -> int:
                      help="One push segment; repeat for multiple pushes in one episode")
     ap.add_argument("--preset", choices=list(PRESETS), default=None)
     ap.add_argument("--out", default="logs/controlled_demo")
-    ap.add_argument("--fps", type=int, default=12,
+    ap.add_argument("--fps", type=int, default=8,
                      help="playback fps; physics runs at 50Hz regardless, so fps < 50 plays "
                           "back in slow motion")
     ap.add_argument("--camera", default="side", choices=["track", "front", "side"],
                      help="side/front give a clean profile/frontal view; track is a 3/4 angle")
+    ap.add_argument("--post-fall-hold", type=float, default=1.5,
+                     help="seconds of real physics to keep recording after the fall threshold "
+                          "is first crossed, so ground impact actually plays out on screen and "
+                          "torso_force readings capture the real peak instead of cutting off "
+                          "before the body reaches the floor")
     args = ap.parse_args()
 
     pushes = args.push or (PRESETS[args.preset] if args.preset else PRESETS["single"])
@@ -202,7 +216,8 @@ def main() -> int:
     env.max_start = 0
 
     video_path = os.path.join(args.out, "annotated.mp4")
-    result = run_episode(env, nominal, fall, recovery, switch, pattern, video_path, fps=args.fps)
+    result = run_episode(env, nominal, fall, recovery, switch, pattern, video_path, fps=args.fps,
+                          post_fall_hold=args.post_fall_hold)
     env.close()
 
     summary = {
