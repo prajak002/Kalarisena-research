@@ -902,6 +902,24 @@ surfaced the same RECOVERY-routing bug `eval_integrated_switch.py` had
 (silently falling back to the nominal tracker instead of the real Stage E
 policy) in this sibling script too - same fix applied.
 
+<div align="center">
+
+![](media/videos/thrust_control/push_60N.gif)
+
+</div>
+
+The 60N trial, `kw_long_stance`, pushed at t=0.05s. All four magnitudes
+land in `FALL` mode for the entire episode in this specific trial set -
+the switch never sees a clean enough `nominal` window to hand off to
+`RECOVERY` before the episode ends:
+
+| Push | Outcome | Steps survived | Mode |
+|---|---|---|---|
+| 0N | falls | 63 | FALL, 100% of episode |
+| 30N | falls | 55 | FALL, 100% of episode |
+| 60N | falls | 51 | FALL, 100% of episode |
+| 100N | falls | 51 | FALL, 100% of episode |
+
 A third page, [`code/demos/full_diagnostic/`](code/demos/full_diagnostic/index.html)
 ("Posture Gap"), surfaces what the first two didn't: `com_margin` plotted
 alongside `cp_margin` (both were already computed every frame, only
