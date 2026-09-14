@@ -1,0 +1,966 @@
+{
+  "meta": {
+    "experiment_name": "stageA_multi_full",
+    "stage": "A (multi-motion tracking, full corpus)",
+    "algo": "PPO (stable-baselines3)",
+    "train_motions": [
+      "data/motions_retargeted/kw_guard_kick_l.npz",
+      "data/motions_retargeted/nk_squat_highkick.npz",
+      "data/motions_retargeted/sc_knee_raise_guard.npz",
+      "data/motions_retargeted/pk_leg_raise_seq.npz",
+      "data/motions_retargeted/pk_kick_low_squat.npz",
+      "data/motions_retargeted/ks_side_kick.npz",
+      "data/motions_retargeted/pk_kick_lunge.npz",
+      "data/motions_retargeted/vb_leap_sequence.npz",
+      "data/motions_retargeted/ky_jump_kick.npz",
+      "data/motions_retargeted/kw_highkick_right.npz",
+      "data/motions_retargeted/kw_guard_kick.npz",
+      "data/motions_retargeted/oc_kick_demo.npz",
+      "data/motions_retargeted/ks_kick_sequence.npz",
+      "data/motions_retargeted/iv_bend_kick_l.npz",
+      "data/motions_retargeted/vb_front_kick.npz",
+      "data/motions_retargeted/pk_kick_sequence.npz",
+      "data/motions_retargeted/ky_kicks_b.npz",
+      "data/motions_retargeted/ky_kick_seq.npz",
+      "data/motions_retargeted/nk_kick_guard.npz",
+      "data/motions_retargeted/vb_kick_series.npz",
+      "data/motions_retargeted/ks_jump_raise.npz",
+      "data/motions_retargeted/test_vadivu_clip.npz",
+      "data/motions_retargeted/kw_long_stance_l.npz",
+      "data/motions_retargeted/ky_warrior_lunge.npz",
+      "data/motions_retargeted/kw_long_stance.npz",
+      "data/motions_retargeted/kt_warrior_pose.npz",
+      "data/motions_retargeted/iv_guard_squat_l.npz",
+      "data/motions_retargeted/sc_low_squat_drill.npz",
+      "data/motions_retargeted/kw_guard_step_l.npz",
+      "data/motions_retargeted/pk_warrior_oneleg.npz",
+      "data/motions_retargeted/fw_low_squat.npz",
+      "data/motions_retargeted/sq_footwork_steps.npz",
+      "data/motions_retargeted/kw_guard_step.npz",
+      "data/motions_retargeted/kt_chuvadu_step.npz",
+      "data/motions_retargeted/nk_lunge_low.npz",
+      "data/motions_retargeted/test_chuvadu_clip.npz",
+      "data/motions_retargeted/kt_squat_walk.npz",
+      "data/motions_retargeted/kk_arm_swing_l.npz",
+      "data/motions_retargeted/ky_deep_lunge.npz",
+      "data/motions_retargeted/kt_lunge_reach.npz",
+      "data/motions_retargeted/kk_overhead_l.npz",
+      "data/motions_retargeted/iv_squat_salute_r.npz",
+      "data/motions_retargeted/ks_lunge_stretch.npz",
+      "data/motions_retargeted/pk_stance_transitions.npz",
+      "data/motions_retargeted/iv_squat_salute_l.npz",
+      "data/motions_retargeted/fw_stance_shift.npz",
+      "data/motions_retargeted/kw_deep_reach_l.npz",
+      "data/motions_retargeted/kk_overhead_r.npz",
+      "data/motions_retargeted/pk_long_lunge_squat.npz",
+      "data/motions_retargeted/iv_kick_block_l.npz",
+      "data/motions_retargeted/sc_squat_advance.npz",
+      "data/motions_retargeted/kt_namaste_lunge.npz",
+      "data/motions_retargeted/kw_lunge_strike_l.npz",
+      "data/motions_retargeted/kw_lunge_strike.npz",
+      "data/motions_retargeted/kt_chuvadu_lowstance.npz",
+      "data/motions_retargeted/fw_triangle_steps.npz"
+    ],
+    "heldout_motions": [
+      "data/motions_retargeted/ks_leg_raise_stance.npz",
+      "data/motions_retargeted/vb_jump_kick.npz",
+      "data/motions_retargeted/iv_bend_kick_r.npz",
+      "data/motions_retargeted/sc_squat_pivots.npz",
+      "data/motions_retargeted/fw_square_steps.npz",
+      "data/motions_retargeted/pk_low_sweeps.npz",
+      "data/motions_retargeted/sc_stance_shifts.npz",
+      "data/motions_retargeted/ky_leg_raise.npz",
+      "data/motions_retargeted/kw_highkick_left.npz",
+      "data/motions_retargeted/kt_vadivu_lowseat.npz",
+      "data/motions_retargeted/iv_guard_squat_r.npz",
+      "data/motions_retargeted/nk_step_jumps.npz",
+      "data/motions_retargeted/iv_kick_block_r.npz",
+      "data/motions_retargeted/kw_deep_reach.npz"
+    ],
+    "n_train_motions": 56,
+    "n_heldout_motions": 14,
+    "steps": 30000000,
+    "n_envs": 24,
+    "device": "cpu",
+    "action": "joint target residuals, s_a=0.25 rad",
+    "obs": "proprioception + reference + phase (124d)",
+    "note": "full 56-motion train split; held-out eval on val+test (14 motions)",
+    "seed": 45
+  },
+  "summary": {
+    "train": {
+      "overall": {
+        "policy": {
+          "fall_rate": 0.9821428571428571,
+          "tracking_rmse_mean": 0.2696020464078327,
+          "mean_episode_len": 47.857142857142854
+        },
+        "pd_baseline": {
+          "fall_rate": 1.0,
+          "tracking_rmse_mean": 0.1901718460180197,
+          "mean_episode_len": 29.928571428571427
+        }
+      },
+      "per_motion": {
+        "kw_guard_kick_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.30602094965119886,
+            "fall_rate": 1.0,
+            "mean_episode_len": 45.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2302777243977731,
+            "fall_rate": 1.0,
+            "mean_episode_len": 42.0
+          }
+        },
+        "nk_squat_highkick": {
+          "policy": {
+            "tracking_rmse_mean": 0.32771523004188763,
+            "fall_rate": 1.0,
+            "mean_episode_len": 35.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.28092301785444385,
+            "fall_rate": 1.0,
+            "mean_episode_len": 28.0
+          }
+        },
+        "sc_knee_raise_guard": {
+          "policy": {
+            "tracking_rmse_mean": 0.2556336160615539,
+            "fall_rate": 1.0,
+            "mean_episode_len": 54.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.19145174445179952,
+            "fall_rate": 1.0,
+            "mean_episode_len": 55.5
+          }
+        },
+        "pk_leg_raise_seq": {
+          "policy": {
+            "tracking_rmse_mean": 0.23684933427884342,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.16553743446754116,
+            "fall_rate": 1.0,
+            "mean_episode_len": 40.0
+          }
+        },
+        "pk_kick_low_squat": {
+          "policy": {
+            "tracking_rmse_mean": 0.33947191543562255,
+            "fall_rate": 1.0,
+            "mean_episode_len": 49.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.29358913261875996,
+            "fall_rate": 1.0,
+            "mean_episode_len": 21.0
+          }
+        },
+        "ks_side_kick": {
+          "policy": {
+            "tracking_rmse_mean": 0.3478737741361385,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.36778484971948855,
+            "fall_rate": 1.0,
+            "mean_episode_len": 10.5
+          }
+        },
+        "pk_kick_lunge": {
+          "policy": {
+            "tracking_rmse_mean": 0.2698634188762833,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.15603045796092962,
+            "fall_rate": 1.0,
+            "mean_episode_len": 28.5
+          }
+        },
+        "vb_leap_sequence": {
+          "policy": {
+            "tracking_rmse_mean": 0.315368958219396,
+            "fall_rate": 1.0,
+            "mean_episode_len": 35.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2040256270315074,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.0
+          }
+        },
+        "ky_jump_kick": {
+          "policy": {
+            "tracking_rmse_mean": 0.3295785101781474,
+            "fall_rate": 1.0,
+            "mean_episode_len": 37.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.274066384713855,
+            "fall_rate": 1.0,
+            "mean_episode_len": 17.5
+          }
+        },
+        "kw_highkick_right": {
+          "policy": {
+            "tracking_rmse_mean": 0.2444218389769135,
+            "fall_rate": 1.0,
+            "mean_episode_len": 43.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.19908032467243852,
+            "fall_rate": 1.0,
+            "mean_episode_len": 33.5
+          }
+        },
+        "kw_guard_kick": {
+          "policy": {
+            "tracking_rmse_mean": 0.29275197383865414,
+            "fall_rate": 0.5,
+            "mean_episode_len": 93.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2844670899484946,
+            "fall_rate": 1.0,
+            "mean_episode_len": 42.0
+          }
+        },
+        "oc_kick_demo": {
+          "policy": {
+            "tracking_rmse_mean": 0.41366442109729384,
+            "fall_rate": 1.0,
+            "mean_episode_len": 49.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.3601051141817183,
+            "fall_rate": 1.0,
+            "mean_episode_len": 22.0
+          }
+        },
+        "ks_kick_sequence": {
+          "policy": {
+            "tracking_rmse_mean": 0.33962372964639587,
+            "fall_rate": 1.0,
+            "mean_episode_len": 33.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.31627454266222244,
+            "fall_rate": 1.0,
+            "mean_episode_len": 30.5
+          }
+        },
+        "iv_bend_kick_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.28743678578171866,
+            "fall_rate": 1.0,
+            "mean_episode_len": 23.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2173846844761197,
+            "fall_rate": 1.0,
+            "mean_episode_len": 22.5
+          }
+        },
+        "vb_front_kick": {
+          "policy": {
+            "tracking_rmse_mean": 0.2713009432644148,
+            "fall_rate": 1.0,
+            "mean_episode_len": 44.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.26190121317353027,
+            "fall_rate": 1.0,
+            "mean_episode_len": 34.5
+          }
+        },
+        "pk_kick_sequence": {
+          "policy": {
+            "tracking_rmse_mean": 0.37367566620531956,
+            "fall_rate": 1.0,
+            "mean_episode_len": 41.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.30657660282823074,
+            "fall_rate": 1.0,
+            "mean_episode_len": 35.0
+          }
+        },
+        "ky_kicks_b": {
+          "policy": {
+            "tracking_rmse_mean": 0.21268820124404175,
+            "fall_rate": 1.0,
+            "mean_episode_len": 37.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.09703471754909451,
+            "fall_rate": 1.0,
+            "mean_episode_len": 26.5
+          }
+        },
+        "ky_kick_seq": {
+          "policy": {
+            "tracking_rmse_mean": 0.2775445659023117,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.20648098551216776,
+            "fall_rate": 1.0,
+            "mean_episode_len": 25.0
+          }
+        },
+        "nk_kick_guard": {
+          "policy": {
+            "tracking_rmse_mean": 0.2853530763225234,
+            "fall_rate": 1.0,
+            "mean_episode_len": 55.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.15427571598144713,
+            "fall_rate": 1.0,
+            "mean_episode_len": 38.5
+          }
+        },
+        "vb_kick_series": {
+          "policy": {
+            "tracking_rmse_mean": 0.28607855316982855,
+            "fall_rate": 1.0,
+            "mean_episode_len": 42.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.19819849644970258,
+            "fall_rate": 1.0,
+            "mean_episode_len": 38.5
+          }
+        },
+        "ks_jump_raise": {
+          "policy": {
+            "tracking_rmse_mean": 0.2528262590674821,
+            "fall_rate": 1.0,
+            "mean_episode_len": 43.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.21338579747136252,
+            "fall_rate": 1.0,
+            "mean_episode_len": 18.0
+          }
+        },
+        "test_vadivu_clip": {
+          "policy": {
+            "tracking_rmse_mean": 0.2013527812977471,
+            "fall_rate": 1.0,
+            "mean_episode_len": 30.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.12335555564047183,
+            "fall_rate": 1.0,
+            "mean_episode_len": 26.0
+          }
+        },
+        "kw_long_stance_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.2762240583494573,
+            "fall_rate": 1.0,
+            "mean_episode_len": 61.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.22222058521545318,
+            "fall_rate": 1.0,
+            "mean_episode_len": 33.5
+          }
+        },
+        "ky_warrior_lunge": {
+          "policy": {
+            "tracking_rmse_mean": 0.3178502292556131,
+            "fall_rate": 1.0,
+            "mean_episode_len": 15.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.25713023867737117,
+            "fall_rate": 1.0,
+            "mean_episode_len": 15.0
+          }
+        },
+        "kw_long_stance": {
+          "policy": {
+            "tracking_rmse_mean": 0.30556359585457604,
+            "fall_rate": 1.0,
+            "mean_episode_len": 52.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.29582951631396026,
+            "fall_rate": 1.0,
+            "mean_episode_len": 21.0
+          }
+        },
+        "kt_warrior_pose": {
+          "policy": {
+            "tracking_rmse_mean": 0.22998412053045625,
+            "fall_rate": 1.0,
+            "mean_episode_len": 28.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.15003476022013756,
+            "fall_rate": 1.0,
+            "mean_episode_len": 19.0
+          }
+        },
+        "iv_guard_squat_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.2299034113657265,
+            "fall_rate": 1.0,
+            "mean_episode_len": 42.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.1312998523118447,
+            "fall_rate": 1.0,
+            "mean_episode_len": 22.0
+          }
+        },
+        "sc_low_squat_drill": {
+          "policy": {
+            "tracking_rmse_mean": 0.3064815095748075,
+            "fall_rate": 1.0,
+            "mean_episode_len": 12.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2727535546753267,
+            "fall_rate": 1.0,
+            "mean_episode_len": 13.5
+          }
+        },
+        "kw_guard_step_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.24940569611476976,
+            "fall_rate": 1.0,
+            "mean_episode_len": 57.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.12636297228706891,
+            "fall_rate": 1.0,
+            "mean_episode_len": 25.5
+          }
+        },
+        "pk_warrior_oneleg": {
+          "policy": {
+            "tracking_rmse_mean": 0.3754527263624791,
+            "fall_rate": 1.0,
+            "mean_episode_len": 49.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.32888138178839865,
+            "fall_rate": 1.0,
+            "mean_episode_len": 22.0
+          }
+        },
+        "fw_low_squat": {
+          "policy": {
+            "tracking_rmse_mean": 0.2050628915324496,
+            "fall_rate": 1.0,
+            "mean_episode_len": 99.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.06387088814908227,
+            "fall_rate": 1.0,
+            "mean_episode_len": 46.5
+          }
+        },
+        "sq_footwork_steps": {
+          "policy": {
+            "tracking_rmse_mean": 0.18600327082140963,
+            "fall_rate": 1.0,
+            "mean_episode_len": 89.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.06570671969296968,
+            "fall_rate": 1.0,
+            "mean_episode_len": 40.5
+          }
+        },
+        "kw_guard_step": {
+          "policy": {
+            "tracking_rmse_mean": 0.24530522445740233,
+            "fall_rate": 1.0,
+            "mean_episode_len": 48.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.19701791373572658,
+            "fall_rate": 1.0,
+            "mean_episode_len": 48.5
+          }
+        },
+        "kt_chuvadu_step": {
+          "policy": {
+            "tracking_rmse_mean": 0.21806625303390736,
+            "fall_rate": 1.0,
+            "mean_episode_len": 56.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.059395200264109466,
+            "fall_rate": 1.0,
+            "mean_episode_len": 27.5
+          }
+        },
+        "nk_lunge_low": {
+          "policy": {
+            "tracking_rmse_mean": 0.323533334502841,
+            "fall_rate": 1.0,
+            "mean_episode_len": 33.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.3020971225058801,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.5
+          }
+        },
+        "test_chuvadu_clip": {
+          "policy": {
+            "tracking_rmse_mean": 0.22768030605109693,
+            "fall_rate": 1.0,
+            "mean_episode_len": 90.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.04176332705058634,
+            "fall_rate": 1.0,
+            "mean_episode_len": 23.5
+          }
+        },
+        "kt_squat_walk": {
+          "policy": {
+            "tracking_rmse_mean": 0.23942638538007688,
+            "fall_rate": 1.0,
+            "mean_episode_len": 53.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.03977811258271676,
+            "fall_rate": 1.0,
+            "mean_episode_len": 26.0
+          }
+        },
+        "kk_arm_swing_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.32525641229265473,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.29183657189759105,
+            "fall_rate": 1.0,
+            "mean_episode_len": 14.5
+          }
+        },
+        "ky_deep_lunge": {
+          "policy": {
+            "tracking_rmse_mean": 0.25588113397036527,
+            "fall_rate": 1.0,
+            "mean_episode_len": 23.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.1853715169481676,
+            "fall_rate": 1.0,
+            "mean_episode_len": 19.5
+          }
+        },
+        "kt_lunge_reach": {
+          "policy": {
+            "tracking_rmse_mean": 0.19496234187903197,
+            "fall_rate": 1.0,
+            "mean_episode_len": 27.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.05010109614408702,
+            "fall_rate": 1.0,
+            "mean_episode_len": 12.5
+          }
+        },
+        "kk_overhead_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.23663622086901534,
+            "fall_rate": 1.0,
+            "mean_episode_len": 34.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.09258459037623408,
+            "fall_rate": 1.0,
+            "mean_episode_len": 25.5
+          }
+        },
+        "iv_squat_salute_r": {
+          "policy": {
+            "tracking_rmse_mean": 0.2522786982924199,
+            "fall_rate": 1.0,
+            "mean_episode_len": 50.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.17354966765303567,
+            "fall_rate": 1.0,
+            "mean_episode_len": 33.5
+          }
+        },
+        "ks_lunge_stretch": {
+          "policy": {
+            "tracking_rmse_mean": 0.21589991909441245,
+            "fall_rate": 1.0,
+            "mean_episode_len": 42.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.08563085003470566,
+            "fall_rate": 1.0,
+            "mean_episode_len": 38.0
+          }
+        },
+        "pk_stance_transitions": {
+          "policy": {
+            "tracking_rmse_mean": 0.3128248110263515,
+            "fall_rate": 1.0,
+            "mean_episode_len": 33.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.28911692702865405,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.0
+          }
+        },
+        "iv_squat_salute_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.26476187614704594,
+            "fall_rate": 1.0,
+            "mean_episode_len": 62.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.17428735688768618,
+            "fall_rate": 1.0,
+            "mean_episode_len": 50.5
+          }
+        },
+        "fw_stance_shift": {
+          "policy": {
+            "tracking_rmse_mean": 0.20006417986926706,
+            "fall_rate": 1.0,
+            "mean_episode_len": 95.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.07189900095059396,
+            "fall_rate": 1.0,
+            "mean_episode_len": 54.0
+          }
+        },
+        "kw_deep_reach_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.29327983958338144,
+            "fall_rate": 1.0,
+            "mean_episode_len": 67.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.26687870995864793,
+            "fall_rate": 1.0,
+            "mean_episode_len": 34.5
+          }
+        },
+        "kk_overhead_r": {
+          "policy": {
+            "tracking_rmse_mean": 0.22360254998966908,
+            "fall_rate": 1.0,
+            "mean_episode_len": 78.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.09080259521953671,
+            "fall_rate": 1.0,
+            "mean_episode_len": 53.0
+          }
+        },
+        "pk_long_lunge_squat": {
+          "policy": {
+            "tracking_rmse_mean": 0.35558240724114554,
+            "fall_rate": 0.5,
+            "mean_episode_len": 74.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.28439055870905033,
+            "fall_rate": 1.0,
+            "mean_episode_len": 29.5
+          }
+        },
+        "iv_kick_block_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.20500813396701645,
+            "fall_rate": 1.0,
+            "mean_episode_len": 73.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.10735468397488454,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.0
+          }
+        },
+        "sc_squat_advance": {
+          "policy": {
+            "tracking_rmse_mean": 0.25190254163468306,
+            "fall_rate": 1.0,
+            "mean_episode_len": 17.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.24148455874531038,
+            "fall_rate": 1.0,
+            "mean_episode_len": 15.5
+          }
+        },
+        "kt_namaste_lunge": {
+          "policy": {
+            "tracking_rmse_mean": 0.22965638281204612,
+            "fall_rate": 1.0,
+            "mean_episode_len": 52.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.11197611097536565,
+            "fall_rate": 1.0,
+            "mean_episode_len": 42.5
+          }
+        },
+        "kw_lunge_strike_l": {
+          "policy": {
+            "tracking_rmse_mean": 0.24520599882976815,
+            "fall_rate": 1.0,
+            "mean_episode_len": 58.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.19626756689800945,
+            "fall_rate": 1.0,
+            "mean_episode_len": 34.5
+          }
+        },
+        "kw_lunge_strike": {
+          "policy": {
+            "tracking_rmse_mean": 0.23189687888768729,
+            "fall_rate": 1.0,
+            "mean_episode_len": 47.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.16186110440203724,
+            "fall_rate": 1.0,
+            "mean_episode_len": 39.5
+          }
+        },
+        "kt_chuvadu_lowstance": {
+          "policy": {
+            "tracking_rmse_mean": 0.19249078104700174,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.040373271708163,
+            "fall_rate": 1.0,
+            "mean_episode_len": 11.5
+          }
+        },
+        "fw_triangle_steps": {
+          "policy": {
+            "tracking_rmse_mean": 0.20748597552488152,
+            "fall_rate": 1.0,
+            "mean_episode_len": 76.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.07750727926361026,
+            "fall_rate": 1.0,
+            "mean_episode_len": 43.5
+          }
+        }
+      },
+      "n_motions": 56
+    },
+    "heldout": {
+      "overall": {
+        "policy": {
+          "fall_rate": 1.0,
+          "tracking_rmse_mean": 0.27105712237595314,
+          "mean_episode_len": 36.035714285714285
+        },
+        "pd_baseline": {
+          "fall_rate": 1.0,
+          "tracking_rmse_mean": 0.20604607114849674,
+          "mean_episode_len": 28.785714285714285
+        }
+      },
+      "per_motion": {
+        "ks_leg_raise_stance": {
+          "policy": {
+            "tracking_rmse_mean": 0.2823904093245137,
+            "fall_rate": 1.0,
+            "mean_episode_len": 20.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.22364022968799563,
+            "fall_rate": 1.0,
+            "mean_episode_len": 16.0
+          }
+        },
+        "vb_jump_kick": {
+          "policy": {
+            "tracking_rmse_mean": 0.24382533664155157,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.1706908195844919,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.5
+          }
+        },
+        "iv_bend_kick_r": {
+          "policy": {
+            "tracking_rmse_mean": 0.2665330118462058,
+            "fall_rate": 1.0,
+            "mean_episode_len": 40.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.18466345013067065,
+            "fall_rate": 1.0,
+            "mean_episode_len": 41.5
+          }
+        },
+        "sc_squat_pivots": {
+          "policy": {
+            "tracking_rmse_mean": 0.36887366866335325,
+            "fall_rate": 1.0,
+            "mean_episode_len": 17.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2919752910892851,
+            "fall_rate": 1.0,
+            "mean_episode_len": 28.0
+          }
+        },
+        "fw_square_steps": {
+          "policy": {
+            "tracking_rmse_mean": 0.20440327863564606,
+            "fall_rate": 1.0,
+            "mean_episode_len": 48.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.09951011494347195,
+            "fall_rate": 1.0,
+            "mean_episode_len": 38.0
+          }
+        },
+        "pk_low_sweeps": {
+          "policy": {
+            "tracking_rmse_mean": 0.3384465169849013,
+            "fall_rate": 1.0,
+            "mean_episode_len": 38.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2854257258616114,
+            "fall_rate": 1.0,
+            "mean_episode_len": 18.5
+          }
+        },
+        "sc_stance_shifts": {
+          "policy": {
+            "tracking_rmse_mean": 0.3343131449463161,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.27694507760258613,
+            "fall_rate": 1.0,
+            "mean_episode_len": 32.5
+          }
+        },
+        "ky_leg_raise": {
+          "policy": {
+            "tracking_rmse_mean": 0.23332582276708994,
+            "fall_rate": 1.0,
+            "mean_episode_len": 40.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.20162968617056576,
+            "fall_rate": 1.0,
+            "mean_episode_len": 39.0
+          }
+        },
+        "kw_highkick_left": {
+          "policy": {
+            "tracking_rmse_mean": 0.21762593634004096,
+            "fall_rate": 1.0,
+            "mean_episode_len": 43.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.1635663745686125,
+            "fall_rate": 1.0,
+            "mean_episode_len": 31.5
+          }
+        },
+        "kt_vadivu_lowseat": {
+          "policy": {
+            "tracking_rmse_mean": 0.2070803269130287,
+            "fall_rate": 1.0,
+            "mean_episode_len": 45.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.07716135832427569,
+            "fall_rate": 1.0,
+            "mean_episode_len": 28.5
+          }
+        },
+        "iv_guard_squat_r": {
+          "policy": {
+            "tracking_rmse_mean": 0.24934405849470792,
+            "fall_rate": 1.0,
+            "mean_episode_len": 18.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.1738847585841426,
+            "fall_rate": 1.0,
+            "mean_episode_len": 21.0
+          }
+        },
+        "nk_step_jumps": {
+          "policy": {
+            "tracking_rmse_mean": 0.33297785364277727,
+            "fall_rate": 1.0,
+            "mean_episode_len": 24.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.31078175146134623,
+            "fall_rate": 1.0,
+            "mean_episode_len": 19.0
+          }
+        },
+        "iv_kick_block_r": {
+          "policy": {
+            "tracking_rmse_mean": 0.20047378971513546,
+            "fall_rate": 1.0,
+            "mean_episode_len": 51.5
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.1250482610705843,
+            "fall_rate": 1.0,
+            "mean_episode_len": 29.5
+          }
+        },
+        "kw_deep_reach": {
+          "policy": {
+            "tracking_rmse_mean": 0.3151865583480754,
+            "fall_rate": 1.0,
+            "mean_episode_len": 62.0
+          },
+          "pd_baseline": {
+            "tracking_rmse_mean": 0.2997220969993146,
+            "fall_rate": 1.0,
+            "mean_episode_len": 35.5
+          }
+        }
+      },
+      "n_motions": 14
+    }
+  }
+}
