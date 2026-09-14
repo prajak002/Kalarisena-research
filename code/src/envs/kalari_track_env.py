@@ -81,9 +81,10 @@ class KalariTrackEnv(gym.Env):
 
     def __init__(self, npz_path: str, seed: int | None = None,
                  max_start_frac: float = 0.7, render_mode: str | None = None,
-                 action_scale: float = ACTION_SCALE):
+                 action_scale: float = ACTION_SCALE, render_camera: str = "track"):
         super().__init__()
         self.action_scale = action_scale
+        self.render_camera = render_camera
         self.rt = G1MujocoRuntime()
         self.ref = load_reference(npz_path)
         self.render_mode = render_mode
@@ -190,7 +191,7 @@ class KalariTrackEnv(gym.Env):
 
     def render(self):
         if self.render_mode == "rgb_array":
-            return self.rt.render_frame(camera="track")
+            return self.rt.render_frame(camera=self.render_camera)
         return None
 
     def close(self):

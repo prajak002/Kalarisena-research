@@ -102,7 +102,10 @@ MODE_COLOR = {"nominal": (80, 220, 80), "fall": (60, 160, 255), "recovery": (60,
 
 def _draw_overlay(frame: np.ndarray, t: float, seg_mag: float, seg_angle: float,
                    feats: dict, mode: str | None, fell: bool, torso_force: float) -> np.ndarray:
-    frame = np.ascontiguousarray(frame)
+    # MuJoCo renders RGB; cv2 draws assuming BGR. Round-trip through BGR so
+    # the color tuples below (written by eye as R,G,B) come out correct
+    # instead of red/blue swapped.
+    frame = cv2.cvtColor(np.ascontiguousarray(frame), cv2.COLOR_RGB2BGR)
     h, w = frame.shape[:2]
     y = [22]
 
@@ -128,7 +131,7 @@ def _draw_overlay(frame: np.ndarray, t: float, seg_mag: float, seg_angle: float,
         cv2.arrowedLine(frame, (cx, cy), (cx + dx, cy + dy), (0, 165, 255), 3, tipLength=0.4)
         cv2.putText(frame, f"{seg_mag:.0f} N", (cx + 10, cy + 20),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 165, 255), 2, cv2.LINE_AA)
-    return frame
+    return cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
 
 def run_episode(env: PerturbedTrackEnv, nominal, fall, recovery,

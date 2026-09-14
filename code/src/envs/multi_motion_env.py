@@ -17,12 +17,12 @@ from src.sim.conventions import quat_wxyz_to_matrix, quat_xyzw_to_wxyz
 class MultiMotionTrackEnv(KalariTrackEnv):
     def __init__(self, npz_paths: list[str], seed: int | None = None,
                  max_start_frac: float = 0.7, render_mode: str | None = None,
-                 action_scale: float | None = None):
+                 action_scale: float | None = None, render_camera: str = "track"):
         if not npz_paths:
             raise ValueError("MultiMotionTrackEnv needs at least one npz path")
         kwargs = {} if action_scale is None else {"action_scale": action_scale}
         super().__init__(npz_paths[0], seed=seed, max_start_frac=max_start_frac,
-                          render_mode=render_mode, **kwargs)
+                          render_mode=render_mode, render_camera=render_camera, **kwargs)
         self.max_start_frac_ = max_start_frac
         self.npz_paths = list(npz_paths)
         self._refs = [self._prepare_ref(p) for p in self.npz_paths]
