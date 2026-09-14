@@ -590,10 +590,17 @@ still curled on the ground. Checked directly: at the instant one
 now gates success on height as well as orientation; re-evaluated on the
 same, unchanged checkpoint across 30 episodes, the honest rate is **0%**,
 mean peak height reached **0.285m**. A fresh run against the corrected
-criterion is in progress (the prior checkpoint was fit to the wrong
-objective, so this one trains from scratch rather than warm-starting).
-Reported as exactly what it is: the metric bug is fixed, the underlying
-problem - genuinely standing back up from the ground - remains open.
+criterion (the prior checkpoint was fit to the wrong objective, so this one
+trained from scratch rather than warm-starting) finished at a full 20M
+steps: **0% success**, mean max-upright **0.61**, every one of 40 eval
+episodes running the full 300-step timeout without ever sustaining real
+height and orientation together long enough to succeed. Proper training
+time plus the corrected, meaningful criterion still doesn't produce genuine
+standing recovery. Reported as exactly what it is: the metric bug is fixed,
+the underlying problem - genuinely standing back up from the ground -
+remains open, and is now the project's single most promising lever, since
+it is the only stage whose reward structure already points the right
+direction.
 
 **Where this training story actually stands, end to end.** All five ladder
 stages this repository could attempt without physical hardware now have

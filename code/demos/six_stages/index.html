@@ -246,7 +246,11 @@
       peak height reached <b>0.285m</b>, about a third of standing. This
       clip shows exactly that pattern - torso orientation climbs toward
       upright while height stays near the floor the whole time. A fresh
-      training run against the corrected criterion is in progress.
+      20M-step run against the corrected criterion has since finished:
+      <b>0% success</b>, mean max-upright <b>0.61</b>, every one of 40 eval
+      episodes running the full 300-step timeout without ever sustaining
+      real height and orientation together. Proper training time plus the
+      corrected criterion still doesn't produce genuine standing recovery.
     </p>
     <div class="stage-body">
       <div class="panel"><video id="vidE" controls playsinline preload="auto"><source src="stagee.mp4" type="video/mp4"></video></div>
@@ -327,7 +331,7 @@
     </p>
     <ul>
       <li><b>Reduce fall rate:</b> not yet achieved by any of six independent approaches tried (PD baseline, Stage A alone, expanded corpus, Stage B isolated, Stage A + balance reward, static-stance curriculum).</li>
-      <li><b>Make falls recoverable:</b> not yet - Stage D softens impact, but Stage E's genuine standing-recovery rate is 0% once measured correctly. A fresh run against the corrected height-aware criterion is in progress; this is the most promising open lever regardless, since it is the only stage whose reward already points in the right direction.</li>
+      <li><b>Make falls recoverable:</b> not yet - Stage D softens impact, but Stage E's genuine standing-recovery rate is 0%, confirmed after a full 20M-step run against the corrected height-aware criterion. Still the most promising open lever, since it is the only stage whose reward already points in the right direction - it just hasn't crossed the bar yet.</li>
     </ul>
   </div>
 
