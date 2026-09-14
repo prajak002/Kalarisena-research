@@ -1,6 +1,13 @@
 # KalariSena
 
-**Physics-grounded, fall-safe Kalaripayattu skill transfer for humanoid robots.**
+**A prospective diagnostic and control study toward physics-grounded, fall-safe Kalaripayattu skill transfer for humanoid robots.**
+
+This project is positioned as a diagnostic and control study, not a
+completed-system paper: the goal right now is a rigorously measured,
+bug-corrected account of where a physics-first Kalaripayattu control stack
+actually stands, plus a reusable protocol for telling a real result apart
+from a measurement artifact - intended as the empirical foundation for a
+fuller system paper (target: ICRA 2027).
 
 > **The headline result:** balance and standing-recovery did not work in this
 > project and we say so plainly below - but fall-impact minimization did. A
@@ -10,6 +17,17 @@
 > going to fall anyway can still be trained to fall less violently - that
 > result survived a full correction pass while three other reported numbers
 > did not, and it's what this project can currently stand behind.
+>
+> Before trusting it, we built a standing confound-elimination tool
+> (`code/scripts/diagnose_fall_confounds.py`) and ran it against this
+> project's own results: it rules a real physical collapse in from a
+> measurement artifact, checks whether low-level PD gains (not the RL
+> policy) explain a fall-rate number, and checks whether an "easy motion
+> subset" a future experiment might lean on actually exists in the corpus.
+> All three checks came back negative for this project's own negative
+> results - which is itself evidence that the difficulty is the real
+> balance/recoverability problem this project is about, not a bug or an
+> undertuned baseline.
 
 > **feasible now &ne; viable for the intended future.**
 > A trajectory can be geometrically faithful to a human demonstration and

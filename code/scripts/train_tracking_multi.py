@@ -36,16 +36,16 @@ MOTION_SET = [
 ]
 
 
-def make_env(rank: int):
+def make_env(rank: int, action_scale: float | None = None):
     def _f():
         from src.envs.multi_motion_env import MultiMotionTrackEnv
 
-        return MultiMotionTrackEnv(MOTION_SET, seed=3000 + rank)
+        return MultiMotionTrackEnv(MOTION_SET, seed=3000 + rank, action_scale=action_scale)
     return _f
 
 
 def evaluate(model, out_dir: str, n_episodes_per_motion: int = 2,
-             record_video: bool = True) -> dict:
+             record_video: bool = True, action_scale: float | None = None) -> dict:
     from src.envs.multi_motion_env import MultiMotionTrackEnv
     from src.sim.rollout import write_video
 
@@ -59,7 +59,7 @@ def evaluate(model, out_dir: str, n_episodes_per_motion: int = 2,
         for arm in ("policy", "pd_baseline"):
             for ep in range(n_episodes_per_motion):
                 want_video = record_video and not first_motion_done and ep == 0
-                env = MultiMotionTrackEnv([npz], seed=7000 + ep,
+                env = MultiMotionTrackEnv([npz], seed=7000 + ep, action_scale=action_scale,
                                            render_mode="rgb_array" if want_video else None)
                 env.max_start_override = 0
                 obs, info = env.reset(seed=7000 + ep)
@@ -116,6 +116,9 @@ def main() -> int:
     ap.add_argument("--out", default="logs/stageA_multi12")
     ap.add_argument("--eval-only", action="store_true")
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--action-scale", type=float, default=None,
+                     help="override residual action authority s_a (rad); default uses the env's own ACTION_SCALE=0.25")
+    ap.add_argument("--seed", type=int, default=44)
     args = ap.parse_args()
 
     os.makedirs(args.out, exist_ok=True)
@@ -127,7 +130,7 @@ def main() -> int:
 
     if args.eval_only:
         model = PPO.load(ckpt)
-        summary = evaluate(model, args.out)
+        summary = evaluate(model, args.out, action_scale=args.action_scale)
         print(json.dumps(summary["overall"], indent=2))
         return 0
 
@@ -138,7 +141,7 @@ def main() -> int:
         "experiment_name": "stageA_multi12", "stage": "A (multi-motion tracking)",
         "algo": "PPO (stable-baselines3)", "motions": MOTION_SET,
         "steps": args.steps, "n_envs": args.n_envs,
-        "action": "joint target residuals, s_a=0.25 rad",
+        "action": f"joint target residuals, s_a={args.action_scale if args.action_scale is not None else 0.25} rad",
         "obs": "proprioception + reference + phase (124d)",
         "note": ("widens single-motion Stage A (logs/stageA_kw_long_stance) to 12 "
                  "motions across all 3 taxonomy families; still far short of the "
@@ -148,7 +151,7 @@ def main() -> int:
         json.dump(meta, fh, indent=2)
 
     vec_cls = SubprocVecEnv if args.n_envs > 1 else DummyVecEnv
-    venv = VecMonitor(vec_cls([make_env(i) for i in range(args.n_envs)]))
+    venv = VecMonitor(vec_cls([make_env(i, action_scale=args.action_scale) for i in range(args.n_envs)]))
 
     model = PPO(
         "MlpPolicy", venv, verbose=1,
@@ -156,14 +159,14 @@ def main() -> int:
         gamma=0.99, gae_lambda=0.95, clip_range=0.2, ent_coef=0.003,
         policy_kwargs={"net_arch": [256, 256]},
         tensorboard_log=os.path.join(args.out, "tb"),
-        seed=44, device="auto",
+        seed=args.seed, device="auto",
     )
     print(f"training {args.steps:,} steps on {args.n_envs} envs, {len(MOTION_SET)} motions -> {args.out}")
     model.learn(total_timesteps=args.steps, progress_bar=False)
     model.save(ckpt)
     print(f"saved {ckpt}")
 
-    summary = evaluate(model, args.out, record_video=not args.smoke)
+    summary = evaluate(model, args.out, record_video=not args.smoke, action_scale=args.action_scale)
     with open(os.path.join(args.out, "eval_summary.json"), "w") as fh:
         json.dump({"meta": meta, "summary": summary}, fh, indent=2)
     print(json.dumps(summary["overall"], indent=2))
