@@ -1,6 +1,15 @@
 # KalariSena
 
-**Physics-grounded and recoverable Kalaripayattu skill transfer for humanoid robots.**
+**Physics-grounded, fall-safe Kalaripayattu skill transfer for humanoid robots.**
+
+> **The headline result:** balance and standing-recovery did not work in this
+> project and we say so plainly below - but fall-impact minimization did. A
+> trained policy cuts peak ground-impact force by **38% on average, up to
+> 58% in the worst case**, measured through actual ground contact and
+> reproducible from `code/logs/stageD_fall_corrected/`. A robot that is
+> going to fall anyway can still be trained to fall less violently - that
+> result survived a full correction pass while three other reported numbers
+> did not, and it's what this project can currently stand behind.
 
 > **feasible now &ne; viable for the intended future.**
 > A trajectory can be geometrically faithful to a human demonstration and
