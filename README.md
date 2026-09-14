@@ -762,9 +762,34 @@ motions and still can't hold a single one of them from a clean start.
 `code/src/envs/balanced_track_env.py` composes Stage A's existing tracking
 reward with a real, correctly-guarded capture-point margin term over the
 full multi-motion corpus instead of treating balance as a separate later
-stage. A run is in progress (`logs/stageA_balanced`); whether that
-composition is what was missing is still an open, honestly unresolved
-question until it finishes.
+stage.
+
+That run finished: **99.2% fall rate**, against 100% for plain PD. Mean
+episode length did increase (51.8 vs 42.1 steps) - the policy delays the
+collapse, it doesn't avoid it - and tracking RMSE is still worse than the
+zero-action baseline (0.244 vs 0.139). Five independent variants measured
+today - PD alone, the twelve-motion tracker, the full-corpus tracker,
+Stage B in isolation, and this composed version - all land at 99-100%.
+PD gains and torque limits were checked against the G1's actual
+specifications and are within normal range, so this isn't an actuator
+tuning problem either.
+
+<div align="center">
+
+![](media/videos/stageA_balanced/fall_demo.gif)
+
+</div>
+
+The balanced-tracking checkpoint on `kw_long_stance`, frame 0, no push
+applied - the deep stance itself is enough. Tracking holds cleanly for
+about 1.5 seconds before the capture point exits the support polygon and
+recovery authority runs out. That consistent ~1-1.5s collapse window,
+reproduced across every variant above, is now the project's central open
+problem: not a bug, not a single missing reward term, but the ceiling of
+what joint-space residual correction on top of position-PD control can
+do for these stances. The next thing being tried is a structural change -
+curriculum pretraining on static stance-holding before the full dynamic
+motion - rather than another reward-shaping variant.
 
 ## A controlled environment for probing balance recovery
 
