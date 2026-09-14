@@ -1,0 +1,73 @@
+{
+  "motion": "kt_chuvadu_step",
+  "note": "standing footwork drill, a more representative Kalaripayattu move than the deep static stances used elsewhere - fails much faster: capture-point-trace checkpoint falls at t=0.54s (vs 1.54s on kw_long_stance); the full Stage A+D+E switch falls in 17-18 steps (~0.35s) and never reaches RECOVERY mode, with push magnitude (0-100N) making no measurable difference since baseline collapse dominates even more here.",
+  "capture_point_checkpoint": "logs/stageA_balanced/balanced_best.zip",
+  "capture_point_fell_at": 0.54,
+  "thrust_grid_checkpoints": {
+    "nominal": "logs/stageA_multi12",
+    "fall": "logs/stageD_fall",
+    "recovery": "logs/stageE_recovery_v2"
+  },
+  "thrust_grid_by_magnitude_N": {
+    "0": {
+      "fell": 1,
+      "steps": 18,
+      "mode_counts": {
+        "fall": 18
+      },
+      "transitions": [
+        {
+          "step": 0,
+          "from": "nominal",
+          "to": "fall",
+          "trigger": "cp_margin"
+        }
+      ]
+    },
+    "30": {
+      "fell": 1,
+      "steps": 17,
+      "mode_counts": {
+        "fall": 17
+      },
+      "transitions": [
+        {
+          "step": 0,
+          "from": "nominal",
+          "to": "fall",
+          "trigger": "cp_margin"
+        }
+      ]
+    },
+    "60": {
+      "fell": 1,
+      "steps": 17,
+      "mode_counts": {
+        "fall": 17
+      },
+      "transitions": [
+        {
+          "step": 0,
+          "from": "nominal",
+          "to": "fall",
+          "trigger": "cp_margin"
+        }
+      ]
+    },
+    "100": {
+      "fell": 1,
+      "steps": 17,
+      "mode_counts": {
+        "fall": 17
+      },
+      "transitions": [
+        {
+          "step": 0,
+          "from": "nominal",
+          "to": "fall",
+          "trigger": "cp_margin"
+        }
+      ]
+    }
+  }
+}
