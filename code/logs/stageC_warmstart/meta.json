@@ -1,0 +1,20 @@
+{
+  "experiment_name": "stageC_momentum",
+  "stage": "C (momentum regulation)",
+  "algo": "PPO (stable-baselines3)",
+  "config": "configs/momentum.yaml",
+  "motions": [
+    "data/motions_retargeted/ks_side_kick.npz",
+    "data/motions_retargeted/kw_highkick_right.npz",
+    "data/motions_retargeted/kw_highkick_left.npz",
+    "data/motions_retargeted/ky_kick_seq.npz",
+    "data/motions_retargeted/pk_kick_lunge.npz",
+    "data/motions_retargeted/nk_squat_highkick.npz"
+  ],
+  "phase_weight": 2.0,
+  "steps": 3000000,
+  "n_envs": 8,
+  "seed": 46,
+  "warm_start": "logs/stageB_warmstart/com_best.zip",
+  "note": "see docstring re: rotational/explosive_strike mismatch. Warm-started from Stage B (paper Table 34: Stage C loads com_best) via src/rl/warm_start.py; here the obs width happens to already match (130-d for both), so this is effectively a plain weight copy."
+}
