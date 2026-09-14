@@ -11,12 +11,18 @@ fuller system paper (target: ICRA 2027).
 
 > **The headline result:** balance and standing-recovery did not work in this
 > project and we say so plainly below - but fall-impact minimization did. A
-> trained policy cuts peak ground-impact force by **38% on average, up to
-> 58% in the worst case**, measured through actual ground contact and
-> reproducible from `code/logs/stageD_fall_corrected/`. A robot that is
-> going to fall anyway can still be trained to fall less violently - that
-> result survived a full correction pass while three other reported numbers
-> did not, and it's what this project can currently stand behind.
+> trained policy cuts peak ground-impact force by a statistically
+> significant **16.7% on average** (paired Wilcoxon p=0.030, paired
+> t-test p=0.023, 200 trials across all four motion families,
+> `code/logs/stageD_fall_expanded/`), driven substantially by one motion
+> family. A smaller, earlier 12-motion/3-family test suggested a larger,
+> apparently uniform effect (38% mean, 58% worst-case) - re-tested at
+> scale, that family-uniformity claim reversed (the family it called
+> strongest actually got worse), so we report the larger test as
+> authoritative and keep the smaller one marked superseded rather than
+> deleting it. A robot that is going to fall anyway can still be trained
+> to fall less violently - modestly, not uniformly - and that's what this
+> project can currently stand behind.
 >
 > Before trusting it, we built a standing confound-elimination tool
 > (`code/scripts/diagnose_fall_confounds.py`) and ran it against this
@@ -598,11 +604,24 @@ arms across the full 12-motion set with 1.5s of real physics continued past
 official termination, capturing the actual ground-impact peak. The real
 numbers are two orders of magnitude larger than reported - PD baseline mean
 **1358.6N**, fall policy **835.8N**, worst case **4252.5N &rarr; 1778.6N** -
-but the *direction* of the claim survives correction: roughly a 38% mean
-reduction and 58% worst-case reduction, genuinely the first result today
-whose direction held up under scrutiny even though its magnitude didn't.
-It's motion-dependent, not universal: better on 8 of 12 motions, worse on
-4 (`kw_long_stance`, `kt_chuvadu_step`, `kw_highkick_right`, `ky_kick_seq`).
+and the *direction* of the claim survives correction: roughly a 38% mean
+reduction and 58% worst-case reduction. It's motion-dependent, not
+universal: better on 8 of 12 motions, worse on 4 (`kw_long_stance`,
+`kt_chuvadu_step`, `kw_highkick_right`, `ky_kick_seq`).
+
+That 12-motion test only covered 3 of the corpus's 4 motion families, and
+used just 3 episodes/motion - thin enough that a per-family pattern could
+be noise. `code/scripts/eval_fall_impact_expanded.py` reran the *same*
+checkpoint on a stratified sample across all four families (10
+motions/family, 5 episodes/motion, 200 paired trials) with a paired
+significance test. The real effect: mean impact **1780.0N &rarr; 1482.8N**,
+a **16.7% reduction** (paired Wilcoxon p=0.030, paired t-test p=0.023) -
+real, but far smaller than 38%, and not uniform: `compound` drops 63.9%,
+`translational` 20.5%, `explosive_strike` 5.7%, and `stable_stance` - the
+family the smaller test called *strongest* (-54%) - **reverses to a 40.9%
+increase**. We report the larger test as authoritative and keep the
+smaller one in the repo (`code/logs/stageD_fall_corrected/` vs.
+`code/logs/stageD_fall_expanded/`), marked superseded rather than deleted.
 
 <div align="center">
 
