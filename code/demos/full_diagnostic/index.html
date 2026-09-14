@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Posture Gap</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#0f1216; --panel:#161b21; --panel-2:#1c222a; --border:#2a313c;
+    --text:#e7eaee; --text-dim:#8b94a3; --accent:#e8a13d;
+    --nominal:#5fc98d; --fall:#4f9fe8; --recovery:#e5484d;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --disp:'Archivo',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{background:var(--bg);}
+  body{ color:var(--text); font-family:var(--disp); margin:0; padding-inline:20px; padding-block:32px 56px; }
+  .wrap{max-width:1040px;margin:0 auto;}
+
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:0 0 10px; }
+  h1{ font-size:clamp(26px,4vw,36px); font-weight:700; letter-spacing:-.01em; text-wrap:balance; margin:0 0 12px; }
+  .lede{ color:var(--text-dim); font-size:15px; line-height:1.6; max-width:70ch; margin:0 0 24px; }
+  .lede b{color:var(--text);font-weight:600;}
+
+  .stat-row{
+    display:flex; gap:1px; background:var(--border); border:1px solid var(--border);
+    border-radius:8px; overflow:hidden; margin-bottom:24px; flex-wrap:wrap;
+  }
+  .stat{ flex:1 1 150px; background:var(--panel); padding:14px 16px; }
+  .stat .k{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; }
+  .stat .v{ font-family:var(--mono); font-size:18px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .stat .v.danger{ color:var(--recovery); }
+
+  .videos{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  @media (max-width:640px){ .videos{grid-template-columns:1fr;} }
+  .panel{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .panel h2{ font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim); font-weight:500; margin:0 0 12px; display:flex; align-items:center; gap:8px; }
+  .panel h2 .tag{ font-size:10px; padding:2px 6px; border-radius:4px; border:1px solid var(--border); color:var(--text-dim); text-transform:none; letter-spacing:0; }
+  video{ width:100%; display:block; border-radius:6px; background:#000; aspect-ratio:4/3; }
+
+  .diag-panel{ margin-bottom:16px; }
+  .readout{ display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .pill{
+    font-family:var(--mono); font-size:12px; padding:5px 10px; border-radius:100px;
+    border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+  .pill.mode-nominal{ color:var(--nominal); border-color:var(--nominal); }
+  .pill.mode-fall{ color:var(--fall); border-color:var(--fall); }
+  .pill.mode-recovery{ color:var(--recovery); border-color:var(--recovery); }
+
+  .metric-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:14px; }
+  .metric{ background:var(--panel-2); padding:10px 12px; }
+  .metric .k{ font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim); margin-bottom:4px; }
+  .metric .v{ font-family:var(--mono); font-size:15px; font-weight:600; font-variant-numeric:tabular-nums; }
+
+  svg{ width:100%; height:auto; overflow:visible; }
+  .grid-line{ stroke:var(--border); stroke-width:1; }
+  .zero-line{ stroke:var(--text-dim); stroke-width:1; stroke-dasharray:2 3; }
+  .cp-line{ fill:none; stroke:var(--accent); stroke-width:2; }
+  .com-line{ fill:none; stroke:#8ab4f8; stroke-width:2; stroke-dasharray:5 3; }
+  .mode-band{ opacity:.14; }
+  .playhead{ stroke:var(--text); stroke-width:1; }
+  .fell-mark{ fill:var(--recovery); }
+  .axis-label{ font-family:var(--mono); font-size:10px; fill:var(--text-dim); }
+
+  .legend{ display:flex; gap:16px; font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-top:10px; flex-wrap:wrap; }
+  .legend span{ display:flex; align-items:center; gap:5px; }
+  .legend .sw{ width:14px; height:2px; }
+  .legend .sw.dash{ background:repeating-linear-gradient(90deg,#8ab4f8 0 4px,transparent 4px 7px); }
+  .legend .sw.solid{ background:var(--accent); }
+  .legend .box{ width:10px; height:10px; border-radius:2px; }
+
+  .caption{ font-size:13px; color:var(--text-dim); line-height:1.6; margin-top:10px; }
+
+  .repro{ margin-top:24px; padding:16px; background:var(--panel); border:1px solid var(--border); border-radius:10px; }
+  .repro h2{ font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim); font-weight:500; margin:0 0 10px; }
+  .repro pre{ margin:0; font-family:var(--mono); font-size:12.5px; line-height:1.7; color:var(--text); overflow-x:auto; white-space:pre; }
+  .repro .comment{ color:var(--text-dim); }
+
+  footer{ margin-top:24px; font-size:12.5px; color:var(--text-dim); line-height:1.6; }
+  footer a{ color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">KalariSena &middot; full switch composition, real telemetry</p>
+  <h1>Posture Gap</h1>
+  <p class="lede">
+    <b>kt_warrior_pose</b>, no push, routed through the real nominal
+    &rarr; fall &rarr; recovery <b>ModeSwitch</b>. Left is what actually
+    happened; right is the reference posture it was supposed to be
+    holding at that same instant, driven kinematically with no physics -
+    the gap between them is the story. Both capture-point and CoM margin
+    are plotted (only capture-point ever showed up before), and each
+    frame names the single actuated joint furthest from its target.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="k">Fall threshold crossed</div><div class="v danger">t = 0.22s</div></div>
+    <div class="stat"><div class="k">Modes engaged</div><div class="v">fall &rarr; recovery</div></div>
+    <div class="stat"><div class="k">Worst joint, most frames</div><div class="v">shoulder_pitch</div></div>
+    <div class="stat"><div class="k">Peak joint gap</div><div class="v">3.49 rad</div></div>
+  </div>
+
+  <div class="videos">
+    <div class="panel">
+      <h2>Actual <span class="tag">physics</span></h2>
+      <video id="vidActual" controls playsinline preload="auto">
+        <source src="actual.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="panel">
+      <h2>Reference <span class="tag">target, no physics</span></h2>
+      <video id="vidRef" muted playsinline preload="auto"></video>
+    </div>
+  </div>
+
+  <div class="panel diag-panel">
+    <h2>Live telemetry</h2>
+    <div class="readout">
+      <span class="pill"><span id="tReadout">t = 0.00s</span></span>
+      <span class="pill" id="modePill">nominal</span>
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><div class="k">cp_margin</div><div class="v" id="cpVal">&mdash;</div></div>
+      <div class="metric"><div class="k">com_margin</div><div class="v" id="comVal">&mdash;</div></div>
+      <div class="metric"><div class="k">worst joint</div><div class="v" id="jointVal">&mdash;</div></div>
+      <div class="metric"><div class="k">joint gap</div><div class="v" id="jointErrVal">&mdash;</div></div>
+      <div class="metric"><div class="k">|action| (correction effort)</div><div class="v" id="actionVal">&mdash;</div></div>
+    </div>
+    <svg id="chart" viewBox="0 0 560 200" preserveAspectRatio="none"></svg>
+    <div class="legend">
+      <span><span class="sw solid"></span>cp_margin</span>
+      <span><span class="sw dash"></span>com_margin</span>
+      <span><span class="box" style="background:var(--nominal)"></span>nominal</span>
+      <span><span class="box" style="background:var(--fall)"></span>fall</span>
+      <span><span class="box" style="background:var(--recovery)"></span>recovery</span>
+    </div>
+    <p class="caption">
+      "|action|" is the L2 norm of the residual action the active policy
+      is issuing that step - a proxy for how hard it's pushing to
+      correct, not a guarantee it's pushing the right way. It reads
+      blank during RECOVERY mode, which drives the sim directly rather
+      than through the tracker's residual-action interface.
+    </p>
+  </div>
+
+  <div class="repro">
+    <h2>Reproduce this rollout</h2>
+    <pre><span class="comment"># from the kalariSena repo root</span>
+.venv/bin/python3 scripts/render_full_diagnostic.py \
+  --nominal logs/stageA_multi12/tracking_multi_best.zip \
+  --fall logs/stageD_fall/fall_best.zip \
+  --recovery logs/stageE_recovery_v2/recovery_best.zip \
+  --npz data/motions_retargeted/kt_warrior_pose.npz \
+  --out-dir out/</pre>
+  </div>
+
+  <footer>
+    Checkpoints: Stage A <code>stageA_multi12</code> &middot; Stage D
+    <code>stageD_fall</code> &middot; Stage E <code>stageE_recovery_v2</code>
+    &middot; motion <code>kt_warrior_pose</code>, 50Hz control &middot;
+    see the
+    <a href="https://github.com/prajak002/Kalarisena-research" target="_blank" rel="noopener">Kalarisena-research</a>
+    README for the full diagnostic trail this is drawn from.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var TELEMETRY = {"motion_id": "kt_warrior_pose", "fell_at": 0.21999999999999997, "frames": [{"t": 0.02, "cp_margin": -0.6746, "com_margin": -0.6746, "mode": "fall", "fell": false, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 0.2013, "action_norm": 4.5523}, {"t": 0.04, "cp_margin": -0.5938, "com_margin": -0.6899, "mode": "fall", "fell": false, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 0.3476, "action_norm": 4.6057}, {"t": 0.06, "cp_margin": -0.6574, "com_margin": -0.7195, "mode": "fall", "fell": false, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 0.4141, "action_norm": 4.5903}, {"t": 0.08, "cp_margin": -0.6061, "com_margin": -0.7344, "mode": "fall", "fell": false, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 0.4205, "action_norm": 4.4016}, {"t": 0.1, "cp_margin": 0.0, "com_margin": 0.0, "mode": "fall", "fell": false, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 0.3863, "action_norm": 4.4999}, {"t": 0.12, "cp_margin": 0.0, "com_margin": 0.0, "mode": "fall", "fell": false, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 0.3388, "action_norm": 4.4558}, {"t": 0.14, "cp_margin": -0.1474, "com_margin": -0.2217, "mode": "fall", "fell": false, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 0.3034, "action_norm": 4.4857}, {"t": 0.16, "cp_margin": -0.1437, "com_margin": -0.2168, "mode": "fall", "fell": false, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 0.3062, "action_norm": 4.4737}, {"t": 0.18, "cp_margin": -0.1003, "com_margin": -0.2161, "mode": "fall", "fell": false, "worst_joint": "right_knee_joint", "worst_joint_err": 0.3411, "action_norm": 4.3802}, {"t": 0.2, "cp_margin": -0.1248, "com_margin": -0.2212, "mode": "fall", "fell": false, "worst_joint": "right_knee_joint", "worst_joint_err": 0.3701, "action_norm": 4.4634}, {"t": 0.22, "cp_margin": -0.096, "com_margin": -0.2263, "mode": "fall", "fell": true, "worst_joint": "right_knee_joint", "worst_joint_err": 0.3647, "action_norm": 4.5657}, {"t": 0.24, "cp_margin": -0.0745, "com_margin": -0.2325, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3509, "action_norm": 4.6909}, {"t": 0.26, "cp_margin": -0.0524, "com_margin": -0.2419, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3631, "action_norm": 4.75}, {"t": 0.28, "cp_margin": -0.0343, "com_margin": -0.2553, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3726, "action_norm": 4.7596}, {"t": 0.3, "cp_margin": -0.0356, "com_margin": -0.2758, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3771, "action_norm": 4.7929}, {"t": 0.32, "cp_margin": -0.0407, "com_margin": -0.3034, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3759, "action_norm": 4.8316}, {"t": 0.34, "cp_margin": -0.0615, "com_margin": -0.3369, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3663, "action_norm": 4.9787}, {"t": 0.36, "cp_margin": -0.0725, "com_margin": -0.3731, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3518, "action_norm": 4.9587}, {"t": 0.38, "cp_margin": -0.0983, "com_margin": -0.4011, "mode": "fall", "fell": true, "worst_joint": "waist_roll_joint", "worst_joint_err": 0.3283, "action_norm": 4.9277}, {"t": 0.4, "cp_margin": -0.1321, "com_margin": -0.4247, "mode": "fall", "fell": true, "worst_joint": "right_shoulder_pitch_joint", "worst_joint_err": 0.3067, "action_norm": 4.9171}, {"t": 0.42, "cp_margin": -0.1641, "com_margin": -0.4416, "mode": "fall", "fell": true, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 0.3219, "action_norm": 4.9067}, {"t": 0.44, "cp_margin": -0.2912, "com_margin": -0.452, "mode": "recovery", "fell": true, "worst_joint": "right_shoulder_yaw_joint", "worst_joint_err": 0.424, "action_norm": null}, {"t": 0.46, "cp_margin": -0.5036, "com_margin": -0.5396, "mode": "recovery", "fell": true, "worst_joint": "left_hip_roll_joint", "worst_joint_err": 0.7151, "action_norm": null}, {"t": 0.48, "cp_margin": -0.3934, "com_margin": -0.6298, "mode": "recovery", "fell": true, "worst_joint": "right_knee_joint", "worst_joint_err": 1.332, "action_norm": null}, {"t": 0.5, "cp_margin": -0.471, "com_margin": -0.6351, "mode": "recovery", "fell": true, "worst_joint": "right_knee_joint", "worst_joint_err": 1.6631, "action_norm": null}, {"t": 0.52, "cp_margin": -0.5523, "com_margin": -0.6097, "mode": "recovery", "fell": true, "worst_joint": "right_knee_joint", "worst_joint_err": 1.77, "action_norm": null}, {"t": 0.54, "cp_margin": -0.6522, "com_margin": -0.6203, "mode": "recovery", "fell": true, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 1.8387, "action_norm": null}, {"t": 0.56, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 1.9983, "action_norm": null}, {"t": 0.58, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 2.1202, "action_norm": null}, {"t": 0.6, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 2.1505, "action_norm": null}, {"t": 0.62, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_hip_pitch_joint", "worst_joint_err": 2.2047, "action_norm": null}, {"t": 0.64, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_shoulder_pitch_joint", "worst_joint_err": 2.1765, "action_norm": null}, {"t": 0.66, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_shoulder_pitch_joint", "worst_joint_err": 2.2466, "action_norm": null}, {"t": 0.68, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_shoulder_pitch_joint", "worst_joint_err": 2.315, "action_norm": null}, {"t": 0.7, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "right_shoulder_pitch_joint", "worst_joint_err": 2.3402, "action_norm": null}, {"t": 0.72, "cp_margin": -0.452, "com_margin": -0.6417, "mode": "recovery", "fell": true, "worst_joint": "right_shoulder_pitch_joint", "worst_joint_err": 2.3427, "action_norm": null}, {"t": 0.74, "cp_margin": -0.7355, "com_margin": -0.6746, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 2.4256, "action_norm": null}, {"t": 0.76, "cp_margin": -0.6685, "com_margin": -0.6905, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 2.4801, "action_norm": null}, {"t": 0.78, "cp_margin": -0.7783, "com_margin": -0.6026, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 2.5751, "action_norm": null}, {"t": 0.8, "cp_margin": -0.631, "com_margin": -0.5932, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 2.7005, "action_norm": null}, {"t": 0.82, "cp_margin": -0.5951, "com_margin": -0.5906, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 2.78, "action_norm": null}, {"t": 0.84, "cp_margin": -0.5622, "com_margin": -0.5871, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 2.9099, "action_norm": null}, {"t": 0.86, "cp_margin": -0.5232, "com_margin": -0.5952, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.0131, "action_norm": null}, {"t": 0.88, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.0903, "action_norm": null}, {"t": 0.9, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.1717, "action_norm": null}, {"t": 0.92, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.2164, "action_norm": null}, {"t": 0.94, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.2594, "action_norm": null}, {"t": 0.96, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.2935, "action_norm": null}, {"t": 0.98, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.3143, "action_norm": null}, {"t": 1.0, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.3474, "action_norm": null}, {"t": 1.02, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.351, "action_norm": null}, {"t": 1.04, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.3672, "action_norm": null}, {"t": 1.06, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.3807, "action_norm": null}, {"t": 1.08, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4058, "action_norm": null}, {"t": 1.1, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.411, "action_norm": null}, {"t": 1.12, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4255, "action_norm": null}, {"t": 1.14, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4257, "action_norm": null}, {"t": 1.16, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4379, "action_norm": null}, {"t": 1.18, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4341, "action_norm": null}, {"t": 1.2, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4341, "action_norm": null}, {"t": 1.22, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4392, "action_norm": null}, {"t": 1.24, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4578, "action_norm": null}, {"t": 1.26, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4656, "action_norm": null}, {"t": 1.28, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4639, "action_norm": null}, {"t": 1.3, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.46, "action_norm": null}, {"t": 1.32, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4683, "action_norm": null}, {"t": 1.34, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4719, "action_norm": null}, {"t": 1.36, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4794, "action_norm": null}, {"t": 1.38, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4859, "action_norm": null}, {"t": 1.4, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4805, "action_norm": null}, {"t": 1.42, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4738, "action_norm": null}, {"t": 1.44, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4778, "action_norm": null}, {"t": 1.46, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4839, "action_norm": null}, {"t": 1.48, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4842, "action_norm": null}, {"t": 1.5, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4817, "action_norm": null}, {"t": 1.52, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4817, "action_norm": null}, {"t": 1.54, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4781, "action_norm": null}, {"t": 1.56, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.478, "action_norm": null}, {"t": 1.58, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4815, "action_norm": null}, {"t": 1.6, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4838, "action_norm": null}, {"t": 1.62, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4858, "action_norm": null}, {"t": 1.64, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4862, "action_norm": null}, {"t": 1.66, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4842, "action_norm": null}, {"t": 1.68, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4848, "action_norm": null}, {"t": 1.7, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4676, "action_norm": null}, {"t": 1.72, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4705, "action_norm": null}, {"t": 1.74, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4721, "action_norm": null}, {"t": 1.76, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4733, "action_norm": null}, {"t": 1.78, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4757, "action_norm": null}, {"t": 1.8, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4785, "action_norm": null}, {"t": 1.82, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4811, "action_norm": null}, {"t": 1.84, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4855, "action_norm": null}, {"t": 1.86, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4872, "action_norm": null}, {"t": 1.88, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4744, "action_norm": null}, {"t": 1.9, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4692, "action_norm": null}, {"t": 1.92, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4601, "action_norm": null}, {"t": 1.94, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4644, "action_norm": null}, {"t": 1.96, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4691, "action_norm": null}, {"t": 1.98, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4706, "action_norm": null}, {"t": 2.0, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4688, "action_norm": null}, {"t": 2.02, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4721, "action_norm": null}, {"t": 2.04, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4722, "action_norm": null}, {"t": 2.06, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4724, "action_norm": null}, {"t": 2.08, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4726, "action_norm": null}, {"t": 2.1, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4682, "action_norm": null}, {"t": 2.12, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4671, "action_norm": null}, {"t": 2.14, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4686, "action_norm": null}, {"t": 2.16, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4743, "action_norm": null}, {"t": 2.18, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4768, "action_norm": null}, {"t": 2.2, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4766, "action_norm": null}, {"t": 2.22, "cp_margin": 0.0, "com_margin": 0.0, "mode": "recovery", "fell": true, "worst_joint": "left_shoulder_pitch_joint", "worst_joint_err": 3.4778, "action_norm": null}]};
+  var frames = TELEMETRY.frames;
+  var MODE_COLOR = {nominal: 'var(--nominal)', fall: 'var(--fall)', recovery: 'var(--recovery)'};
+
+  var vidActual = document.getElementById('vidActual');
+  var vidRef = document.getElementById('vidRef');
+  var srcRef = document.createElement('source');
+  srcRef.src = 'reference.mp4'; srcRef.type = 'video/mp4';
+  vidRef.appendChild(srcRef);
+  vidRef.load();
+
+  // keep the reference video locked to the actual video's playhead
+  var syncing = false;
+  vidActual.addEventListener('play', function(){ vidRef.play().catch(function(){}); });
+  vidActual.addEventListener('pause', function(){ vidRef.pause(); });
+  vidActual.addEventListener('seeking', function(){ vidRef.currentTime = vidActual.currentTime; });
+  vidActual.addEventListener('timeupdate', function(){
+    if (Math.abs(vidRef.currentTime - vidActual.currentTime) > 0.08){
+      vidRef.currentTime = vidActual.currentTime;
+    }
+    updateReadout(vidActual.currentTime);
+  });
+
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var svg = document.getElementById('chart');
+  var W = 560, H = 200, padL = 40, padR = 10, padT = 10, padB = 22;
+  var plotW = W - padL - padR, plotH = H - padT - padB;
+
+  function el(tag, attrs){
+    var e = document.createElementNS(svgNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  var tMax = frames[frames.length - 1].t;
+  var vals = frames.map(function(f){ return f.cp_margin; }).concat(frames.map(function(f){ return f.com_margin; }));
+  var yMin = Math.min.apply(null, vals.concat([0])) - 0.05;
+  var yMax = Math.max.apply(null, vals.concat([0.05])) + 0.03;
+  function x(t){ return padL + (t / tMax) * plotW; }
+  function y(v){ return padT + (1 - (v - yMin) / (yMax - yMin)) * plotH; }
+
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+  var segStart = 0;
+  for (var i = 1; i <= frames.length; i++){
+    var changed = i === frames.length || frames[i].mode !== frames[segStart].mode;
+    if (changed){
+      var x0 = x(frames[segStart].t);
+      var x1 = i < frames.length ? x(frames[i].t) : x(tMax);
+      svg.appendChild(el('rect', {x: x0, y: padT, width: Math.max(x1 - x0, 0), height: plotH,
+        fill: MODE_COLOR[frames[segStart].mode] || 'var(--nominal)', class: 'mode-band'}));
+      segStart = i;
+    }
+  }
+
+  [0.2, 0, -0.2, -0.4, -0.6, -0.8].forEach(function(v){
+    if (v < yMin || v > yMax) return;
+    var yy = y(v);
+    svg.appendChild(el('line', {x1: padL, x2: W - padR, y1: yy, y2: yy, class: v === 0 ? 'zero-line' : 'grid-line'}));
+    var lbl = el('text', {x: 4, y: yy + 3, class: 'axis-label'});
+    lbl.textContent = v.toFixed(1);
+    svg.appendChild(lbl);
+  });
+  [0, 0.5, 1.0, 1.5, 2.0].forEach(function(t){
+    if (t > tMax + 0.02) return;
+    var lbl = el('text', {x: x(t), y: H - 6, class: 'axis-label', 'text-anchor': 'middle'});
+    lbl.textContent = t.toFixed(1) + 's';
+    svg.appendChild(lbl);
+  });
+
+  svg.appendChild(el('polyline', {points: frames.map(function(f){ return x(f.t) + ',' + y(f.cp_margin); }).join(' '), class: 'cp-line'}));
+  svg.appendChild(el('polyline', {points: frames.map(function(f){ return x(f.t) + ',' + y(f.com_margin); }).join(' '), class: 'com-line'}));
+
+  var fellFrame = frames.find(function(f){ return f.fell; });
+  if (fellFrame) svg.appendChild(el('circle', {cx: x(fellFrame.t), cy: y(fellFrame.cp_margin), r: 3.5, class: 'fell-mark'}));
+
+  var playhead = el('line', {x1: padL, x2: padL, y1: padT, y2: H - padB, class: 'playhead'});
+  svg.appendChild(playhead);
+
+  var tReadout = document.getElementById('tReadout');
+  var modePill = document.getElementById('modePill');
+  var cpVal = document.getElementById('cpVal');
+  var comVal = document.getElementById('comVal');
+  var jointVal = document.getElementById('jointVal');
+  var jointErrVal = document.getElementById('jointErrVal');
+  var actionVal = document.getElementById('actionVal');
+
+  function nearestFrame(t){
+    var best = frames[0], bestDiff = Infinity;
+    for (var i = 0; i < frames.length; i++){
+      var d = Math.abs(frames[i].t - t);
+      if (d < bestDiff){ bestDiff = d; best = frames[i]; }
+    }
+    return best;
+  }
+
+  function updateReadout(t){
+    playhead.setAttribute('x1', x(t)); playhead.setAttribute('x2', x(t));
+    var f = nearestFrame(t);
+    tReadout.textContent = 't = ' + t.toFixed(2) + 's';
+    modePill.textContent = f.mode;
+    modePill.className = 'pill mode-' + f.mode;
+    cpVal.textContent = (f.cp_margin >= 0 ? '+' : '') + f.cp_margin.toFixed(3);
+    comVal.textContent = (f.com_margin >= 0 ? '+' : '') + f.com_margin.toFixed(3);
+    jointVal.textContent = f.worst_joint.replace(/_joint$/, '').replace(/_/g, ' ');
+    jointErrVal.textContent = f.worst_joint_err.toFixed(3) + ' rad';
+    actionVal.textContent = f.action_norm === null ? 'n/a (recovery)' : f.action_norm.toFixed(2);
+  }
+
+  vidActual.addEventListener('loadedmetadata', function(){ updateReadout(0); });
+  updateReadout(0);
+})();
+</script>
+</body>
+</html>

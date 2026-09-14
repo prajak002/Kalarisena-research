@@ -814,6 +814,17 @@ surfaced the same RECOVERY-routing bug `eval_integrated_switch.py` had
 (silently falling back to the nominal tracker instead of the real Stage E
 policy) in this sibling script too - same fix applied.
 
+A third page, [`code/demos/full_diagnostic/`](code/demos/full_diagnostic/index.html)
+("Posture Gap"), surfaces what the first two didn't: `com_margin` plotted
+alongside `cp_margin` (both were already computed every frame, only
+capture-point margin was ever shown), the single actuated joint furthest
+from its reference target at each instant and by how much, the residual
+action's L2 norm as a proxy for correction effort, and a second,
+physics-free video of the reference posture - driven kinematically to
+the same frame with no physics - synced next to the real rollout so the
+commanded pose and the actual one are visible side by side, not only as
+numbers.
+
 ## A controlled environment for probing balance recovery
 
 Every perturbation script up to this point runs a single, fixed push and
