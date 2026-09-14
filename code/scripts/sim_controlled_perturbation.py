@@ -44,10 +44,50 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from src.envs.kalari_track_env import FALL_DUP, FALL_DZ
+from src.sim.conventions import quat_wxyz_to_matrix
 from src.sim.rollout import write_video
 from src.switch.mode_switch import Mode, ModeSwitch, SwitchConfig
 from src.viability.perturbation import PushPattern
 from src.viability.perturbed_env import PerturbedTrackEnv
+
+RECOVERY_ACTION_SCALE = 0.5  # matches src/envs/recovery_env.py's own ACTION_SCALE
+
+
+def _recovery_obs(env: PerturbedTrackEnv) -> np.ndarray:
+    """Exact reconstruction of RecoveryEnv._obs() from the shared MuJoCo
+    state - see eval_integrated_switch.py, same fix, same reasoning."""
+    d = env.rt.data
+    q = d.qpos[env.rt.act_qadr]
+    dq = d.qvel[env.rt.act_vadr] * 0.1
+    rot = quat_wxyz_to_matrix(d.qpos[3:7])
+    gravity_b = rot.T @ np.array([0.0, 0.0, -1.0])
+    angvel_b = d.qvel[3:6] * 0.2
+    upright = np.array([env.rt.torso_upright_cos()])
+    return np.concatenate([q, dq, gravity_b, angvel_b, upright])
+
+
+def _recovery_step(env: PerturbedTrackEnv, action: np.ndarray) -> tuple[bool, bool]:
+    """Drives the sim the way RecoveryEnv itself does (offset from the
+    fixed default stance, scale 0.5) instead of KalariTrackEnv.step()'s
+    residual-on-moving-reference formula, and freezes env._frame for the
+    duration - see eval_integrated_switch.py's _recovery_step for the full
+    rationale. Still applies any active push and advances env.t, so a
+    push landing mid-recovery is felt. Returns (fell, truncated)."""
+    action = np.clip(np.asarray(action, dtype=np.float64), -1.0, 1.0)
+    q_cmd = np.clip(env.rt.default_joint_targets() + RECOVERY_ACTION_SCALE * action,
+                     env.jnt_lo, env.jnt_hi)
+    env._xfrc[:] = 0.0
+    if env._pert.active(env._t):
+        env._xfrc[env.rt.pelvis_body, 0] = env._pert.force_x
+        env._xfrc[env.rt.pelvis_body, 1] = env._pert.force_y
+    env.rt.control_step(q_cmd, xfrc=env._xfrc)
+    env._t += env._dt
+    k = min(env._frame, env.n_frames - 1)
+    z, upright = env.rt.base_height, env.rt.torso_upright_cos()
+    fell = bool(z < env.ref_z[k] - FALL_DZ or upright < env.ref_up[k] - FALL_DUP)
+    truncated = bool(env._frame >= env.n_frames - 1)
+    return fell, truncated
 
 PRESETS = {
     # (t_start, angle_deg, magnitude_N, duration_s)
@@ -102,6 +142,7 @@ def run_episode(env: PerturbedTrackEnv, nominal, fall, recovery,
     done = trunc = False
     step = 0
     frames = []
+    telemetry = []
     fell_ever = False
     mode_counts: dict[str, int] = {}
 
@@ -110,32 +151,38 @@ def run_episode(env: PerturbedTrackEnv, nominal, fall, recovery,
         mode = switch.step(feats) if switch is not None else Mode.NOMINAL
         mode_counts[mode.value] = mode_counts.get(mode.value, 0) + 1
 
-        if mode == Mode.FALL and fall is not None:
-            fall_obs = np.concatenate([obs, [env.torso_force(), 0.0]])
-            action, _ = fall.predict(fall_obs, deterministic=True)
-        elif mode == Mode.RECOVERY and recovery is not None:
-            # RecoveryEnv's observation space differs from the tracker's;
-            # fall back to the nominal tracker (see eval_integrated_switch.py).
-            action, _ = nominal.predict(obs, deterministic=True)
+        if mode == Mode.RECOVERY and recovery is not None:
+            action, _ = recovery.predict(_recovery_obs(env), deterministic=True)
+            fell, trunc = _recovery_step(env, action)
+            obs, done = env._noisy(env._obs()), fell
         else:
-            action, _ = nominal.predict(obs, deterministic=True)
-
-        obs, r, done, trunc, si = env.step(action)
-        fell_ever = fell_ever or si["fell"]
+            if mode == Mode.FALL and fall is not None:
+                fall_obs = np.concatenate([obs, [env.torso_force(), 0.0]])
+                action, _ = fall.predict(fall_obs, deterministic=True)
+            else:
+                action, _ = nominal.predict(obs, deterministic=True)
+            obs, r, done, trunc, si = env.step(action)
+            fell = si["fell"]
+        fell_ever = fell_ever or fell
 
         seg = pattern._current
         seg_mag = seg.magnitude if seg else 0.0
         seg_angle = seg.angle_deg if seg else 0.0
         frame = _draw_overlay(env.render(), env.t, seg_mag, seg_angle, feats,
                                mode.value if switch is not None else None,
-                               si["fell"], env.torso_force())
+                               fell, env.torso_force())
         frames.append(frame)
+        telemetry.append({"t": round(env.t, 3), "cp_margin": round(float(feats["cp_margin"]), 4),
+                           "momentum_norm": round(float(feats["momentum_norm"]), 4),
+                           "mode": mode.value if switch is not None else "nominal",
+                           "push_mag": seg_mag, "fell": bool(fell)})
         step += 1
 
     write_video(out_path, frames, fps=fps)
     return {
         "fell": int(fell_ever), "steps": step, "mode_counts": mode_counts,
         "transitions": switch.transition_log if switch is not None else [],
+        "telemetry": telemetry,
     }
 
 

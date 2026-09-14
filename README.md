@@ -800,6 +800,20 @@ the same policy (`model.set_env()`) on the real moving corpus as phase 2.
 Run in progress; whether static-hold mastery transfers into the moving
 task is still open.
 
+Two standalone, self-hosted pages (no external dependency but a Google
+Fonts link) let you look at the raw data directly instead of trusting a
+summary number: [`code/demos/capture_point_trace/`](code/demos/capture_point_trace/index.html)
+scrubs a rollout with the capture-point margin chart synced frame-for-frame
+to the actual logged value, and
+[`code/demos/thrust_control/`](code/demos/thrust_control/index.html) is a
+draggable force slider across four real recorded trials (0/30/60/100N,
+Stage A+D+E composed live through the actual `ModeSwitch` FSM) - all four
+still fall; more force only delays the exact collapse frame, shown as-is.
+Fixing `scripts/sim_controlled_perturbation.py` to build the second page
+surfaced the same RECOVERY-routing bug `eval_integrated_switch.py` had
+(silently falling back to the nominal tracker instead of the real Stage E
+policy) in this sibling script too - same fix applied.
+
 ## A controlled environment for probing balance recovery
 
 Every perturbation script up to this point runs a single, fixed push and

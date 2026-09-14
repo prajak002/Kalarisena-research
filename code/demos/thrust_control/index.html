@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thrust Response</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#0f1216;
+    --panel:#161b21;
+    --panel-2:#1c222a;
+    --border:#2a313c;
+    --text:#e7eaee;
+    --text-dim:#8b94a3;
+    --accent:#e8a13d;
+    --nominal:#5fc98d;
+    --fall:#4f9fe8;
+    --recovery:#e5484d;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+    --disp:'Archivo',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{background:var(--bg);}
+  body{
+    color:var(--text);
+    font-family:var(--disp);
+    margin:0;
+    padding-inline:20px;
+    padding-block:32px 56px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 10px;
+  }
+  h1{
+    font-size:clamp(26px,4vw,36px); font-weight:700; letter-spacing:-.01em;
+    text-wrap:balance; margin:0 0 12px;
+  }
+  .lede{
+    color:var(--text-dim); font-size:15px; line-height:1.6; max-width:68ch; margin:0 0 24px;
+  }
+  .lede b{color:var(--text);font-weight:600;}
+
+  .stat-row{
+    display:flex; gap:1px; background:var(--border); border:1px solid var(--border);
+    border-radius:8px; overflow:hidden; margin-bottom:28px; flex-wrap:wrap;
+  }
+  .stat{ flex:1 1 160px; background:var(--panel); padding:14px 16px; }
+  .stat .k{
+    font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-dim); margin-bottom:6px;
+  }
+  .stat .v{ font-family:var(--mono); font-size:19px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .stat .v.danger{ color:var(--recovery); }
+
+  .control-panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:20px; margin-bottom:16px;
+  }
+  .control-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  .control-head h2{
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-dim); font-weight:500; margin:0;
+  }
+  .force-readout{
+    font-family:var(--mono); font-size:28px; font-weight:600; color:var(--accent);
+    font-variant-numeric:tabular-nums;
+  }
+  .force-readout span{ font-size:15px; color:var(--text-dim); font-weight:400; }
+
+  .slider-row{ position:relative; padding-top:6px; }
+  input[type=range]{
+    width:100%; -webkit-appearance:none; appearance:none;
+    height:6px; border-radius:100px;
+    background:linear-gradient(90deg, var(--accent) 0%, var(--accent) var(--fillpct,0%), var(--border) var(--fillpct,0%), var(--border) 100%);
+    outline:none; cursor:grab; margin:10px 0 6px;
+  }
+  input[type=range]:active{ cursor:grabbing; }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+    background:var(--accent); border:3px solid var(--bg); box-shadow:0 0 0 1px var(--border);
+    cursor:grab; margin-top:-1px;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:20px; height:20px; border-radius:50%; background:var(--accent);
+    border:3px solid var(--bg); box-shadow:0 0 0 1px var(--border); cursor:grab;
+  }
+  .ticks{
+    display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px;
+    color:var(--text-dim); padding:0 2px;
+  }
+  .ticks span{cursor:pointer;}
+  .ticks span.active{color:var(--accent);}
+
+  .stage{ display:grid; grid-template-columns:1.1fr 1fr; gap:16px; margin-bottom:20px; }
+  @media (max-width:720px){ .stage{grid-template-columns:1fr;} }
+
+  .panel{ background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:16px; }
+  .panel h2{
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-dim); font-weight:500; margin:0 0 12px;
+  }
+  video{ width:100%; display:block; border-radius:6px; background:#000; aspect-ratio:4/3; }
+
+  .readout{ display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  .pill{
+    font-family:var(--mono); font-size:12px; padding:5px 10px; border-radius:100px;
+    border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+  .pill .dot{ width:6px; height:6px; border-radius:50%; }
+  .pill.mode-nominal{ color:var(--nominal); border-color:var(--nominal); }
+  .pill.mode-fall{ color:var(--fall); border-color:var(--fall); }
+  .pill.mode-recovery{ color:var(--recovery); border-color:var(--recovery); }
+
+  .legend{ display:flex; gap:14px; font-family:var(--mono); font-size:11px; color:var(--text-dim); margin-top:10px; flex-wrap:wrap; }
+  .legend span{ display:flex; align-items:center; gap:5px; }
+  .legend .sw{ width:10px; height:10px; border-radius:2px; }
+
+  svg{ width:100%; height:auto; overflow:visible; }
+  .grid-line{ stroke:var(--border); stroke-width:1; }
+  .zero-line{ stroke:var(--text-dim); stroke-width:1; stroke-dasharray:2 3; }
+  .cp-line{ fill:none; stroke:var(--accent); stroke-width:2; }
+  .mode-band{ opacity:.16; }
+  .playhead{ stroke:var(--text); stroke-width:1; }
+  .fell-mark{ fill:var(--recovery); }
+  .axis-label{ font-family:var(--mono); font-size:10px; fill:var(--text-dim); }
+
+  .caption{ font-size:13px; color:var(--text-dim); line-height:1.6; margin-top:10px; }
+
+  .repro{ margin-top:28px; padding:16px; background:var(--panel); border:1px solid var(--border); border-radius:10px; }
+  .repro h2{
+    font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text-dim); font-weight:500; margin:0 0 10px;
+  }
+  .repro pre{ margin:0; font-family:var(--mono); font-size:12.5px; line-height:1.7; color:var(--text); overflow-x:auto; white-space:pre; }
+  .repro .comment{ color:var(--text-dim); }
+
+  footer{ margin-top:28px; font-size:12.5px; color:var(--text-dim); line-height:1.6; }
+  footer a{ color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">KalariSena &middot; Stage A + D + E, live switch</p>
+  <h1>Thrust Response</h1>
+  <p class="lede">
+    Drag the force slider. Each stop replays a real recorded rollout at that
+    push magnitude &mdash; the same tracker, fall-response, and recovery
+    policies, routed live through the actual <b>ModeSwitch</b> FSM, pushed at
+    <b>t = 0.05s</b> on <b>kt_vadivu_lowseat</b>. Not a live simulator: four
+    real, pre-recorded trials you can compare directly.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="k">Outcome, all 4 magnitudes</div><div class="v danger">falls</div></div>
+    <div class="stat"><div class="k">Steps survived</div><div class="v">40 &rarr; 46</div></div>
+    <div class="stat"><div class="k">Modes engaged</div><div class="v">nominal &middot; fall &middot; recovery</div></div>
+    <div class="stat"><div class="k">Push window</div><div class="v">t=0.05s, dur 0.1s</div></div>
+  </div>
+
+  <div class="control-panel">
+    <div class="control-head">
+      <h2>Push magnitude</h2>
+      <div class="force-readout"><span id="forceVal">0</span><span> N</span></div>
+    </div>
+    <div class="slider-row">
+      <input type="range" id="slider" min="0" max="3" step="1" value="0" style="--fillpct:0%">
+    </div>
+    <div class="ticks">
+      <span data-i="0" class="active">0 N</span>
+      <span data-i="1">30 N</span>
+      <span data-i="2">60 N</span>
+      <span data-i="3">100 N</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="panel">
+      <h2>Rollout</h2>
+      <video id="vid" controls playsinline preload="auto"></video>
+    </div>
+    <div class="panel">
+      <h2>Live telemetry</h2>
+      <div class="readout">
+        <span class="pill"><span id="tReadout">t = 0.00s</span></span>
+        <span class="pill"><span id="cpReadout">cp_margin: &mdash;</span></span>
+        <span class="pill" id="modePill">nominal</span>
+      </div>
+      <svg id="chart" viewBox="0 0 480 200" preserveAspectRatio="none"></svg>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--nominal)"></span>nominal</span>
+        <span><span class="sw" style="background:var(--fall)"></span>fall</span>
+        <span><span class="sw" style="background:var(--recovery)"></span>recovery</span>
+      </div>
+      <p class="caption">
+        Background bands show which policy is in control at that instant.
+        Every trial ends the same way &mdash; the switch engages, tries to
+        recover, and still can't hold it. More force delays the exact
+        collapse frame slightly; it doesn't change the outcome.
+      </p>
+    </div>
+  </div>
+
+  <div class="repro">
+    <h2>Reproduce a trial</h2>
+    <pre><span class="comment"># from the kalariSena repo root &mdash; e.g. the 60N trial</span>
+.venv/bin/python3 scripts/sim_controlled_perturbation.py \
+  --nominal logs/stageA_multi12/tracking_multi_best.zip \
+  --fall logs/stageD_fall/fall_best.zip \
+  --recovery logs/stageE_recovery_v2/recovery_best.zip \
+  --npz data/motions_retargeted/kt_vadivu_lowseat.npz \
+  --push 0.05 90 60 0.1 --out out/</pre>
+  </div>
+
+  <footer>
+    Checkpoints: Stage A <code>stageA_multi12</code> &middot; Stage D
+    <code>stageD_fall</code> &middot; Stage E <code>stageE_recovery_v2</code>
+    &middot; motion <code>kt_vadivu_lowseat</code>, 50Hz control &middot;
+    see the
+    <a href="https://github.com/prajak002/Kalarisena-research" target="_blank" rel="noopener">Kalarisena-research</a>
+    README for the full diagnostic trail this is drawn from.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var MANIFEST = {"0": {"video": "push_0N.mp4", "fell": 1, "steps": 40, "mode_counts": {"fall": 37, "recovery": 3}, "telemetry": [{"t": 0.02, "cp_margin": 0.0293, "momentum_norm": 0.0, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.04, "cp_margin": -0.0679, "momentum_norm": 0.5087, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.06, "cp_margin": -0.0788, "momentum_norm": 0.7311, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.08, "cp_margin": -0.0689, "momentum_norm": 0.754, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.1, "cp_margin": -0.0292, "momentum_norm": 0.5737, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.12, "cp_margin": 0.0122, "momentum_norm": 0.9197, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.14, "cp_margin": 0.0429, "momentum_norm": 0.7102, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.16, "cp_margin": 0.0443, "momentum_norm": 0.8419, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.18, "cp_margin": 0.0454, "momentum_norm": 0.8772, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.2, "cp_margin": 0.0438, "momentum_norm": 0.8864, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.22, "cp_margin": 0.0415, "momentum_norm": 0.892, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.24, "cp_margin": 0.0388, "momentum_norm": 0.8797, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.26, "cp_margin": 0.0352, "momentum_norm": 0.8695, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.28, "cp_margin": 0.0313, "momentum_norm": 0.8528, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.3, "cp_margin": 0.0272, "momentum_norm": 0.8369, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.32, "cp_margin": 0.0228, "momentum_norm": 0.8378, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.34, "cp_margin": 0.0183, "momentum_norm": 0.8644, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.36, "cp_margin": 0.0138, "momentum_norm": 0.9315, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.38, "cp_margin": 0.0099, "momentum_norm": 1.0253, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.4, "cp_margin": 0.0066, "momentum_norm": 1.1292, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.42, "cp_margin": 0.0038, "momentum_norm": 1.2094, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.44, "cp_margin": 0.0011, "momentum_norm": 1.2935, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.46, "cp_margin": -0.002, "momentum_norm": 1.3586, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.48, "cp_margin": -0.0051, "momentum_norm": 1.4155, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.5, "cp_margin": -0.0085, "momentum_norm": 1.4786, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.52, "cp_margin": -0.0126, "momentum_norm": 1.5469, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.54, "cp_margin": -0.0172, "momentum_norm": 1.6384, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.56, "cp_margin": -0.0217, "momentum_norm": 1.7745, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.58, "cp_margin": -0.0263, "momentum_norm": 1.9511, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.6, "cp_margin": -0.031, "momentum_norm": 2.1577, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.62, "cp_margin": -0.0373, "momentum_norm": 2.3566, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.64, "cp_margin": -0.0422, "momentum_norm": 2.5876, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.66, "cp_margin": -0.0471, "momentum_norm": 2.8312, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.68, "cp_margin": -0.0524, "momentum_norm": 3.0777, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.7, "cp_margin": -0.0578, "momentum_norm": 3.3334, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.72, "cp_margin": -0.0633, "momentum_norm": 3.5963, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.74, "cp_margin": -0.0677, "momentum_norm": 3.8777, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.76, "cp_margin": -0.0707, "momentum_norm": 4.1868, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.78, "cp_margin": -0.1775, "momentum_norm": 4.979, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.8, "cp_margin": -0.1883, "momentum_norm": 7.6057, "mode": "recovery", "push_mag": 0.0, "fell": true}]}, "30": {"video": "push_30N.mp4", "fell": 1, "steps": 41, "mode_counts": {"fall": 38, "recovery": 3}, "telemetry": [{"t": 0.02, "cp_margin": 0.0293, "momentum_norm": 0.0, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.04, "cp_margin": -0.0679, "momentum_norm": 0.5087, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.06, "cp_margin": -0.0788, "momentum_norm": 0.7311, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.08, "cp_margin": -0.0689, "momentum_norm": 0.754, "mode": "fall", "push_mag": 30.0, "fell": false}, {"t": 0.1, "cp_margin": -0.0284, "momentum_norm": 0.6284, "mode": "fall", "push_mag": 30.0, "fell": false}, {"t": 0.12, "cp_margin": 0.0143, "momentum_norm": 0.9242, "mode": "fall", "push_mag": 30.0, "fell": false}, {"t": 0.14, "cp_margin": 0.0477, "momentum_norm": 0.6926, "mode": "fall", "push_mag": 30.0, "fell": false}, {"t": 0.16, "cp_margin": 0.048, "momentum_norm": 0.7777, "mode": "fall", "push_mag": 30.0, "fell": false}, {"t": 0.18, "cp_margin": 0.0501, "momentum_norm": 0.7864, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.2, "cp_margin": 0.0477, "momentum_norm": 0.7732, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.22, "cp_margin": 0.0454, "momentum_norm": 0.7695, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.24, "cp_margin": 0.0429, "momentum_norm": 0.7582, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.26, "cp_margin": 0.0396, "momentum_norm": 0.7509, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.28, "cp_margin": 0.036, "momentum_norm": 0.7364, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.3, "cp_margin": 0.0322, "momentum_norm": 0.7185, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.32, "cp_margin": 0.028, "momentum_norm": 0.7152, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.34, "cp_margin": 0.0233, "momentum_norm": 0.7334, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.36, "cp_margin": 0.0184, "momentum_norm": 0.7913, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.38, "cp_margin": 0.0142, "momentum_norm": 0.8853, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.4, "cp_margin": 0.0108, "momentum_norm": 0.9973, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.42, "cp_margin": 0.0078, "momentum_norm": 1.1117, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.44, "cp_margin": 0.0052, "momentum_norm": 1.1956, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.46, "cp_margin": 0.0025, "momentum_norm": 1.2673, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.48, "cp_margin": -0.0009, "momentum_norm": 1.3273, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.5, "cp_margin": -0.005, "momentum_norm": 1.376, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.52, "cp_margin": -0.0088, "momentum_norm": 1.4337, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.54, "cp_margin": -0.0127, "momentum_norm": 1.5095, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.56, "cp_margin": -0.0168, "momentum_norm": 1.6123, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.58, "cp_margin": -0.0206, "momentum_norm": 1.76, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.6, "cp_margin": -0.0245, "momentum_norm": 1.9414, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.62, "cp_margin": -0.0289, "momentum_norm": 2.1414, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.64, "cp_margin": -0.0344, "momentum_norm": 2.3397, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.66, "cp_margin": -0.04, "momentum_norm": 2.5407, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.68, "cp_margin": -0.045, "momentum_norm": 2.7574, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.7, "cp_margin": -0.0505, "momentum_norm": 2.9841, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.72, "cp_margin": -0.0563, "momentum_norm": 3.2199, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.74, "cp_margin": -0.0618, "momentum_norm": 3.4707, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.76, "cp_margin": -0.0666, "momentum_norm": 3.7429, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.78, "cp_margin": -0.0704, "momentum_norm": 4.0285, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.8, "cp_margin": -0.1788, "momentum_norm": 4.7309, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.82, "cp_margin": -0.1744, "momentum_norm": 7.3563, "mode": "recovery", "push_mag": 0.0, "fell": true}]}, "60": {"video": "push_60N.mp4", "fell": 1, "steps": 43, "mode_counts": {"fall": 40, "recovery": 3}, "telemetry": [{"t": 0.02, "cp_margin": 0.0293, "momentum_norm": 0.0, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.04, "cp_margin": -0.0679, "momentum_norm": 0.5087, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.06, "cp_margin": -0.0788, "momentum_norm": 0.7311, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.08, "cp_margin": -0.0689, "momentum_norm": 0.754, "mode": "fall", "push_mag": 60.0, "fell": false}, {"t": 0.1, "cp_margin": -0.0278, "momentum_norm": 0.6838, "mode": "fall", "push_mag": 60.0, "fell": false}, {"t": 0.12, "cp_margin": 0.0167, "momentum_norm": 0.905, "mode": "fall", "push_mag": 60.0, "fell": false}, {"t": 0.14, "cp_margin": 0.0513, "momentum_norm": 0.7035, "mode": "fall", "push_mag": 60.0, "fell": false}, {"t": 0.16, "cp_margin": 0.0523, "momentum_norm": 0.7512, "mode": "fall", "push_mag": 60.0, "fell": false}, {"t": 0.18, "cp_margin": 0.0549, "momentum_norm": 0.7263, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.2, "cp_margin": 0.0514, "momentum_norm": 0.6875, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.22, "cp_margin": 0.0492, "momentum_norm": 0.6698, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.24, "cp_margin": 0.0468, "momentum_norm": 0.6565, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.26, "cp_margin": 0.0437, "momentum_norm": 0.6516, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.28, "cp_margin": 0.0403, "momentum_norm": 0.6413, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.3, "cp_margin": 0.0368, "momentum_norm": 0.6234, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.32, "cp_margin": 0.0329, "momentum_norm": 0.6175, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.34, "cp_margin": 0.0286, "momentum_norm": 0.6284, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.36, "cp_margin": 0.0239, "momentum_norm": 0.6757, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.38, "cp_margin": 0.0199, "momentum_norm": 0.7496, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.4, "cp_margin": 0.0162, "momentum_norm": 0.8415, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.42, "cp_margin": 0.0128, "momentum_norm": 0.9434, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.44, "cp_margin": 0.0096, "momentum_norm": 1.0494, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.46, "cp_margin": 0.0065, "momentum_norm": 1.1392, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.48, "cp_margin": 0.0035, "momentum_norm": 1.2089, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.5, "cp_margin": -0.0, "momentum_norm": 1.2709, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.52, "cp_margin": -0.0043, "momentum_norm": 1.3281, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.54, "cp_margin": -0.0084, "momentum_norm": 1.3908, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.56, "cp_margin": -0.0119, "momentum_norm": 1.4754, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.58, "cp_margin": -0.0153, "momentum_norm": 1.5853, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.6, "cp_margin": -0.0184, "momentum_norm": 1.7327, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.62, "cp_margin": -0.0219, "momentum_norm": 1.9052, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.64, "cp_margin": -0.0259, "momentum_norm": 2.089, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.66, "cp_margin": -0.0305, "momentum_norm": 2.2774, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.68, "cp_margin": -0.0364, "momentum_norm": 2.4572, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.7, "cp_margin": -0.0425, "momentum_norm": 2.6403, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.72, "cp_margin": -0.0481, "momentum_norm": 2.8427, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.74, "cp_margin": -0.054, "momentum_norm": 3.0597, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.76, "cp_margin": -0.0595, "momentum_norm": 3.3001, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.78, "cp_margin": -0.0647, "momentum_norm": 3.551, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.8, "cp_margin": -0.0695, "momentum_norm": 3.8125, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.82, "cp_margin": -0.0727, "momentum_norm": 4.1153, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.84, "cp_margin": -0.1888, "momentum_norm": 4.7709, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.86, "cp_margin": -0.1931, "momentum_norm": 7.4717, "mode": "recovery", "push_mag": 0.0, "fell": true}]}, "100": {"video": "push_100N.mp4", "fell": 1, "steps": 46, "mode_counts": {"fall": 43, "recovery": 3}, "telemetry": [{"t": 0.02, "cp_margin": 0.0293, "momentum_norm": 0.0, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.04, "cp_margin": -0.0679, "momentum_norm": 0.5087, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.06, "cp_margin": -0.0788, "momentum_norm": 0.7311, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.08, "cp_margin": -0.0689, "momentum_norm": 0.754, "mode": "fall", "push_mag": 100.0, "fell": false}, {"t": 0.1, "cp_margin": -0.0268, "momentum_norm": 0.7573, "mode": "fall", "push_mag": 100.0, "fell": false}, {"t": 0.12, "cp_margin": 0.0199, "momentum_norm": 0.9454, "mode": "fall", "push_mag": 100.0, "fell": false}, {"t": 0.14, "cp_margin": 0.0512, "momentum_norm": 0.6775, "mode": "fall", "push_mag": 100.0, "fell": false}, {"t": 0.16, "cp_margin": 0.0551, "momentum_norm": 0.6918, "mode": "fall", "push_mag": 100.0, "fell": false}, {"t": 0.18, "cp_margin": 0.0564, "momentum_norm": 0.6474, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.2, "cp_margin": 0.0564, "momentum_norm": 0.5953, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.22, "cp_margin": 0.0552, "momentum_norm": 0.5658, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.24, "cp_margin": 0.053, "momentum_norm": 0.5579, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.26, "cp_margin": 0.0503, "momentum_norm": 0.5593, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.28, "cp_margin": 0.0474, "momentum_norm": 0.5558, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.3, "cp_margin": 0.0444, "momentum_norm": 0.5399, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.32, "cp_margin": 0.041, "momentum_norm": 0.5254, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.34, "cp_margin": 0.0373, "momentum_norm": 0.5211, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.36, "cp_margin": 0.0333, "momentum_norm": 0.5443, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.38, "cp_margin": 0.0297, "momentum_norm": 0.5865, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.4, "cp_margin": 0.0267, "momentum_norm": 0.6397, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.42, "cp_margin": 0.0241, "momentum_norm": 0.7017, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.44, "cp_margin": 0.0214, "momentum_norm": 0.7617, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.46, "cp_margin": 0.0182, "momentum_norm": 0.8172, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.48, "cp_margin": 0.0142, "momentum_norm": 0.8799, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.5, "cp_margin": 0.0094, "momentum_norm": 0.9461, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.52, "cp_margin": 0.004, "momentum_norm": 1.029, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.54, "cp_margin": 0.0007, "momentum_norm": 1.1297, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.56, "cp_margin": -0.0019, "momentum_norm": 1.2332, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.58, "cp_margin": -0.0049, "momentum_norm": 1.3439, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.6, "cp_margin": -0.008, "momentum_norm": 1.4526, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.62, "cp_margin": -0.0106, "momentum_norm": 1.5677, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.64, "cp_margin": -0.0132, "momentum_norm": 1.6972, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.66, "cp_margin": -0.0164, "momentum_norm": 1.8274, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.68, "cp_margin": -0.0203, "momentum_norm": 1.9601, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.7, "cp_margin": -0.0247, "momentum_norm": 2.0983, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.72, "cp_margin": -0.0299, "momentum_norm": 2.2374, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.74, "cp_margin": -0.0354, "momentum_norm": 2.3944, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.76, "cp_margin": -0.0413, "momentum_norm": 2.5752, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.78, "cp_margin": -0.0478, "momentum_norm": 2.7597, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.8, "cp_margin": -0.0557, "momentum_norm": 2.935, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.82, "cp_margin": -0.0616, "momentum_norm": 3.1615, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.84, "cp_margin": -0.0656, "momentum_norm": 3.4628, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.86, "cp_margin": -0.0658, "momentum_norm": 3.836, "mode": "fall", "push_mag": 0.0, "fell": false}, {"t": 0.88, "cp_margin": -0.0644, "momentum_norm": 4.2435, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.9, "cp_margin": -0.2197, "momentum_norm": 4.2781, "mode": "recovery", "push_mag": 0.0, "fell": false}, {"t": 0.92, "cp_margin": -0.2622, "momentum_norm": 7.2669, "mode": "recovery", "push_mag": 0.0, "fell": true}]}};
+  var MAGS = [0, 30, 60, 100];
+  var MODE_COLOR = {nominal: 'var(--nominal)', fall: 'var(--fall)', recovery: 'var(--recovery)'};
+
+  var slider = document.getElementById('slider');
+  var forceVal = document.getElementById('forceVal');
+  var ticks = document.querySelectorAll('.ticks span');
+  var vid = document.getElementById('vid');
+  var chart = document.getElementById('chart');
+  var tReadout = document.getElementById('tReadout');
+  var cpReadout = document.getElementById('cpReadout');
+  var modePill = document.getElementById('modePill');
+
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var W = 480, H = 200, padL = 34, padR = 10, padT = 10, padB = 22;
+  var plotW = W - padL - padR, plotH = H - padT - padB;
+
+  function el(tag, attrs){
+    var e = document.createElementNS(svgNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  var current = null; // {frames, tMax, x, y, fellAt}
+
+  function loadScenario(mag){
+    var data = MANIFEST[String(mag)];
+    var frames = data.telemetry;
+    vid.querySelectorAll('source').forEach(function(s){ s.remove(); });
+    var src = document.createElement('source');
+    src.src = data.video; src.type = 'video/mp4';
+    vid.appendChild(src);
+    vid.load();
+
+    var tMax = frames[frames.length - 1].t;
+    var cps = frames.map(function(f){ return f.cp_margin; });
+    var yMin = Math.min.apply(null, cps.concat([0])) - 0.05;
+    var yMax = Math.max.apply(null, cps.concat([0.05])) + 0.03;
+    function x(t){ return padL + (t / tMax) * plotW; }
+    function y(v){ return padT + (1 - (v - yMin) / (yMax - yMin)) * plotH; }
+
+    while (chart.firstChild) chart.removeChild(chart.firstChild);
+    chart.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+    // mode bands
+    var segStart = 0;
+    for (var i = 1; i <= frames.length; i++){
+      var changed = i === frames.length || frames[i].mode !== frames[segStart].mode;
+      if (changed){
+        var x0 = x(frames[segStart].t === 0 ? 0 : frames[Math.max(segStart - 1, 0)].t);
+        var x1 = i < frames.length ? x(frames[i].t) : x(tMax);
+        chart.appendChild(el('rect', {
+          x: x0, y: padT, width: Math.max(x1 - x0, 0), height: plotH,
+          fill: MODE_COLOR[frames[segStart].mode] || 'var(--nominal)', class: 'mode-band'
+        }));
+        segStart = i;
+      }
+    }
+
+    [0.2, 0.1, 0, -0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7].forEach(function(v){
+      if (v < yMin || v > yMax) return;
+      var yy = y(v);
+      chart.appendChild(el('line', {x1: padL, x2: W - padR, y1: yy, y2: yy,
+        class: v === 0 ? 'zero-line' : 'grid-line'}));
+      var lbl = el('text', {x: 4, y: yy + 3, class: 'axis-label'});
+      lbl.textContent = v.toFixed(1);
+      chart.appendChild(lbl);
+    });
+    [0, 0.25, 0.5, 0.75].forEach(function(t){
+      if (t > tMax + 0.02) return;
+      var lbl = el('text', {x: x(t), y: H - 6, class: 'axis-label', 'text-anchor': 'middle'});
+      lbl.textContent = t.toFixed(2) + 's';
+      chart.appendChild(lbl);
+    });
+
+    var pts = frames.map(function(f){ return x(f.t) + ',' + y(f.cp_margin); });
+    chart.appendChild(el('polyline', {points: pts.join(' '), class: 'cp-line'}));
+
+    var fellFrame = frames.find(function(f){ return f.fell; });
+    var fellAt = fellFrame ? fellFrame.t : null;
+    if (fellAt !== null){
+      chart.appendChild(el('circle', {cx: x(fellAt), cy: y(fellFrame.cp_margin), r: 3.5, class: 'fell-mark'}));
+    }
+
+    var playhead = el('line', {x1: padL, x2: padL, y1: padT, y2: H - padB, class: 'playhead'});
+    chart.appendChild(playhead);
+
+    current = {frames: frames, x: x, y: y, playhead: playhead};
+    updateReadout(0);
+  }
+
+  function nearestFrame(t){
+    var frames = current.frames, best = frames[0], bestDiff = Infinity;
+    for (var i = 0; i < frames.length; i++){
+      var d = Math.abs(frames[i].t - t);
+      if (d < bestDiff){ bestDiff = d; best = frames[i]; }
+    }
+    return best;
+  }
+
+  function updateReadout(t){
+    if (!current) return;
+    current.playhead.setAttribute('x1', current.x(t));
+    current.playhead.setAttribute('x2', current.x(t));
+    var f = nearestFrame(t);
+    tReadout.textContent = 't = ' + t.toFixed(2) + 's';
+    cpReadout.textContent = 'cp_margin: ' + (f.cp_margin >= 0 ? '+' : '') + f.cp_margin.toFixed(3);
+    modePill.textContent = f.mode;
+    modePill.className = 'pill mode-' + f.mode;
+  }
+
+  vid.addEventListener('timeupdate', function(){ updateReadout(vid.currentTime); });
+  vid.addEventListener('loadedmetadata', function(){ updateReadout(0); });
+
+  function setMag(i){
+    i = Math.max(0, Math.min(MAGS.length - 1, i));
+    slider.value = i;
+    slider.style.setProperty('--fillpct', (i / (MAGS.length - 1) * 100) + '%');
+    forceVal.textContent = MAGS[i];
+    ticks.forEach(function(t, idx){ t.classList.toggle('active', idx === i); });
+    loadScenario(MAGS[i]);
+  }
+
+  slider.addEventListener('input', function(){ setMag(parseInt(slider.value, 10)); });
+  ticks.forEach(function(t){
+    t.addEventListener('click', function(){ setMag(parseInt(t.dataset.i, 10)); });
+  });
+
+  setMag(0);
+})();
+</script>
+</body>
+</html>

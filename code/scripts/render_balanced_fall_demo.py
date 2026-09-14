@@ -16,6 +16,7 @@ Usage
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 
@@ -51,6 +52,9 @@ def main() -> int:
     ap.add_argument("--ckpt", default="logs/stageA_balanced/balanced_best.zip")
     ap.add_argument("--npz", default="data/motions_retargeted/kw_long_stance.npz")
     ap.add_argument("--out", default="logs/stageA_balanced/fall_demo.gif")
+    ap.add_argument("--telemetry-out", default=None,
+                     help="optional path to dump per-frame JSON telemetry (t, cp_margin, "
+                          "upright, fell) for building a synced interactive viewer")
     ap.add_argument("--fps", type=int, default=30)
     args = ap.parse_args()
 
@@ -63,6 +67,7 @@ def main() -> int:
     print(f"motion: {info['motion_id']}, start_frame: {info['start_frame']}")
 
     frames = []
+    telemetry = []
     done = trunc = False
     t = 0.0
     dt = 1.0 / 50.0
@@ -76,11 +81,20 @@ def main() -> int:
         frame = env.render()
         if frame is not None:
             frames.append(_draw_overlay(frame, t, si["cp_margin"], si["fell"]))
+            telemetry.append({"t": round(t, 3), "cp_margin": round(float(si["cp_margin"]), 4),
+                               "com_margin": round(float(si["com_margin"]), 4),
+                               "fell": bool(si["fell"])})
         if fell_at is not None and t > fell_at + 1.0:
             break  # hold ~1s on the fallen frame, then stop
 
     write_video(args.out, frames, fps=args.fps)
     print(f"fell: {fell_at is not None}, at t={fell_at}" if fell_at else "did not fall")
+    if args.telemetry_out:
+        os.makedirs(os.path.dirname(args.telemetry_out) or ".", exist_ok=True)
+        with open(args.telemetry_out, "w") as fh:
+            json.dump({"motion_id": info["motion_id"], "fps": args.fps,
+                       "fell_at": fell_at, "frames": telemetry}, fh, indent=1)
+        print(f"wrote telemetry: {args.telemetry_out}")
     env.close()
     return 0
 
