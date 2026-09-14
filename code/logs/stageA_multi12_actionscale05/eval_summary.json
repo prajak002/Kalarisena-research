@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "experiment_name": "stageA_multi12",
+    "stage": "A (multi-motion tracking)",
+    "algo": "PPO (stable-baselines3)",
+    "motions": [
+      "data/motions_retargeted/kw_long_stance.npz",
+      "data/motions_retargeted/kt_vadivu_lowseat.npz",
+      "data/motions_retargeted/kt_warrior_pose.npz",
+      "data/motions_retargeted/ky_warrior_lunge.npz",
+      "data/motions_retargeted/kt_chuvadu_step.npz",
+      "data/motions_retargeted/kw_deep_reach.npz",
+      "data/motions_retargeted/ky_deep_lunge.npz",
+      "data/motions_retargeted/pk_stance_transitions.npz",
+      "data/motions_retargeted/ks_side_kick.npz",
+      "data/motions_retargeted/kw_highkick_right.npz",
+      "data/motions_retargeted/ky_kick_seq.npz",
+      "data/motions_retargeted/pk_kick_lunge.npz"
+    ],
+    "steps": 3000000,
+    "n_envs": 8,
+    "action": "joint target residuals, s_a=0.5 rad",
+    "obs": "proprioception + reference + phase (124d)",
+    "note": "widens single-motion Stage A (logs/stageA_kw_long_stance) to 12 motions across all 3 taxonomy families; still far short of the paper's full corpus"
+  },
+  "summary": {
+    "overall": {
+      "policy": {
+        "fall_rate": 0.9166666666666666,
+        "tracking_rmse_mean": 0.3852909853323707,
+        "mean_episode_len": 54.166666666666664
+      },
+      "pd_baseline": {
+        "fall_rate": 1.0,
+        "tracking_rmse_mean": 0.21095748641481726,
+        "mean_episode_len": 31.75
+      }
+    },
+    "per_motion": {
+      "kw_long_stance": {
+        "policy": {
+          "tracking_rmse_mean": 0.4040276196068542,
+          "fall_rate": 1.0,
+          "mean_episode_len": 46.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.25550486171638737,
+          "fall_rate": 1.0,
+          "mean_episode_len": 36.0
+        }
+      },
+      "kt_vadivu_lowseat": {
+        "policy": {
+          "tracking_rmse_mean": 0.40143413525739724,
+          "fall_rate": 0.0,
+          "mean_episode_len": 209.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.05359987031252824,
+          "fall_rate": 1.0,
+          "mean_episode_len": 36.0
+        }
+      },
+      "kt_warrior_pose": {
+        "policy": {
+          "tracking_rmse_mean": 0.33651048614463275,
+          "fall_rate": 1.0,
+          "mean_episode_len": 20.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.08950776002592578,
+          "fall_rate": 1.0,
+          "mean_episode_len": 18.0
+        }
+      },
+      "ky_warrior_lunge": {
+        "policy": {
+          "tracking_rmse_mean": 0.45941563058024093,
+          "fall_rate": 1.0,
+          "mean_episode_len": 21.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.3207855204037748,
+          "fall_rate": 1.0,
+          "mean_episode_len": 15.0
+        }
+      },
+      "kt_chuvadu_step": {
+        "policy": {
+          "tracking_rmse_mean": 0.3125515187565182,
+          "fall_rate": 1.0,
+          "mean_episode_len": 39.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.036558611472334204,
+          "fall_rate": 1.0,
+          "mean_episode_len": 24.0
+        }
+      },
+      "kw_deep_reach": {
+        "policy": {
+          "tracking_rmse_mean": 0.3710409290716238,
+          "fall_rate": 1.0,
+          "mean_episode_len": 49.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.2543520313835311,
+          "fall_rate": 1.0,
+          "mean_episode_len": 19.0
+        }
+      },
+      "ky_deep_lunge": {
+        "policy": {
+          "tracking_rmse_mean": 0.37451413486849683,
+          "fall_rate": 1.0,
+          "mean_episode_len": 70.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.2726142844781063,
+          "fall_rate": 1.0,
+          "mean_episode_len": 34.0
+        }
+      },
+      "pk_stance_transitions": {
+        "policy": {
+          "tracking_rmse_mean": 0.45999793239349795,
+          "fall_rate": 1.0,
+          "mean_episode_len": 31.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.43469937600558367,
+          "fall_rate": 1.0,
+          "mean_episode_len": 21.0
+        }
+      },
+      "ks_side_kick": {
+        "policy": {
+          "tracking_rmse_mean": 0.33002302004295203,
+          "fall_rate": 1.0,
+          "mean_episode_len": 16.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.028868223094434053,
+          "fall_rate": 1.0,
+          "mean_episode_len": 10.0
+        }
+      },
+      "kw_highkick_right": {
+        "policy": {
+          "tracking_rmse_mean": 0.3631219450865422,
+          "fall_rate": 1.0,
+          "mean_episode_len": 80.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.15280593363278924,
+          "fall_rate": 1.0,
+          "mean_episode_len": 43.0
+        }
+      },
+      "ky_kick_seq": {
+        "policy": {
+          "tracking_rmse_mean": 0.38914956234927134,
+          "fall_rate": 1.0,
+          "mean_episode_len": 42.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.2698165133291405,
+          "fall_rate": 1.0,
+          "mean_episode_len": 93.0
+        }
+      },
+      "pk_kick_lunge": {
+        "policy": {
+          "tracking_rmse_mean": 0.4217049098304205,
+          "fall_rate": 1.0,
+          "mean_episode_len": 27.0
+        },
+        "pd_baseline": {
+          "tracking_rmse_mean": 0.36237685112327206,
+          "fall_rate": 1.0,
+          "mean_episode_len": 32.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "experiment_name": "stageD_fall_expanded",
+    "model_name": "fall_best.zip",
+    "checkpoint_path": "logs/stageD_fall/fall_best.zip",
+    "seed": 12000,
+    "git_commit": "7e841f0e0bf11533f9aa5fcd6dec68d08dc12f6e",
+    "simulator_version": "mujoco-3.11.0",
+    "robot_model": "g1_29dof_rev_1_0",
+    "config_path": "configs/fall.yaml",
+    "train_split": null,
+    "val_split": null,
+    "test_split": null,
+    "evaluation_datetime": "2026-09-14T19:41:30.932838+00:00"
+  },
+  "model_summary": {
+    "n_families": 4,
+    "aggregation": "uniform_over_families",
+    "success_rate": 0.0,
+    "fall_rate": 1.0,
+    "mean_impact": 1482.76325,
+    "mean_com_margin": 0.0,
+    "mean_cp_margin": 0.0,
+    "mean_momentum_norm": 0.0,
+    "recovery_success_rate": 0.0,
+    "resume_success_rate": 0.0
+  },
+  "family_summary": {
+    "compound": {
+      "n_motions": 10,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 795.315,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    },
+    "explosive_strike": {
+      "n_motions": 10,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 2115.164,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    },
+    "stable_stance": {
+      "n_motions": 10,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 2054.298,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    },
+    "translational": {
+      "n_motions": 10,
+      "success_rate": 0.0,
+      "fall_rate": 1.0,
+      "mean_impact": 966.2760000000001,
+      "mean_com_margin": 0.0,
+      "mean_cp_margin": 0.0,
+      "mean_momentum_norm": 0.0,
+      "recovery_success_rate": 0.0,
+      "resume_success_rate": 0.0
+    }
+  }
+}

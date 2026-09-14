@@ -1,0 +1,15 @@
+{
+  "n_pairs": 200,
+  "mean_pd_baseline": 1779.955,
+  "mean_fall_policy": 1482.7632500000002,
+  "mean_reduction": 297.19175,
+  "mean_reduction_pct": 16.69658783508572,
+  "median_reduction": 122.22499999999991,
+  "wilcoxon_statistic": 8270.0,
+  "wilcoxon_pvalue": 0.02985078900307309,
+  "paired_ttest_statistic": 2.292011779495263,
+  "paired_ttest_pvalue": 0.022951248387104675,
+  "n_motions_reduced": 110,
+  "n_motions_increased": 90,
+  "n_pairs_total": 200
+}
