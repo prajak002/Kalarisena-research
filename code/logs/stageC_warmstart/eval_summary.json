@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "experiment_name": "stageC_momentum",
+    "stage": "C (momentum regulation)",
+    "algo": "PPO (stable-baselines3)",
+    "config": "configs/momentum.yaml",
+    "motions": [
+      "data/motions_retargeted/ks_side_kick.npz",
+      "data/motions_retargeted/kw_highkick_right.npz",
+      "data/motions_retargeted/kw_highkick_left.npz",
+      "data/motions_retargeted/ky_kick_seq.npz",
+      "data/motions_retargeted/pk_kick_lunge.npz",
+      "data/motions_retargeted/nk_squat_highkick.npz"
+    ],
+    "phase_weight": 2.0,
+    "steps": 3000000,
+    "n_envs": 8,
+    "seed": 46,
+    "warm_start": "logs/stageB_warmstart/com_best.zip",
+    "note": "see docstring re: rotational/explosive_strike mismatch. Warm-started from Stage B (paper Table 34: Stage C loads com_best) via src/rl/warm_start.py; here the obs width happens to already match (130-d for both), so this is effectively a plain weight copy."
+  },
+  "summary": {
+    "overall": {
+      "mean_hg_angular_norm": 1.08233545033318,
+      "fall_rate": 1.0
+    },
+    "per_motion": {
+      "ks_side_kick": {
+        "mean_hg_angular_norm": 0.08486591440644246,
+        "fall_rate": 1.0
+      },
+      "kw_highkick_right": {
+        "mean_hg_angular_norm": 2.2669260867227514,
+        "fall_rate": 1.0
+      },
+      "kw_highkick_left": {
+        "mean_hg_angular_norm": 3.1321438923544442,
+        "fall_rate": 1.0
+      },
+      "ky_kick_seq": {
+        "mean_hg_angular_norm": 0.9262570482567861,
+        "fall_rate": 1.0
+      },
+      "pk_kick_lunge": {
+        "mean_hg_angular_norm": 0.0455044222708405,
+        "fall_rate": 1.0
+      },
+      "nk_squat_highkick": {
+        "mean_hg_angular_norm": 0.038315337987814724,
+        "fall_rate": 1.0
+      }
+    }
+  }
+}
