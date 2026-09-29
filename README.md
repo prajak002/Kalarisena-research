@@ -69,7 +69,7 @@ inline: [kalarisena-review.vercel.app](https://kalarisena-review.vercel.app/).
 
 ---
 ## Six stage recoverability framework described in KalariSena         
-inline : [Six stages demo] (https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/)
+[![Six stages demo] (https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/)]
 ## The problem this project is built around
 
 Kalaripayattu moves through deep stances, rapid weight transfer, and
