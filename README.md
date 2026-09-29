@@ -73,7 +73,7 @@ inline: [kalarisena-review.vercel.app](https://kalarisena-review.vercel.app/).
 
 ## Six-stage recoverability framework described in KalariSena
 
-[![Six stages demo](https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/)]
+(https://prajak002.github.io/Kalarisena-research/code/demos/six_stages/)
 
 </div>
 
